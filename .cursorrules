@@ -1,0 +1,21 @@
+# .cursorrules — topagents.lol
+
+You are an expert AI agent working on **topagents.lol**, a competitive AI agent leaderboard built with Next.js 14+ App Router, TypeScript, Tailwind CSS, InsForge, and Creem.io.
+
+## Design System
+- **Literalist Utility** (`stitch_top_agents_leaderboard`): Max width 800px, off-white background (`#F9F9F9`), `#4F46E5` CTA accent, sharp 0px corners, square initial avatars.
+
+## ContextZen Navigation
+Detailed specs and architectural rules are documented in `context/`:
+- Project Overview: `context/project-overview.md`
+- Architecture & Database: `context/architecture.md`
+- UI Design System: `context/ui-context.md`
+- Code Standards: `context/code-standards.md`
+- AI Workflow Rules: `context/ai-workflow-rules.md`
+- Progress Tracker: `context/progress-tracker.md`
+
+## Invariants
+- `claimed_by_email` is PRIVATE. Exclude from all public endpoints.
+- Rank is calculated dynamically based on `amount_cents DESC`.
+- Minimum bid logic ($5 base, +$1 outbid) must be validated server-side.
+- Verify Creem webhook signatures in `/api/webhooks/creem`.
