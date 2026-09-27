@@ -1,16 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateAgentEditorial, BANNED_SLOP_PHRASES } from '@/lib/ai/deepseek';
+import { saveSubmission, getSubmissionBySlug, AgentSubmissionRecord } from '@/lib/data/submissions';
+import { allAgents } from '@/lib/data/agents';
+import { AgentCategory, CommunitySubmission, PricingModel } from '@/lib/data/types';
 
-const BANNED_SLOP = [
-  "in today's fast-paced digital landscape",
-  'delve into',
-  'testament to',
-  'game-changer',
-  'revolutionize',
-  'seamlessly blend',
-  'beacon of innovation',
-  'tapestry of',
-  'crucial role',
-];
+function createSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '');
+}
+
+async function resolveUniqueSlug(baseSlug: string): Promise<string> {
+  let candidate = baseSlug || 'agent';
+  let counter = 1;
+
+  while (true) {
+    const staticExists = allAgents.some((a) => a.slug === candidate);
+    const subExists = await getSubmissionBySlug(candidate);
+
+    if (!staticExists && !subExists) {
+      return candidate;
+    }
+
+    counter++;
+    candidate = `${baseSlug}-${counter}`;
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -49,7 +66,7 @@ export async function POST(req: NextRequest) {
 
     // Slop check on submission content
     const combinedText = `${tagline} ${description || ''}`.toLowerCase();
-    for (const phrase of BANNED_SLOP) {
+    for (const phrase of BANNED_SLOP_PHRASES) {
       if (combinedText.includes(phrase)) {
         return NextResponse.json(
           {
@@ -60,28 +77,67 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Submission sanitized record
-    const submission = {
-      id: `sub_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    const cleanCategory: AgentCategory = (category as AgentCategory) || 'coding';
+    const cleanPricing: PricingModel = (pricingModel as PricingModel) || 'freemium';
+
+    const communitySub: CommunitySubmission = {
       agentName: agentName.trim(),
       tagline: tagline.trim(),
-      category: category || 'coding',
-      pricingModel: pricingModel || 'freemium',
+      category: cleanCategory,
+      pricingModel: cleanPricing,
       websiteUrl: websiteUrl.trim(),
-      githubUrl: githubUrl ? githubUrl.trim() : null,
+      githubUrl: githubUrl ? githubUrl.trim() : undefined,
       description: description ? description.trim() : '',
-      submitterHandle: submitterHandle ? submitterHandle.trim() : 'anonymous',
-      submittedAt: new Date().toISOString(),
-      status: 'pending_editorial_review',
+      submitterHandle: submitterHandle ? submitterHandle.trim() : undefined,
     };
 
-    console.log('[Free Agent Submission Received]', submission);
+    // Generate unique slug
+    const baseSlug = createSlug(communitySub.agentName);
+    const slug = await resolveUniqueSlug(baseSlug);
+
+    // Call DeepSeek AI Editorial Engine
+    console.log(`[Submit Route] Generating DeepSeek editorial review for ${communitySub.agentName}...`);
+    const { editorial, quality, source } = await generateAgentEditorial(communitySub);
+
+    // Auto-publish if quality checks pass
+    const isApproved = quality.isValid;
+    const status = isApproved ? 'published' : 'flagged';
+
+    const submissionId = `sub_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const submissionRecord: AgentSubmissionRecord = {
+      id: submissionId,
+      slug,
+      agentName: communitySub.agentName,
+      tagline: communitySub.tagline,
+      category: communitySub.category,
+      pricingModel: communitySub.pricingModel,
+      websiteUrl: communitySub.websiteUrl,
+      githubUrl: communitySub.githubUrl,
+      submitterHandle: communitySub.submitterHandle,
+      description: communitySub.description,
+      status,
+      source,
+      wordCount: quality.wordCount,
+      editorialData: editorial,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    await saveSubmission(submissionRecord);
+    console.log(`[Submit Route] Saved submission ${submissionId} with status '${status}'.`);
 
     return NextResponse.json(
       {
         success: true,
-        message: 'Agent submitted successfully! Our editorial team reviews every submission for technical rigor within 24-48 hours.',
-        submissionId: submission.id,
+        submissionId: submissionRecord.id,
+        slug: submissionRecord.slug,
+        status: submissionRecord.status,
+        wordCount: submissionRecord.wordCount,
+        source: submissionRecord.source,
+        message:
+          status === 'published'
+            ? 'Agent published live! A comprehensive 2,000+ words technical review was generated and verified.'
+            : 'Agent submitted successfully and queued for admin editorial review.',
       },
       { status: 201 }
     );
