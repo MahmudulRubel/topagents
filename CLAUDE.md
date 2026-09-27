@@ -1,22 +1,18 @@
-# CLAUDE.md — topagents.lol Agent Guidelines
+# CLAUDE.md — topagents.lol Agent Directory Guidelines
 
-This project uses the **ContextZen Methodology**. Always check the [`context/`](file:///d:/topagents/context) directory for detailed rules.
+## Commands
+- `npm run dev` — Start local Next.js dev server on http://localhost:3000
+- `npm run build` — Validate TypeScript and compile static production bundle
+- `npm run lint` — Run ESLint check
 
-## Primary References
-- **Overview & Flows**: [`context/project-overview.md`](file:///d:/topagents/context/project-overview.md)
-- **Architecture & Schema**: [`context/architecture.md`](file:///d:/topagents/context/architecture.md)
-- **UI Design System**: [`context/ui-context.md`](file:///d:/topagents/context/ui-context.md) — Literalist Utility (`stitch_top_agents_leaderboard`)
-- **Code Standards**: [`context/code-standards.md`](file:///d:/topagents/context/code-standards.md)
-- **AI Workflow Rules**: [`context/ai-workflow-rules.md`](file:///d:/topagents/context/ai-workflow-rules.md)
-- **Build Progress**: [`context/progress-tracker.md`](file:///d:/topagents/context/progress-tracker.md)
+## Project Overview
+topagents.lol is a Product Hunt-styled AI Agent Directory cataloging the world's top 100 autonomous AI agents with human-grade, zero-AI-slop technical editorial profiles (>= 2,000 words each), programmatic SEO, and free community submissions.
 
-## Development Commands
-- `npm run dev`: Starts local dev server
-- `npm run build`: Type-checks and builds Next.js production bundle
-- `npm run lint`: Runs ESLint check
+## Design System
+- Product Hunt Aesthetic: Warm off-white (`#FBFBFA`), crisp borders (`#E5E7EB`), signature `▲` upvote buttons (`#FF6154` / `#4F46E5`), category pills, responsive grid/list.
 
-## Core Principles
-1. **Never expose `claimed_by_email`** in public API responses.
-2. Compute rank dynamically (`ORDER BY amount_cents DESC`).
-3. Re-verify minimum bids on the server inside `POST /api/claim`.
-4. Follow Literalist Utility design (`stitch_top_agents_leaderboard`) with 800px max container, `#F9F9F9` background, sharp `0px` edges, and square initials avatars.
+## Critical Invariants
+1. Zero AI Slop: No fluff clichés; authoritative engineering depth with concrete architecture, failure modes, benchmarks, and code.
+2. Word Count: Every agent page must provide >= 2,000 words of structured technical analysis.
+3. Programmatic SEO: JSON-LD (`SoftwareApplication`, `FAQPage`), dynamic sitemaps, OpenGraph metadata.
+4. Free Submissions: 100% free agent submission workflow.

@@ -1,21 +1,17 @@
-# .cursorrules — topagents.lol
+# .cursorrules — topagents.lol AI Agent Directory
 
-You are an expert AI agent working on **topagents.lol**, a competitive AI agent leaderboard built with Next.js 14+ App Router, TypeScript, Tailwind CSS, InsForge, and Creem.io.
+# Core Philosophy
+- Product: Product Hunt for AI Agents (Top 100 AI Agents directory).
+- Content: Human-grade editorial, zero AI slop, >= 2,000 words per agent profile.
+- UI: Product Hunt style design (signature upvote buttons, category tabs, featured spotlight, clean card grid).
+- SEO: Fully programmatic Next.js 14 App Router, static generation, JSON-LD Schema.org.
 
-## Design System
-- **Literalist Utility** (`stitch_top_agents_leaderboard`): Max width 800px, off-white background (`#F9F9F9`), `#4F46E5` CTA accent, sharp 0px corners, square initial avatars.
+# Invariants
+- Zero AI Slop: Ban phrases like "in today's fast-paced digital world", "delve into", "game-changer", "testament to".
+- Minimum 2,000 words per agent profile.
+- All submissions are 100% free.
+- Strict TypeScript with zero `any` types.
 
-## ContextZen Navigation
-Detailed specs and architectural rules are documented in `context/`:
-- Project Overview: `context/project-overview.md`
-- Architecture & Database: `context/architecture.md`
-- UI Design System: `context/ui-context.md`
-- Code Standards: `context/code-standards.md`
-- AI Workflow Rules: `context/ai-workflow-rules.md`
-- Progress Tracker: `context/progress-tracker.md`
-
-## Invariants
-- `claimed_by_email` is PRIVATE. Exclude from all public endpoints.
-- Rank is calculated dynamically based on `amount_cents DESC`.
-- Minimum bid logic ($5 base, +$1 outbid) must be validated server-side.
-- Verify Creem webhook signatures in `/api/webhooks/creem`.
+# Development
+- Check `context/` directory for full specifications.
+- Always run `npm run build` to verify changes before marking tasks complete.

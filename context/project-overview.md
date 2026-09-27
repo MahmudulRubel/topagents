@@ -1,62 +1,80 @@
 # Project Overview — topagents.lol
 
-## Overview
-**topagents.lol** is a live, competitive leaderboard web application where AI agent builders pay to outbid each other for top rank positions (especially the #1 spot). Inspired by outbid.lol's exact bidding mechanic, topagents.lol is niched down specifically for AI agents (coding agents, voice agents, browser agents, support agents, sales agents, research agents, workflow agents, and others).
+## 1. Vision & Purpose
+**topagents.lol** is the premier, community-driven **Product Hunt for AI Agents**. It catalogs, reviews, and ranks the world's leading autonomous AI agents across key operational disciplines (Coding, Browser Automation, Multi-Agent Orchestration, Voice/Phone, Customer Support, Sales/SDR, Research & Deep Search, Workflow Automation, and Creative Multimodal).
 
-The UI adopts the **Literalist Utility** design system (`stitch_top_agents_leaderboard`): an ultra-clean, high-contrast off-white theme (`#F9F9F9`) with crisp hairline borders, sharp 0px corners, square initial avatars, 800px max-width container, and zero elevation shadows.
+Unlike generic AI tool directories that scrape superficial marketing copy or produce shallow synthetic summaries, topagents.lol delivers **world-class, human-grade technical journalism and systems-engineering teardowns**. Every single agent profile features **at least 2,000 words** of deep-dive architectural analysis, reproducible benchmarks, real failure modes, token economics, and hands-on developer tutorials.
 
----
-
-## Goals
-1. **High-Velocity Monetization**: Enable instant one-time outbidding payments via Creem.io with 0-friction claim flows.
-2. **Instant Dynamic Leaderboard**: Render sub-second, dynamic rankings based on real-time database queries sorting `amount_cents DESC`.
-3. **Literalist Utility Vibe**: Scrappy, tool-like authentic UI prioritizing data hierarchy, speed, and zero fluff.
-4. **Clean Visitor Experience**: Zero ads, zero mandatory authentication for browsing, fast mobile-first UI.
+Builders and founders can also submit their own AI agents **100% free of charge**, with immediate community discovery and upvoting.
 
 ---
 
-## Core User Flow
-1. **Browse**: Visitor lands on single-page leaderboard homepage (max-width 800px).
-2. **Filter & Inspect**: Visitor toggles inline text category links (All, Coding, Voice, Browser, Support, Sales, Research, Workflow). Rank numbers remain global (#1, #2, ...).
-3. **Outbound Clicks**: Visitor clicks an agent link, opening destination URL in a new tab with `?utm_source=topagents` while triggering a non-blocking `POST /api/click` beacon.
-4. **Initiate Claim**: User enters bid in the top Claim Box or clicks `claim this rank for $X` on any row.
-5. **Modal Submission**: User fills out agent name, tagline, valid destination URL, category, optional logo, private receipt email, optional public handle, and bid amount (>= minimum required).
-6. **Payment Checkout**: Client submits to `POST /api/claim`, creating a pending `agents` record and generating a Creem.io checkout session URL. User is redirected to Creem.io.
-7. **Webhook Reconciliation**: Creem.io fires `checkout.completed` to `POST /api/webhooks/creem`. The webhook marks payment as completed, logs `bid_history`, and increments `site_stats.total_revenue_cents`.
-8. **Confirmation**: User lands on `/claimed?session={checkout_id}`, confirming their rank with Twitter sharing.
+## 2. Core Goals
+1. **The Gold Standard for AI Agent Evaluation**: Provide authentic, deeply technical assessments written in the voice of a principal systems engineer—devoid of marketing buzzwords, empty fluff, or AI slop.
+2. **Product Hunt-Styled Discovery**: Deliver an intuitive, engaging browsing experience featuring signature upvote counters, category filters, featured spotlights, and community rank mechanics.
+3. **Programmatic SEO Dominance**: Rank #1 on search engines for high-intent search queries (`[agent-name] review`, `[agent-name] benchmarks`, `[agent-name] vs [competitor]`, `best AI coding agents`, `open source autonomous agents`) with valid JSON-LD schemas and rich static content.
+4. **Zero-Friction Free Submissions**: Enable any agent builder worldwide to list their product in under 60 seconds with zero paywalls.
 
 ---
 
-## Features
-- **Dynamic Leaderboard**: Automatically ranks agents by `amount_cents DESC`.
-- **Literalist Aesthetics**: Crisp sharp lines, square avatars, `#4F46E5` accent, 800px centered canvas.
-- **Outbid Calculation**: Minimum claim is $1 (100 cents). Outbidding any rank requires paying at least $1 (100 cents) more than that rank's current amount.
-- **Square Initial Avatars**: Monogram square avatars with pastel backgrounds (`#E0F2FE`, `#FEF3C7`, `#D1FAE5`).
-- **Click Counter**: Lightweight click tracking per agent using `navigator.sendBeacon`.
-- **Live Stats Line**: `12 online · 4,205 visitors since launch · see stats →`.
-- **Category Filters**: All | Coding | Voice | Browser | Support | Sales | Research | Workflow | Other.
-- **Static Pages**: Informational `/about` and `/rules` pages.
+## 3. Core User Flows
+
+### Flow A: Discover & Evaluate Agents
+1. Visitor lands on the homepage (`/`) greeted by the "Featured Agent of the Day" spotlight and category navigation.
+2. Visitor filters by category (e.g. *Autonomous Coding*, *Voice Agents*, *Multi-Agent Frameworks*) or searches via the interactive search bar.
+3. Visitor inspects cards displaying launch rankings, tags, pricing badges (`Free`, `Freemium`, `Paid`, `Open Source`), and community upvotes.
+4. Visitor clicks the upvote button `▲` to instantly support their favorite agent (optimistic UI update persisted locally and synced to backend).
+5. Visitor clicks an agent card to navigate to `/agents/[slug]`.
+
+### Flow B: Deep-Dive Technical Review (2,000+ Words)
+1. User reads an exhaustive, publication-grade technical breakdown structured across 11 key dimensions:
+   - Executive Overview & Market Context
+   - Architectural Blueprint (ReAct loop, state machines, sandbox containers, memory)
+   - Core Capabilities & Developer Ergonomics
+   - Real-World Production Use Cases & Prompts
+   - Hands-On Quickstart Guide & CLI Configuration
+   - Performance Benchmarks & Empirical Evaluation (SWE-bench, latency, token spend)
+   - Pricing Models, Token Pass-Through Costs & ROI
+   - Critical Limitations, Failure Modes & Edge Cases
+   - Direct Competitor Comparison Matrix
+   - Technical Developer FAQ (Schema.org compliant)
+   - Final Verdict & 5-Star Scorecard
+2. User utilizes the sticky Table of Contents to jump between sections effortlessly.
+3. User tests external links (`Visit Website`, `GitHub Repository`, `Documentation`) with automatic outbound tracking.
+
+### Flow C: Free Agent Submission
+1. Creator clicks the **"Submit Agent (Free)"** CTA in the header or visits `/submit`.
+2. Creator provides Agent Name, Tagline, Category, Website URL, GitHub/Docs link, Pricing Model, Logo, and a detailed description.
+3. Creator observes a live, real-time Product Hunt preview card updating as they type.
+4. Creator clicks **"Submit Agent"**—the agent is validated and saved with zero payment required.
 
 ---
 
-## Scope
-### In-Scope (MVP)
-- Single-page Next.js App Router leaderboard UI using Literalist Utility design.
-- InsForge Database integration (`agents`, `bid_history`, `site_stats` tables).
-- InsForge Storage integration for logo uploads.
-- Creem.io one-time payment checkout integration and webhook handler.
-- Click counter beacon API endpoint.
+## 4. Top 100 AI Agent Directory Coverage
 
-### Out-of-Scope (Future / Excluded)
-- User account authentication or passwords.
-- Subscription billing or recurring charges.
-- Ad networks or banner ads.
+The initial 100 curated agents span 10 core categories:
+1. **Autonomous Coding Agents (20)**: Devin, Claude Code, Cursor, Windsurf, Aider, OpenHands, Cline, Bolt.new, Lovable, v0, Replit Agent, SWE-agent, Sweep, Tabnine, Continue.dev, PR-Agent, Greptile, Sourcegraph Cody, GitHub Copilot Workspace, Amazon Q Developer.
+2. **Browser & General Autonomous Agents (12)**: OpenAI Operator, Manus, MultiOn, Adept ACT-1, Skyvern, Lindy, AutoGPT, BabyAGI, AgentGPT, Browserbase Stagehand, HyperWrite Assistant, Induced AI.
+3. **Multi-Agent Orchestration & Frameworks (12)**: CrewAI, LangGraph, AutoGen, MetaGPT, ChatDev, Smolagents, Semantic Kernel, TaskingAI, Letta (MemGPT), Flowise, Dify, Langflow.
+4. **Voice & Conversational Phone Agents (10)**: Retell AI, Bland AI, Vapi, ElevenLabs Agents, Synthflow, Cartesia, PlayHT, Tavus, Vocode, Deepgram Agent.
+5. **Customer Support & Service Agents (10)**: Decagon, Sierra AI, Forethought, Ada, Fin by Intercom, Zendesk AI, Kustomer, Maven AGI, Gladly AI, Capacity.
+6. **Sales & SDR Prospecting Agents (10)**: Artisan Ava, 11x Alice, Regie.ai, Apollo AI, Claygent, Qualified Piper, AiSDR, Artisan Jordan, Jason AI, Amplemarket.
+7. **Research & Deep Search Agents (10)**: Perplexity Pro, Stanford STORM, GPT Researcher, Consensus, Elicit, Scite, Julius AI, Genspark, You.com Research, Felo AI.
+8. **Meeting & Executive Assistants (8)**: Granola, Fireflies.ai, Otter.ai, Fathom, Notion AI, Limitless, Supernormal, Fellow AI.
+9. **Workflow & Productivity Agents (8)**: Make AI, Zapier Central, Relay.app, Magical, Bardeen, Taskade AI, Lindy Workflows, Voiceflow.
+10. **Creative & Multimodal Media Agents (10)**: Runway Gen-3, Midjourney, Pika, Kling, Luma Dream Machine, Suno, Udio, HeyGen Interactive, Character.ai, Poe.
 
 ---
 
-## Success Criteria
-- [ ] Next.js 14+ App Router codebase type-checks cleanly (`npm run build`).
-- [ ] `claimed_by_email` is strictly omitted from all public API responses.
-- [ ] Dynamic ranking strictly follows `ORDER BY amount_cents DESC`.
-- [ ] UI strictly conforms to `stitch_top_agents_leaderboard` Literalist Utility specification (800px max-width, sharp edges, off-white theme).
-- [ ] Creem.io webhooks reliably process `checkout.completed` events and update leaderboard state instantly.
+## 5. Scope Bounds
+
+### In-Scope
+- Complete Next.js 14 App Router application with static generation for all 100 agents.
+- Product Hunt-inspired UI design with responsive navigation, cards, upvotes, filters, and search.
+- In-depth, publication-grade editorial reviews exceeding 2,000 words per agent.
+- Free community submission modal and `/submit` page.
+- Comprehensive programmatic SEO: dynamic sitemaps, robots.txt, metadata, and JSON-LD schemas.
+
+### Out-of-Scope (Future Enhancements)
+- Mandatory OAuth user login or password authentication (browsing & upvoting remain zero-friction).
+- Paid sponsored tiers or pay-to-win ranking overrides.

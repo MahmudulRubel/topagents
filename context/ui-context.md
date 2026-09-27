@@ -1,76 +1,51 @@
-# UI Design System — topagents.lol (Literalist Utility)
+# UI & Design System Context — topagents.lol
 
-## Theme
-**topagents.lol** uses the **Literalist Utility** design system inspired by `stitch_top_agents_leaderboard`. It prioritizes raw utility, rapid information delivery, and transactional transparency over aesthetic flourish. 
-
-The aesthetic is **Hyper-Minimalist**, **Literal**, and **Scrappy**:
-- **Background**: Light off-white canvas (`#F9F9F9` / `#FAFAFA`) with hairline `#E2E2E2` / `#E5E5E5` borders.
-- **Elevation**: Zero elevation. 0px drop shadows, flat layers, crisp 1px borders.
-- **Shapes**: Sharp edges (`0px` / `rounded-none`) for containers, inputs, buttons, and avatar blocks.
-
----
-
-## Colors
-
-### Canvas & Surface Tokens
-- **Body Background**: `#F9F9F9` (`bg-background` / `bg-[#F9F9F9]`)
-- **Card / Container Surface**: `#FFFFFF` / `#F4F3F3` (`bg-surface` / `bg-white`)
-- **Row Hover Surface**: `#EEEEEE` (`hover:bg-[#EEEEEE]`)
-- **Hairline Border**: `#E2E2E2` / `#E5E5E5` (`border-[#E2E2E2]`)
-
-### Text Tokens
-- **Primary Text**: `#1A1C1C` / `#111111` (`text-[#1A1C1C]`) — Names, headlines, monetary values
-- **Secondary / Muted Text**: `#5E5E5E` / `#666666` (`text-[#5E5E5E]`) — Timestamps, clicks, rank labels
-
-### Accent Tokens
-- **Primary Accent CTA**: `#4F46E5` (Muted Indigo) for Outbid buttons, active links, and bid focus states.
-- **Primary CTA Hover**: `hover:bg-opacity-90` / `#4338CA`.
-- **Link Accent**: `#4F46E5` (`text-[#4F46E5] hover:underline`).
-
-### Square Initial Avatar Pastels
-- **Blue Pastel**: Background `#E0F2FE`, Text `#0284C7`
-- **Amber Pastel**: Background `#FEF3C7`, Text `#D97706`
-- **Emerald Pastel**: Background `#D1FAE5`, Text `#059669`
-- **Purple Pastel**: Background `#E2DFFF`, Text `#3323CC`
+## 1. Design Language: Product Hunt Aesthetic
+The user interface is inspired by **Product Hunt's clean, modern, high-engagement directory design**:
+- **Background**: Warm off-white (`#FBFBFA` / `#FAFAFA`) giving an authentic paper-and-canvas aesthetic.
+- **Card Containers**: Pure white (`#FFFFFF`) with subtle hairline slate borders (`#E5E7EB` / `#EAECF0`) and micro-hover elevations (`shadow-sm hover:shadow-md transition-shadow`).
+- **Signature Accent Colors**:
+  - Primary Action / Upvote Accent: Product Hunt Signature Orange (`#FF6154`) / Electric Indigo (`#4F46E5`).
+  - Text Primary: `#111827` (Deep Slate Black for crisp readability).
+  - Text Secondary: `#4B5563` / `#6B7280` (Muted Neutral Slate).
+  - Badges & Tints: Subtle pastel fills (Emerald for Free/Open Source `#ECFDF5`, Amber for Freemium `#FEF3C7`, Violet for Paid `#F5F3FF`).
 
 ---
 
-## Typography
-Driven by **Inter** for UI copy and **Monospace** (`ui-monospace, SFMono-Regular, Consolas`) for numeric data.
+## 2. Component Design Specifications
 
-- **Headline Large (`headline-lg`)**: `24px / 32px`, `font-semibold` (`letter-spacing: -0.02em`)
-- **Headline Medium (`headline-md`)**: `18px / 24px`, `font-semibold` (`letter-spacing: -0.01em`)
-- **Body Large (`body-lg`)**: `16px / 24px`, `font-normal`
-- **Body Medium (`body-md`)**: `14px / 20px`, `font-normal`
-- **Body Small (`body-sm`)**: `13px / 18px`, `font-normal`
-- **Monospace Data (`mono-data`)**: `14px / 20px`, `font-mono font-bold` for monetary amounts (`$150.00`)
-- **Label Caps (`label-caps`)**: `12px / 16px`, `font-semibold`, `uppercase tracking-wider`
+### The Signature Upvote Button (`<UpvoteButton />`)
+- Visual Structure: Rounded rectangle or pill containing an upward triangle arrow `▲` and the numeric vote count below or beside it.
+- Dimensions:
+  - Card view: Compact vertical pill (`w-12 h-14` or `w-14 h-16`), flex column, centered items.
+  - Detail view: Prominent horizontal pill (`px-5 py-2.5`), flex row with icon and count.
+- Interactive States:
+  - Default: Border `#E5E7EB`, text `#374151`, background `#FFFFFF`.
+  - Hover: Border `#FF6154`, text `#FF6154`, background `#FFF5F5`.
+  - Upvoted / Active: Border `#FF6154`, background `#FF6154`, text `#FFFFFF`, subtle bounce animation.
 
----
+### The Product Hunt Agent Card (`<AgentCard />`)
+- Layout: Responsive flex container.
+  - Left: Numbered rank indicator (`#1`, `#2`...) + Agent avatar (rounded-xl logo or vibrant monogram square).
+  - Center / Body:
+    - Row 1: Agent Name (font-semibold text-lg hover:text-orange-600) + Verified Checkmark + Category Badge + Pricing Badge.
+    - Row 2: Punchy 1-line tagline explaining the core value proposition.
+    - Row 3: Star rating (`★ 4.9`), reviews count, and topic tags (`#autonomous`, `#coding`, `#cli`).
+  - Right: Signature Upvote Button.
 
-## Border Radius
-- **All Elements**: Sharp `0px` (`rounded-none`).
-- No pill buttons, no rounded cards, no soft drop shadows.
+### The "Featured Agent of the Day" Banner (`<FeaturedSpotlight />`)
+- Bordered showcase container with gradient border accent or subtle spotlight glow.
+- Highlights today's top trending agent with an expanded description, quick metrics, "Visit Website" button, and upvote button.
 
----
+### Category Navigation Pills (`<CategoryFilter />`)
+- Horizontal scrollable or wrapped pills:
+  - `All (100)`, `Coding (20)`, `Browser & Autonomous (12)`, `Multi-Agent (12)`, `Voice (10)`, `Support (10)`, `Sales & SDR (10)`, `Research (10)`, `Productivity (8)`, `Multimodal (10)`.
+- Active state: `#111827` dark pill with white text; Inactive: `#F3F4F6` gray pill with `#4B5563` text.
 
-## Layout Patterns
-
-### Page Container
-- Centered container with **Max Width: 800px** (`max-w-[800px] mx-auto`).
-- Mobile horizontal padding: `16px` (`px-4`), Desktop: `32px` (`md:px-8`).
-
-### Header & Nav
-- Flat top header with 1px bottom border.
-- Branding: `topagents.lol` in bold 18px.
-- Text navigation links: `Leaderboard` (bold active), `About`, `Rules`.
-
-### Hero & Claim Box Component
-- Direct tagline: "No ads, no API keys, no revenue sharing. Just outbid your competition to get to the top."
-- Embedded Claim Box with 1px border, inline bid input (`Enter bid amount`), and solid `#4F46E5` sharp `Outbid` CTA button.
-
-### Leaderboard List View
-- Horizontal rows separated by hairline 1px bottom borders.
-- Row padding: `12px` vertical padding (`py-3`).
-- Left layout: `#1` rank label -> `40x40px` square initial avatar -> Agent name & tagline + `2h ago · 842 clicks`.
-- Right layout: Monospace bid amount (`$150.00`) + hover link `claim this rank for $151.00`.
+### In-Depth Article & Review Layout (`/agents/[slug]`)
+- Two-column responsive desktop layout:
+  - Left (Width ~70%): Deep-dive editorial content with generous typography (`leading-relaxed text-gray-800`), clean heading hierarchy (`h2`, `h3`), formatted code snippets, comparison tables, and interactive FAQ accordions.
+  - Right (Width ~30%): Sticky sidebar featuring:
+    - Quick Specs Card (Developer, Release, Pricing, Models, License, GitHub).
+    - Sticky Table of Contents (TOC) with active scroll spy.
+    - Outbound CTAs: "Visit Official Site ↗", "GitHub Repository", "Submit a Review".

@@ -1,101 +1,57 @@
-# Code Standards — topagents.lol
+# Code Standards & Guidelines — topagents.lol
 
-## General principles
-1. **Server-First Components**: Use Next.js Server Components (`RSC`) by default. Mark components with `'use client'` only when interactive state, browser events, or hooks are necessary.
-2. **Literalist Utility Styling**: Use inline Tailwind CSS utility classes based on the `stitch_top_agents_leaderboard` design system (`max-w-[800px]`, `bg-[#F9F9F9]`, `rounded-none`, `border-[#E2E2E2]`, `text-[#1A1C1C]`, `text-[#4F46E5]`).
-3. **Explicit Interfaces**: Declare strict interfaces for all API response payloads, InsForge database rows, and component props.
-4. **Security by Default**: Never output private fields (such as `claimed_by_email`) in API route handlers or client-accessible props.
+## 1. General Principles
+- **Clean Next.js 14 App Router**: Use React Server Components (RSC) by default for speed, zero-client bundle overhead, and optimal SEO. Use `'use client'` strictly when handling interactive state (e.g. upvoting, modal dialogs, search inputs).
+- **Strict TypeScript**: 100% type coverage. Zero usage of `any`. Define strong interfaces in `lib/data/types.ts`.
+- **Fast Build & Static Pre-Rendering**: Utilize `generateStaticParams()` to pre-compile all 100 agent pages into static HTML.
 
 ---
 
-## TypeScript rules
-- **Strict Mode Enabled**: Set `"strict": true` in `tsconfig.json`.
-- **No `any`**: Use explicit interface/type declarations or `unknown` with narrow type guards.
-- **Null Safety**: Explicitly declare nullable fields (e.g., `logo_url: string | null`).
-- **Database Model Types**:
-```typescript
-export type Category = 
-  | 'coding'
-  | 'voice'
-  | 'browser'
-  | 'support'
-  | 'sales'
-  | 'research'
-  | 'workflow'
-  | 'other';
+## 2. Programmatic SEO Standards
+1. **Metadata Definition**: Every page must declare a `generateMetadata` function providing:
+   - Dynamic `<title>` in the format: `[Agent Name] Review (2026): Architecture, Benchmarks, Pricing & Alternatives | TopAgents`
+   - Specific `<meta name="description">` between 140 and 160 characters summarizing the agent's core capability and score.
+   - OpenGraph `og:title`, `og:description`, `og:type = 'article'`, and `og:image`.
+   - Twitter `twitter:card = 'summary_large_image'`.
+   - Canonical URL tag pointing to `https://topagents.lol/agents/[slug]`.
 
-export type PaymentStatus = 'pending' | 'completed' | 'failed';
+2. **Structured Data (JSON-LD)**:
+   - Every agent page must render a `<script type="application/ld+json">` tag containing Schema.org entities:
+     - `SoftwareApplication`: Name, description, operatingSystem, applicationCategory, aggregateRating, offers.
+     - `FAQPage`: Questions and in-depth answers.
+     - `BreadcrumbList`: Complete breadcrumb navigation hierarchy.
 
-export interface AgentPublic {
-  id: string;
-  agent_name: string;
-  tagline: string;
-  url: string;
-  category: Category;
-  logo_url: string | null;
-  claimed_by_handle: string | null;
-  amount_cents: number;
-  clicks: number;
-  claimed_at: string;
-  created_at: string;
-  rank: number; // Dynamically computed index + 1
-}
+---
 
-export interface AgentInternal extends AgentPublic {
-  claimed_by_email: string;
-  payment_status: PaymentStatus;
-  creem_checkout_id: string | null;
-}
+## 3. Human-Grade Editorial Writing Standards (Zero AI Slop)
+All content generated in `lib/data/agents/` must strictly observe:
+1. **Forbidden Words & AI Slop**:
+   - Never write: *"delve into"*, *"testament to"*, *"in today's fast-paced digital world"*, *"beacon of"*, *"tapestry"*, *"game-changer"*, *"revolutionize"*, *"seamlessly blend"*, *"at the forefront of"*.
+2. **Technical Specificity**:
+   - Reference exact architectures: ReAct (Reasoning + Acting), LangGraph state graphs, Tree-of-Thoughts, microVM container isolation, AST parsing, Git diff staging.
+   - Quote real benchmarks: SWE-bench Verified pass@1, HumanEval, latency to first token (TTFT), token burn rates ($ / task).
+   - Document concrete failure modes: Context degradation at 100k+ tokens, hallucinated imports, flaky bash loops, API rate-limit throttling.
+3. **Reproducible Code & Configurations**:
+   - Provide real CLI invocations, environment variables (`.env`), and configuration files (`yaml` / `json`).
+
+---
+
+## 4. File Organization Standards
 ```
-
----
-
-## Styling conventions
-- **Pure Tailwind CSS**: Use Tailwind utility classes matching `stitch_top_agents_leaderboard` (`code.html` & `DESIGN.md`).
-- **Sharp Shapes**: Use `rounded-none` for all buttons, inputs, cards, and avatars.
-- **Color Token Classes**:
-  - Body Background: `bg-[#F9F9F9]` / `bg-[#FAFAFA]`
-  - Primary Text: `text-[#1A1C1C]` / `text-[#111111]`
-  - Secondary Text: `text-[#5E5E5E]` / `text-[#666666]`
-  - Hairline Border: `border-[#E2E2E2]` / `border-[#E5E5E5]`
-  - CTA Accent: `bg-[#4F46E5]` text-white, hover `hover:bg-opacity-90`
-- **Container Limit**: Center layout with `max-w-[800px] mx-auto px-4 md:px-8`.
-
----
-
-## File Organization
-```
-topagents/
-├── app/
-│   ├── (routes)/
-│   │   ├── page.tsx               # Homepage Leaderboard (Literalist Utility)
-│   │   ├── about/page.tsx         # About static page
-│   │   ├── rules/page.tsx         # Rules static page
-│   │   ├── claimed/page.tsx       # Claim success confirmation
-│   │   └── layout.tsx             # Root layout with Header & Footer
-│   └── api/
-│       ├── leaderboard/route.ts   # GET public leaderboard
-│       ├── claim/route.ts         # POST create checkout session
-│       ├── webhooks/creem/route.ts# POST handle payment webhook
-│       ├── click/route.ts         # POST increment click beacon
-│       └── stats/route.ts         # GET site stats
-├── components/
-│   ├── leaderboard/
-│   │   ├── LeaderboardTable.tsx
-│   │   ├── LeaderboardRow.tsx
-│   │   ├── CategoryTabs.tsx
-│   │   ├── ClaimBox.tsx
-│   │   ├── ClaimModal.tsx
-│   │   └── StatsHeader.tsx
-│   └── ui/
-│       ├── Header.tsx
-│       ├── Footer.tsx
-│       └── Badge.tsx
+d:\topagents\
+├── app/                        # Next.js App Router pages and route handlers
+│   ├── page.tsx                # Main directory listing
+│   ├── agents/[slug]/page.tsx  # Static profile & 2k+ word review
+│   ├── category/[category]/    # Category hub page
+│   ├── submit/page.tsx         # Free submission page
+│   ├── sitemap.ts              # Dynamic XML sitemap
+│   └── robots.ts               # Robots.txt
+├── components/                 # UI components
+│   ├── directory/              # Navbar, AgentCard, CategoryFilter, UpvoteButton
+│   ├── agent-detail/           # TableOfContents, EditorialSection, Benchmarks, FAQ
+│   └── submit/                 # Free submit modal & form
 ├── lib/
-│   ├── insforge.ts                # InsForge database client
-│   ├── creem.ts                   # Creem.io API integration
-│   ├── types.ts                   # Core TypeScript interfaces
-│   └── utils.ts                   # Formatting & currency helpers
-├── stitch_top_agents_leaderboard/ # Stitch Design Assets (DESIGN.md, code.html, screen.png)
-└── context/                       # ContextZen Methodology Docs
+│   ├── data/                   # 100 Agents datasets & review generators
+│   ├── seo/                    # Schema.org JSON-LD builders
+│   └── insforge.ts             # InsForge database & storage client
 ```

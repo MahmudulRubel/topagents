@@ -9,6 +9,7 @@ export type Category =
   | 'other';
 
 export type PaymentStatus = 'pending' | 'completed' | 'failed';
+export type AgentTier = 'bronze' | 'silver' | 'gold' | 'diamond';
 
 export interface AgentPublic {
   id: string;
@@ -20,6 +21,11 @@ export interface AgentPublic {
   claimed_by_handle: string | null;
   amount_cents: number;
   clicks: number;
+  points_total: number;
+  likes_count: number;
+  comments_count: number;
+  shares_count: number;
+  tier_badge: AgentTier;
   claimed_at: string;
   created_at: string;
   rank: number;
@@ -29,6 +35,26 @@ export interface AgentInternal extends AgentPublic {
   claimed_by_email: string;
   payment_status: PaymentStatus;
   creem_checkout_id: string | null;
+  polar_checkout_id?: string | null;
+}
+
+export interface AgentComment {
+  id: string;
+  agent_id: string;
+  user_name: string;
+  content: string;
+  created_at: string;
+}
+
+export type PointActionType = 'heartbeat' | 'share' | 'like' | 'comment' | 'click' | 'view';
+
+export interface PointActionPayload {
+  action: PointActionType;
+  agent_id?: string;
+  platform?: 'twitter' | 'linkedin' | 'facebook' | 'reddit' | 'whatsapp';
+  comment_text?: string;
+  user_name?: string;
+  seconds?: number;
 }
 
 export interface SiteStats {
@@ -37,6 +63,7 @@ export interface SiteStats {
   total_revenue_cents: number;
   online_now: number;
   total_outbids?: number;
+  total_points_distributed?: number;
 }
 
 export interface OutbidEvent {
@@ -45,6 +72,7 @@ export interface OutbidEvent {
   amount_cents: number;
   rank: number;
   timestamp: string;
+  points_awarded?: number;
 }
 
 export interface BidHistory {
@@ -68,8 +96,12 @@ export interface ClaimPayload {
   target_rank?: number;
 }
 
-export interface CreemCheckoutResponse {
+export interface PolarCheckoutResponse {
   checkout_url: string;
   checkout_id: string;
 }
+
+export type CreemCheckoutResponse = PolarCheckoutResponse;
+
+
 
