@@ -22,6 +22,8 @@ export const allAgents: Agent[] = [
   ...workflowAgents,          // 8
 ];
 
+export const CORE_AGENTS = allAgents;
+
 export function getAllAgents(): Agent[] {
   return allAgents;
 }
@@ -89,4 +91,3 @@ export const CATEGORIES_CONFIG: { id: AgentCategory | 'all'; label: string; coun
   { id: 'productivity', label: 'Meeting & Productivity', count: productivityAgents.length },
   { id: 'workflow', label: 'Workflow & Automation', count: workflowAgents.length },
 ];
-

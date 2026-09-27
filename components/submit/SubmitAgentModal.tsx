@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { AgentCategory, PricingModel } from '@/lib/data/types';
 
 interface SubmitAgentModalProps {
@@ -21,7 +22,12 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<{
+    slug?: string;
+    status?: string;
+    wordCount?: number;
+    message?: string;
+  } | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
   if (!isOpen) return null;
@@ -52,7 +58,7 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
         throw new Error(data.error || 'Failed to submit agent.');
       }
 
-      setIsSuccess(true);
+      setSubmissionResult(data);
     } catch (err: any) {
       setErrorMessage(err.message || 'Something went wrong. Please try again.');
     } finally {
@@ -61,7 +67,7 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
   };
 
   const handleResetAndClose = () => {
-    setIsSuccess(false);
+    setSubmissionResult(null);
     setErrorMessage('');
     setFormData({
       agentName: '',
@@ -91,7 +97,7 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
               </span>
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              List your autonomous AI agent on topagents.lol for community discovery and upvoting.
+              Automated 2,000+ words technical review &amp; instant community publishing.
             </p>
           </div>
           <button
@@ -103,23 +109,42 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
         </div>
 
         {/* Content */}
-        {isSuccess ? (
+        {submissionResult ? (
           <div className="p-8 text-center">
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 text-3xl flex items-center justify-center mx-auto mb-4">
               ✓
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Agent Submitted Successfully!
+              {submissionResult.status === 'published'
+                ? 'Agent Published Live!'
+                : 'Agent Submitted for Review!'}
             </h3>
-            <p className="text-sm text-gray-600 max-w-md mx-auto mb-6">
-              Thank you for contributing <strong>{formData.agentName}</strong> to the directory. Your agent has been queued for immediate community review and indexing.
+            <p className="text-sm text-gray-600 max-w-md mx-auto mb-4">
+              {submissionResult.message}
             </p>
-            <button
-              onClick={handleResetAndClose}
-              className="px-6 py-2.5 rounded-full bg-gray-900 hover:bg-black text-white text-sm font-semibold transition-colors shadow-sm"
-            >
-              Back to Directory
-            </button>
+            {submissionResult.wordCount && (
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-semibold mb-6">
+                <span>⚡ Technical Systems Review:</span>
+                <strong>{submissionResult.wordCount.toLocaleString()} words</strong>
+              </div>
+            )}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              {submissionResult.slug && (
+                <Link
+                  href={`/agents/${submissionResult.slug}`}
+                  onClick={handleResetAndClose}
+                  className="px-6 py-2.5 rounded-full bg-[#FF6154] hover:bg-[#E55347] text-white text-xs font-bold transition-all shadow-sm"
+                >
+                  View Live Profile →
+                </Link>
+              )}
+              <button
+                onClick={handleResetAndClose}
+                className="px-6 py-2.5 rounded-full bg-gray-900 hover:bg-black text-white text-xs font-semibold transition-colors shadow-sm"
+              >
+                Back to Directory
+              </button>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-4">
@@ -157,15 +182,16 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
                   onChange={handleChange}
                   className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6154]/20 focus:border-[#FF6154] bg-white"
                 >
-                  <option value="coding">Coding & Engineering</option>
-                  <option value="autonomous">Browser & Autonomous</option>
+                  <option value="coding">Coding &amp; Engineering</option>
+                  <option value="autonomous">Browser &amp; Autonomous</option>
                   <option value="frameworks">Multi-Agent Frameworks</option>
-                  <option value="voice">Voice & Phone Agents</option>
-                  <option value="support">Customer Support & CX</option>
-                  <option value="sales">Sales & SDR Agents</option>
-                  <option value="research">Research & Deep Search</option>
-                  <option value="productivity">Meeting & Productivity</option>
-                  <option value="workflow">Workflow & Automation</option>
+                  <option value="voice">Voice &amp; Phone Agents</option>
+                  <option value="support">Customer Support &amp; CX</option>
+                  <option value="sales">Sales &amp; SDR Agents</option>
+                  <option value="research">Research &amp; Deep Search</option>
+                  <option value="productivity">Meeting &amp; Productivity</option>
+                  <option value="workflow">Workflow &amp; Automation</option>
+                  <option value="creative">Creative &amp; Media</option>
                 </select>
               </div>
             </div>
@@ -271,53 +297,30 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
               />
             </div>
 
-            {/* Live Card Preview */}
-            <div className="pt-2">
-              <span className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">
-                Live Directory Preview
-              </span>
-              <div className="p-3.5 rounded-xl border border-gray-200 bg-gray-50 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-lg bg-gray-900 text-white flex items-center justify-center font-bold text-sm shrink-0">
-                    {formData.agentName ? formData.agentName.slice(0, 2).toUpperCase() : 'AI'}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm text-gray-900 truncate">
-                        {formData.agentName || 'Agent Name'}
-                      </span>
-                      <span className="px-1.5 py-0.2 text-[10px] font-semibold rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        {formData.pricingModel}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-500 truncate mt-0.5">
-                      {formData.tagline || 'Your punchy one-line tagline will appear here.'}
-                    </p>
-                  </div>
-                </div>
-                <div className="shrink-0 flex flex-col items-center justify-center w-10 h-12 rounded border border-gray-200 bg-white text-gray-400 text-xs">
-                  <span>▲</span>
-                  <span className="font-mono text-[10px] font-bold text-gray-700">1</span>
-                </div>
-              </div>
-            </div>
-
             {/* Submit Action */}
-            <div className="pt-3 border-t border-gray-100 flex items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={handleResetAndClose}
-                className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-gray-800 rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="px-5 py-2 rounded-full bg-[#FF6154] hover:bg-[#E55347] text-white text-xs font-bold transition-all shadow-sm disabled:opacity-50"
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit Agent (Free)'}
-              </button>
+            <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+              <span className="text-[11px] text-gray-400">
+                ⚡ Automated Technical Review Pipeline
+              </span>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleResetAndClose}
+                  className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-gray-800 rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-5 py-2 rounded-full bg-[#FF6154] hover:bg-[#E55347] text-white text-xs font-bold transition-all shadow-sm disabled:opacity-60 flex items-center gap-2"
+                >
+                  {isSubmitting && (
+                    <span className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                  )}
+                  {isSubmitting ? 'Generating 2,000+ Words Teardown...' : 'Submit & Auto-Publish'}
+                </button>
+              </div>
             </div>
           </form>
         )}

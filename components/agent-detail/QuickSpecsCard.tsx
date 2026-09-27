@@ -66,6 +66,16 @@ export default function QuickSpecsCard({ agent }: QuickSpecsCardProps) {
             View GitHub Repository ↗
           </a>
         )}
+
+        <a
+          href={`/api/agents/${agent.slug}/markdown`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full py-1.5 px-3 text-center text-[11px] font-mono font-medium rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-100 transition-colors flex items-center justify-center gap-1"
+        >
+          <span>🤖 Agent Markdown Spec</span>
+          <span className="text-[10px]">↗</span>
+        </a>
       </div>
     </div>
   );

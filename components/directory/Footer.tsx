@@ -34,7 +34,7 @@ export default function Footer() {
               {CATEGORIES.slice(0, 5).map((cat) => (
                 <li key={cat.id}>
                   <Link
-                    href={`/?category=${cat.id}`}
+                    href={`/category/${cat.id}`}
                     className="hover:text-gray-900 transition-colors flex items-center gap-1.5"
                   >
                     <span>{cat.icon}</span>
@@ -54,7 +54,7 @@ export default function Footer() {
               {CATEGORIES.slice(5).map((cat) => (
                 <li key={cat.id}>
                   <Link
-                    href={`/?category=${cat.id}`}
+                    href={`/category/${cat.id}`}
                     className="hover:text-gray-900 transition-colors flex items-center gap-1.5"
                   >
                     <span>{cat.icon}</span>
@@ -68,7 +68,7 @@ export default function Footer() {
           {/* Community & Legal */}
           <div>
             <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">
-              Builders & Submit
+              AI Resources &amp; Legal
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
@@ -80,19 +80,30 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#trending" className="hover:text-gray-900 transition-colors">
-                  Trending Leaderboard
-                </Link>
+                <a href="/llms.txt" target="_blank" className="hover:text-gray-900 transition-colors flex items-center gap-1">
+                  <span>🤖 llms.txt</span>
+                  <span className="px-1.5 py-0.2 text-[9px] font-mono text-indigo-700 bg-indigo-50 rounded">
+                    Spec
+                  </span>
+                </a>
               </li>
               <li>
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-gray-900 transition-colors"
-                >
-                  GitHub Community
+                <a href="/llms-full.txt" target="_blank" className="hover:text-gray-900 transition-colors">
+                  Full Catalog (llms-full.txt)
                 </a>
+              </li>
+              <li>
+                <a href="/pricing.md" target="_blank" className="hover:text-gray-900 transition-colors">
+                  Pricing Policy (pricing.md)
+                </a>
+              </li>
+              <li>
+                <Link href="/advertise" className="hover:text-[#FF6154] font-medium text-gray-700 transition-colors flex items-center gap-1.5">
+                  <span>📢 Sponsor topagents.lol</span>
+                  <span className="px-1.5 py-0.2 text-[9px] font-mono text-slate-500 bg-slate-100 rounded">
+                    $49/mo
+                  </span>
+                </Link>
               </li>
               <li>
                 <Link href="/sitemap.xml" className="hover:text-gray-900 transition-colors">
