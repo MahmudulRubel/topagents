@@ -1,12 +1,49 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Header } from '@/components/ui/Header';
-import { Footer } from '@/components/ui/Footer';
+import Navbar from '@/components/directory/Navbar';
+import Footer from '@/components/directory/Footer';
 
 export const metadata: Metadata = {
-  title: 'topagents.lol — The Real-Time Arena for AI Agents',
+  metadataBase: new URL('https://topagents.lol'),
+  title: {
+    default: 'topagents.lol — Discover & Upvote the Leading AI Agents',
+    template: '%s | topagents.lol',
+  },
   description:
-    'No black-box algorithms. No SEO tricks. Pure bid power. Outbid your rivals to take the #1 spot on the live AI Agent Leaderboard.',
+    'Discover, compare, and analyze the leading autonomous AI agents across Coding, Browser automation, Voice, Multi-Agent frameworks, and Workflow execution. In-depth technical teardowns, SWE-bench benchmarks, and free community submissions.',
+  keywords: [
+    'AI agents',
+    'autonomous agents',
+    'coding agents',
+    'SWE-bench',
+    'Devin',
+    'Claude Code',
+    'Cursor',
+    'LangGraph',
+    'CrewAI',
+    'AI directory',
+    'top AI agents',
+  ],
+  authors: [{ name: 'topagents.lol Editorial Team' }],
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://topagents.lol',
+    siteName: 'topagents.lol',
+    title: 'topagents.lol — Top 100 AI Agents Directory',
+    description:
+      'Product Hunt styled directory of the top 100 AI agents with verified SWE-bench benchmarks, architecture breakdowns, and free community submissions.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'topagents.lol — Top 100 AI Agents Directory',
+    description:
+      'Technical directory of the top 100 AI agents. Architecture deep dives, real metrics, and zero promotional fluff.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -15,9 +52,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-background text-on-background min-h-screen flex flex-col font-sans antialiased">
-        <Header />
+    <html lang="en" className="h-full scroll-smooth">
+      <body className="min-h-full flex flex-col bg-[#F9FAFB] text-gray-900 antialiased font-sans">
+        <Navbar />
         {children}
         <Footer />
       </body>

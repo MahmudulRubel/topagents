@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS public.agents (
     amount_cents INTEGER NOT NULL CHECK (amount_cents >= 500),
     clicks INTEGER DEFAULT 0,
     payment_status VARCHAR(20) DEFAULT 'pending' CHECK (payment_status IN ('pending', 'completed', 'failed')),
+    polar_checkout_id TEXT NULL,
     creem_checkout_id TEXT NULL,
     claimed_at TIMESTAMPTZ DEFAULT NOW(),
     created_at TIMESTAMPTZ DEFAULT NOW()
