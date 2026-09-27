@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
-import { getAllAgents, CATEGORIES } from '@/lib/data/agents';
+import { CATEGORIES } from '@/lib/data/agents';
+import { getAllCombinedAgents } from '@/lib/data/server-agents';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://topagents.lol';
   const now = new Date();
 
@@ -29,8 +30,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  // All 100 AI Agent profile routes
-  const agents = getAllAgents();
+  // All core AI Agents + auto-published community submitted agents
+  const agents = await getAllCombinedAgents();
   const agentRoutes: MetadataRoute.Sitemap = agents.map((agent) => ({
     url: `${baseUrl}/agents/${agent.slug}`,
     lastModified: now,

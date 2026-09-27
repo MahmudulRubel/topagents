@@ -1,4 +1,4 @@
-import { getAllAgents } from '@/lib/data/agents';
+import { getAllCombinedAgents } from '@/lib/data/server-agents';
 import FeaturedSpotlight from '@/components/directory/FeaturedSpotlight';
 import DirectoryFeed from '@/components/directory/DirectoryFeed';
 
@@ -11,8 +11,8 @@ interface HomePageProps {
   };
 }
 
-export default function HomePage({ searchParams }: HomePageProps) {
-  const allAgents = getAllAgents();
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const allAgents = await getAllCombinedAgents();
   const featuredAgent = allAgents.find((a) => a.featured) || allAgents[0];
 
   const initialCategory = typeof searchParams?.category === 'string' ? searchParams.category : 'all';

@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllAgents, getAgentBySlug } from '@/lib/data/agents';
+import { getAllAgents } from '@/lib/data/agents';
+import { getAgentBySlugAsync } from '@/lib/data/server-agents';
 import { generateAgentJsonLd } from '@/lib/seo/jsonld';
 import AgentHeader from '@/components/agent-detail/AgentHeader';
 import QuickSpecsCard from '@/components/agent-detail/QuickSpecsCard';
@@ -18,6 +19,8 @@ interface PageProps {
   };
 }
 
+export const dynamicParams = true;
+
 // 1. Static Generation for all 100 AI Agents at build time
 export async function generateStaticParams() {
   const agents = getAllAgents();
@@ -28,7 +31,7 @@ export async function generateStaticParams() {
 
 // 2. Programmatic Dynamic SEO Metadata
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const agent = getAgentBySlug(params.slug);
+  const agent = await getAgentBySlugAsync(params.slug);
   if (!agent) return {};
 
   const title = `${agent.name} Review (2026): Architecture, Benchmarks, Pricing & Alternatives | TopAgents`;
@@ -67,8 +70,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default function AgentDetailPage({ params }: PageProps) {
-  const agent = getAgentBySlug(params.slug);
+export default async function AgentDetailPage({ params }: PageProps) {
+  const agent = await getAgentBySlugAsync(params.slug);
   if (!agent) notFound();
 
   const { editorialReview: review } = agent;
