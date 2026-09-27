@@ -3,6 +3,12 @@ import { generateAgentEditorial, BANNED_SLOP_PHRASES } from '@/lib/ai/deepseek';
 import { saveSubmission, getSubmissionBySlug, AgentSubmissionRecord } from '@/lib/data/submissions';
 import { allAgents } from '@/lib/data/agents';
 import { AgentCategory, CommunitySubmission, PricingModel } from '@/lib/data/types';
+import { checkRateLimit, createRateLimitResponse, getClientIp } from '@/lib/security/rate-limit';
+import { sanitizeString, isValidSafeUrl, verifySameOrigin } from '@/lib/security/sanitize';
+
+// 5 agent submissions per hour per IP to protect AI compute and storage
+const SUBMIT_RATE_LIMIT = 5;
+const SUBMIT_WINDOW_MS = 60 * 60 * 1000;
 
 function createSlug(name: string): string {
   return name
@@ -31,7 +37,23 @@ async function resolveUniqueSlug(baseSlug: string): Promise<string> {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    // 1. CSRF origin verification
+    if (!verifySameOrigin(req)) {
+      return NextResponse.json(
+        { error: 'Cross-origin request forbidden.' },
+        { status: 403 }
+      );
+    }
+
+    // 2. Rate limiting check
+    const ip = getClientIp(req);
+    const rateLimit = checkRateLimit(`submit:${ip}`, SUBMIT_RATE_LIMIT, SUBMIT_WINDOW_MS);
+    if (!rateLimit.allowed) {
+      return createRateLimitResponse(rateLimit);
+    }
+
+    // 3. Body parsing with size/type guard
+    const body = await req.json().catch(() => ({}));
     const {
       agentName,
       tagline,
@@ -43,29 +65,50 @@ export async function POST(req: NextRequest) {
       submitterHandle,
     } = body;
 
-    if (!agentName || typeof agentName !== 'string' || agentName.trim().length < 2) {
+    // 4. Strict input sanitization and length limits
+    const cleanAgentName = sanitizeString(agentName, 80);
+    const cleanTagline = sanitizeString(tagline, 200);
+    const cleanDescription = sanitizeString(description, 3000);
+    const cleanSubmitterHandle = sanitizeString(submitterHandle, 60);
+
+    if (!cleanAgentName || cleanAgentName.length < 2) {
       return NextResponse.json(
-        { error: 'Agent name is required (minimum 2 characters).' },
+        { error: 'Agent name is required (2 to 80 characters).' },
         { status: 400 }
       );
     }
 
-    if (!tagline || typeof tagline !== 'string' || tagline.trim().length < 10) {
+    if (!cleanTagline || cleanTagline.length < 10) {
       return NextResponse.json(
-        { error: 'A concise technical tagline is required (minimum 10 characters).' },
+        { error: 'A concise technical tagline is required (10 to 200 characters).' },
         { status: 400 }
       );
     }
 
-    if (!websiteUrl || typeof websiteUrl !== 'string' || !websiteUrl.startsWith('http')) {
+    // 5. SSRF & URL safety validation for websiteUrl
+    const websiteCheck = isValidSafeUrl(websiteUrl);
+    if (!websiteCheck.valid) {
       return NextResponse.json(
-        { error: 'A valid website or repository URL is required (must start with http:// or https://).' },
+        { error: `Invalid official website URL: ${websiteCheck.reason}` },
         { status: 400 }
       );
     }
 
-    // Slop check on submission content
-    const combinedText = `${tagline} ${description || ''}`.toLowerCase();
+    // 6. SSRF & URL safety validation for githubUrl if provided
+    let cleanGithubUrl: string | undefined;
+    if (githubUrl) {
+      const githubCheck = isValidSafeUrl(githubUrl);
+      if (!githubCheck.valid) {
+        return NextResponse.json(
+          { error: `Invalid GitHub repository URL: ${githubCheck.reason}` },
+          { status: 400 }
+        );
+      }
+      cleanGithubUrl = githubCheck.sanitizedUrl;
+    }
+
+    // 7. Slop check on submission content
+    const combinedText = `${cleanTagline} ${cleanDescription}`.toLowerCase();
     for (const phrase of BANNED_SLOP_PHRASES) {
       if (combinedText.includes(phrase)) {
         return NextResponse.json(
@@ -81,25 +124,25 @@ export async function POST(req: NextRequest) {
     const cleanPricing: PricingModel = (pricingModel as PricingModel) || 'freemium';
 
     const communitySub: CommunitySubmission = {
-      agentName: agentName.trim(),
-      tagline: tagline.trim(),
+      agentName: cleanAgentName,
+      tagline: cleanTagline,
       category: cleanCategory,
       pricingModel: cleanPricing,
-      websiteUrl: websiteUrl.trim(),
-      githubUrl: githubUrl ? githubUrl.trim() : undefined,
-      description: description ? description.trim() : '',
-      submitterHandle: submitterHandle ? submitterHandle.trim() : undefined,
+      websiteUrl: websiteCheck.sanitizedUrl!,
+      githubUrl: cleanGithubUrl,
+      description: cleanDescription,
+      submitterHandle: cleanSubmitterHandle || undefined,
     };
 
-    // Generate unique slug
+    // 8. Generate unique slug
     const baseSlug = createSlug(communitySub.agentName);
     const slug = await resolveUniqueSlug(baseSlug);
 
-    // Call DeepSeek AI Editorial Engine
+    // 9. Call DeepSeek AI Editorial Engine
     console.log(`[Submit Route] Generating DeepSeek editorial review for ${communitySub.agentName}...`);
     const { editorial, quality, source } = await generateAgentEditorial(communitySub);
 
-    // Auto-publish if quality checks pass
+    // 10. Auto-publish if quality checks pass
     const isApproved = quality.isValid;
     const status = isApproved ? 'published' : 'flagged';
 

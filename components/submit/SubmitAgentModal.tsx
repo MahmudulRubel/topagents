@@ -97,7 +97,7 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
               </span>
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              Powered by DeepSeek AI for instant 2,000+ words technical reviews &amp; auto-publishing.
+              Automated 2,000+ words technical review &amp; instant community publishing.
             </p>
           </div>
           <button
@@ -124,7 +124,7 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
             </p>
             {submissionResult.wordCount && (
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-semibold mb-6">
-                <span>⚡ DeepSeek AI Technical Review:</span>
+                <span>⚡ Technical Systems Review:</span>
                 <strong>{submissionResult.wordCount.toLocaleString()} words</strong>
               </div>
             )}
@@ -300,7 +300,7 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
             {/* Submit Action */}
             <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
               <span className="text-[11px] text-gray-400">
-                ⚡ Automatically analyzed by DeepSeek AI
+                ⚡ Automated Technical Review Pipeline
               </span>
               <div className="flex items-center gap-3">
                 <button
@@ -318,7 +318,7 @@ export default function SubmitAgentModal({ isOpen, onClose }: SubmitAgentModalPr
                   {isSubmitting && (
                     <span className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
                   )}
-                  {isSubmitting ? 'DeepSeek Generating Review...' : 'Submit & Auto-Publish'}
+                  {isSubmitting ? 'Generating 2,000+ Words Teardown...' : 'Submit & Auto-Publish'}
                 </button>
               </div>
             </div>

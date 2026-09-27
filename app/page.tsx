@@ -1,9 +1,49 @@
+import { Metadata } from 'next';
 import { getAllCombinedAgents } from '@/lib/data/server-agents';
 import FeaturedSpotlight from '@/components/directory/FeaturedSpotlight';
 import DirectoryFeed from '@/components/directory/DirectoryFeed';
 import SideSponsors from '@/components/advertise/SideSponsors';
+import DirectoryFaq from '@/components/directory/DirectoryFaq';
+import { DIRECTORY_HOMEPAGE_FAQS } from '@/lib/data/directory-faqs';
+import { generateHomeJsonLd } from '@/lib/seo/jsonld';
 
 export const revalidate = 3600; // 1 hour ISR
+
+export const metadata: Metadata = {
+  title: 'Top 100 AI Agents Directory (2026 Rankings & Benchmarks) | topagents.lol',
+  description:
+    'Discover, compare, and analyze the top 100 autonomous AI agents across Coding, Browser Use, Multi-Agent Frameworks, Voice, and Sales. 2,000+ words technical reviews, verified SWE-bench benchmarks, and free community submissions.',
+  keywords: [
+    'AI agents',
+    'autonomous AI agents',
+    'coding agents',
+    'SWE-bench verified',
+    'top AI agents 2026',
+    'AI agent directory',
+    'multi-agent frameworks',
+    'browser use agents',
+    'Devin',
+    'Claude Code',
+    'Cursor',
+  ],
+  alternates: {
+    canonical: 'https://topagents.lol',
+  },
+  openGraph: {
+    title: 'Top 100 AI Agents Directory (2026 Rankings & Benchmarks) | topagents.lol',
+    description:
+      'Product Hunt-styled directory of the top 100 AI agents with verified SWE-bench benchmarks, architecture breakdowns, and free community submissions.',
+    url: 'https://topagents.lol',
+    siteName: 'topagents.lol',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Top 100 AI Agents Directory (2026 Rankings & Benchmarks) | topagents.lol',
+    description:
+      'Discover the next era of autonomous AI agents. Verified benchmarks and senior engineering teardowns.',
+  },
+};
 
 interface HomePageProps {
   searchParams?: {
@@ -19,8 +59,28 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const initialCategory = typeof searchParams?.category === 'string' ? searchParams.category : 'all';
   const initialQuery = typeof searchParams?.q === 'string' ? searchParams.q : '';
 
+  const jsonLd = generateHomeJsonLd(allAgents, DIRECTORY_HOMEPAGE_FAQS);
+
   return (
     <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 py-8 flex justify-center gap-8 items-start">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.orgSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.itemListSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.faqSchema) }}
+      />
+
       {/* Left Rail Sponsors (Slots 1 & 2) */}
       <SideSponsors position="left" />
 
@@ -58,7 +118,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </p>
 
           {/* Feature stats strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-3 px-4 bg-white border border-gray-200 rounded-xl shadow-xs text-center text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-3 px-4 bg-white border border-gray-200 rounded-xl shadow-xs text-center text-xs mb-6">
             <div>
               <div className="font-extrabold text-base text-gray-900">100+</div>
               <div className="text-gray-500 font-medium">Active Agents</div>
@@ -76,6 +136,17 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               <div className="text-gray-500 font-medium">Builder Listing</div>
             </div>
           </div>
+
+          {/* AEO Definition Block for Featured Snippets & Answer Engines */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-gray-200 shadow-xs space-y-2 text-left">
+            <div className="flex items-center justify-between text-xs font-bold text-gray-500 uppercase tracking-wider">
+              <span className="text-[#FF6154]">AEO Definition: Autonomous AI Agents</span>
+              <span className="text-gray-400">Direct Answer</span>
+            </div>
+            <p className="text-xs sm:text-sm text-gray-800 leading-relaxed font-medium">
+              An <strong>autonomous AI agent</strong> is an LLM-powered software system that independently executes multi-step goals via iterative reasoning loops (e.g. ReAct), tool execution (terminals, web browsers, databases, and APIs), persistent memory, and self-healing error recovery. Unlike autocomplete tools, autonomous agents plan and complete end-to-end tasks with zero human step-by-step prompts.
+            </p>
+          </div>
         </section>
 
         {/* Featured Agent Spotlight */}
@@ -87,6 +158,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           initialCategory={initialCategory}
           initialQuery={initialQuery}
         />
+
+        {/* Conversational FAQ Section for AEO / GEO */}
+        <DirectoryFaq />
       </main>
 
       {/* Right Rail Sponsors (Slots 3 & 4) */}

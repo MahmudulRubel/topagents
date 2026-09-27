@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
             Admin Console
           </h1>
           <p className="text-xs text-gray-500 mt-1">
-            Authenticate to manage submissions and DeepSeek editorial reviews.
+            Authenticate to manage submissions and technical editorial reviews.
           </p>
         </div>
 

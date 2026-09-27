@@ -334,7 +334,7 @@ State persistence uses a dual-tier storage strategy. Active session states resid
         context: `Consistency of output state when re-executing identical tasks from recorded telemetry traces.`,
       },
     ],
-    pricingBreakdown: `The economic structure of ${name} is oriented around transparent, predictable compute consumption. In self-hosted or open-source configurations, users pay zero seat licensing fees and absorb only the direct token pass-through costs of their underlying LLM provider (e.g., DeepSeek, Anthropic, or OpenAI). 
+    pricingBreakdown: `The economic structure of ${name} is oriented around transparent, predictable compute consumption. In self-hosted or open-source configurations, users pay zero seat licensing fees and absorb only the direct token pass-through costs of their underlying foundation model provider (e.g., Anthropic, OpenAI, Google Cloud, or local open-weights engines). 
 
 For managed cloud installations, pricing scales based on active agent worker hours. Standard worker instances cost approximately $0.05 per active compute hour, including isolated container provisioning, encrypted persistent volumes, and automated state backups. Enterprise tiers introduce custom SSO integration, dedicated tenancy, SOC-2 compliance log archiving, and guaranteed SLAs for concurrent task dispatch. Because ${name} incorporates aggressive context compaction, overall LLM token expenditures are approximately 35% to 45% lower than unoptimized competing agent frameworks.`,
     pricingTiers: [

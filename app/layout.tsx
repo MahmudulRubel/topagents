@@ -1,7 +1,13 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Navbar from '@/components/directory/Navbar';
 import Footer from '@/components/directory/Footer';
+
+export const viewport: Viewport = {
+  themeColor: '#FF6154',
+  width: 'device-width',
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://topagents.lol'),
@@ -24,7 +30,12 @@ export const metadata: Metadata = {
     'AI directory',
     'top AI agents',
   ],
-  authors: [{ name: 'topagents.lol Editorial Team' }],
+  authors: [{ name: 'TopAgents Systems Review Board' }],
+  creator: 'topagents.lol',
+  publisher: 'topagents.lol',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -43,6 +54,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -53,6 +71,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full scroll-smooth">
+      <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="AI Agent Context (llms.txt)" />
+        <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full Agent Catalog (llms-full.txt)" />
+      </head>
       <body className="min-h-full flex flex-col bg-[#F9FAFB] text-gray-900 antialiased font-sans">
         <Navbar />
         {children}

@@ -84,7 +84,7 @@ export default function SubmissionDetailModal({
     }
   };
 
-  const handleRegenerateDeepSeek = async () => {
+  const handleRegenerateEditorial = async () => {
     if (!confirm(`Are you sure you want to regenerate the 2,000+ words review for ${submission.agentName}?`)) {
       return;
     }
@@ -102,7 +102,7 @@ export default function SubmissionDetailModal({
         throw new Error(data.error || 'Failed to regenerate editorial review.');
       }
 
-      alert(`DeepSeek review regenerated successfully! (${data.quality?.wordCount || 0} words)`);
+      alert(`Review regenerated successfully! (${data.quality?.wordCount || 0} words)`);
       onUpdated();
       setActiveTab('review');
     } catch (err: any) {
@@ -219,7 +219,7 @@ export default function SubmissionDetailModal({
                 : 'border-transparent text-gray-500 hover:text-gray-900'
             }`}
           >
-            <span>⚡ DeepSeek AI Controls</span>
+            <span>⚡ Review Engine Controls</span>
           </button>
         </div>
 
@@ -481,10 +481,10 @@ export default function SubmissionDetailModal({
             <div className="space-y-4 text-xs">
               <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-100 space-y-2">
                 <h4 className="font-bold text-indigo-900 text-sm">
-                  ⚡ DeepSeek AI Editorial Regeneration
+                  ⚡ Automated Editorial Review Regeneration
                 </h4>
                 <p className="text-indigo-800 leading-relaxed">
-                  Trigger an automated prompt dispatch to the DeepSeek API. The engine will evaluate the codebase, update the architectural analysis, re-run slop and length checks, and update the live page.
+                  Trigger an automated review regeneration. The engine will evaluate the codebase, update the architectural analysis, re-run slop and length checks, and update the live page.
                 </p>
               </div>
 
@@ -503,7 +503,7 @@ export default function SubmissionDetailModal({
 
               <button
                 type="button"
-                onClick={handleRegenerateDeepSeek}
+                onClick={handleRegenerateEditorial}
                 disabled={isRegenerating}
                 className="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-wider text-xs shadow-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2"
               >
@@ -511,8 +511,8 @@ export default function SubmissionDetailModal({
                   <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
                 )}
                 {isRegenerating
-                  ? 'DeepSeek Generating 2,000+ Words Teardown...'
-                  : '⚡ Re-generate Review with DeepSeek'}
+                  ? 'Generating 2,000+ Words Teardown...'
+                  : '⚡ Re-generate Technical Review'}
               </button>
             </div>
           )}

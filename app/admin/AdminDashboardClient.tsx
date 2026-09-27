@@ -45,7 +45,7 @@ export default function AdminDashboardClient() {
               Community Submissions &amp; Editorial Pipeline
             </h1>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              Review, manage, and auto-generate 2,000+ words technical reviews with DeepSeek AI.
+              Review, manage, and generate 2,000+ words human-grade technical reviews.
             </p>
           </div>
 

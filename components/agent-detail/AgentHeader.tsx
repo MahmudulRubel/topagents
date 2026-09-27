@@ -34,7 +34,7 @@ export default function AgentHeader({ agent }: AgentHeaderProps) {
               </span>
 
               <Link
-                href={`/?category=${agent.category}`}
+                href={`/category/${agent.category}`}
                 className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
               >
                 {agent.categoryLabel}

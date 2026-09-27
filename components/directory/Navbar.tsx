@@ -41,16 +41,19 @@ export default function Navbar() {
 
             {/* Quick Category links desktop */}
             <nav className="hidden md:flex items-center gap-4 text-sm font-medium text-gray-600">
-              <Link href="/?category=coding" className="hover:text-gray-900 transition-colors">
+              <Link href="/category/coding" className="hover:text-gray-900 transition-colors">
                 Coding
               </Link>
-              <Link href="/?category=autonomous" className="hover:text-gray-900 transition-colors">
+              <Link href="/category/autonomous" className="hover:text-gray-900 transition-colors">
                 Autonomous
               </Link>
-              <Link href="/?category=voice" className="hover:text-gray-900 transition-colors">
+              <Link href="/category/frameworks" className="hover:text-gray-900 transition-colors">
+                Frameworks
+              </Link>
+              <Link href="/category/voice" className="hover:text-gray-900 transition-colors">
                 Voice
               </Link>
-              <Link href="/?category=research" className="hover:text-gray-900 transition-colors">
+              <Link href="/category/research" className="hover:text-gray-900 transition-colors">
                 Research
               </Link>
             </nav>
@@ -76,17 +79,13 @@ export default function Navbar() {
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setIsAdvertiseModalOpen(true)}
-              className="inline-flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg border border-gray-200 hover:border-gray-300 bg-white transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-full border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50/70 transition-all shadow-2xs"
             >
-              <span>📢 Advertise</span>
+              <span>📢 Sponsor</span>
+              <span className="hidden sm:inline-block px-1.5 py-0.2 text-[9px] font-mono font-bold text-[#FF6154] bg-orange-50 rounded">
+                $49/mo
+              </span>
             </button>
-
-            <Link
-              href="/submit"
-              className="hidden lg:inline-flex items-center gap-1 text-xs font-semibold text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg border border-transparent hover:border-gray-200"
-            >
-              Add Agent
-            </Link>
 
             <button
               onClick={() => setIsSubmitModalOpen(true)}

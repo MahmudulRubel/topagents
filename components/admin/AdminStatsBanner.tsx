@@ -72,11 +72,11 @@ export default function AdminStatsBanner({ stats }: AdminStatsBannerProps) {
         </div>
       </div>
 
-      {/* DeepSeek API Engine */}
+      {/* Editorial Generation Engine */}
       <div className="col-span-2 lg:col-span-1 bg-white p-4 sm:p-5 rounded-2xl border border-gray-200 shadow-xs flex flex-col justify-between">
         <div>
           <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
-            DeepSeek Engine
+            Review Engine
           </span>
           <div className="flex items-center gap-1.5 mt-0.5">
             <span
@@ -85,12 +85,12 @@ export default function AdminStatsBanner({ stats }: AdminStatsBannerProps) {
               }`}
             />
             <span className="font-mono text-xs font-bold text-gray-800 truncate">
-              {stats.deepseekModel}
+              {stats.hasApiKey ? 'Automated Pipeline (Active)' : 'Standard Pipeline'}
             </span>
           </div>
         </div>
         <span className="text-[10px] text-gray-400 mt-2 block">
-          {stats.hasApiKey ? 'Live API Key Connected' : 'Deterministic Engine Mode'}
+          {stats.hasApiKey ? 'Live Editorial Engine' : 'Standard Pipeline Active'}
         </span>
       </div>
     </div>

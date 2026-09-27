@@ -8,59 +8,86 @@ interface SideSponsorsProps {
   position: 'left' | 'right' | 'mobile';
 }
 
+interface SponsorSlotMeta {
+  slotNumber: number;
+  icon: string;
+  title: string;
+  tagline: string;
+  perks: string[];
+}
+
 export default function SideSponsors({ position }: SideSponsorsProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeSlotName, setActiveSlotName] = useState('Side Sponsor Slot');
+  const [activeSlotName, setActiveSlotName] = useState('Side Rail Slot');
 
   const openModalFor = (slotName: string) => {
     setActiveSlotName(slotName);
     setModalOpen(true);
   };
 
-  // Slot 1: BooklierAI (The user requested BooklierAI in 1 slot)
+  // Slot 1: BooklierAI (Active Featured Sponsor)
   const booklierCard = (
-    <div className="relative group bg-white rounded-2xl border-2 border-orange-200/80 hover:border-[#FF6154] shadow-xs hover:shadow-md transition-all p-4.5 flex flex-col justify-between overflow-hidden">
-      {/* Top Tag & Sparkle */}
+    <div className="relative group bg-white rounded-2xl border border-slate-200/80 hover:border-slate-300 shadow-xs hover:shadow-md transition-all duration-200 p-4 flex flex-col justify-between overflow-hidden">
+      {/* Top Tag & Slot Number */}
       <div className="flex items-center justify-between gap-2 mb-3">
-        <span className="px-2 py-0.5 text-[9px] font-black uppercase tracking-wider rounded-md bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-xs">
-          ⭐ Featured Sponsor
+        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider rounded-full bg-amber-50 text-amber-700 border border-amber-200/70">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+          Featured Sponsor
         </span>
-        <span className="text-[10px] text-gray-400 font-semibold">Ad #1</span>
+        <span className="text-[10px] font-mono font-medium text-slate-400">#01</span>
       </div>
 
       <div>
         <div className="flex items-center gap-2.5 mb-2">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-900 to-slate-900 text-white font-black text-sm flex items-center justify-center shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-900 via-slate-900 to-indigo-950 text-white font-bold text-sm flex items-center justify-center shadow-xs shrink-0 ring-1 ring-black/5">
             📖
           </div>
           <div className="min-w-0">
-            <h4 className="font-black text-gray-950 text-sm tracking-tight truncate group-hover:text-[#FF6154] transition-colors">
-              BooklierAI
-            </h4>
-            <span className="text-[10px] font-bold text-indigo-600 block uppercase">
+            <div className="flex items-center gap-1">
+              <h4 className="font-bold text-slate-900 text-sm tracking-tight truncate group-hover:text-[#FF6154] transition-colors">
+                BooklierAI
+              </h4>
+              <span className="text-emerald-600 text-xs" title="Verified Sponsor">
+                ✓
+              </span>
+            </div>
+            <span className="text-[10px] font-semibold text-indigo-600 block uppercase tracking-tight">
               AI Book &amp; eBook Writer
             </span>
           </div>
         </div>
 
-        <p className="text-[11px] text-gray-600 leading-relaxed mb-3 line-clamp-3 font-normal">
-          Tell BooklierAI what you know. It writes every chapter, designs the cover, and formats complete paperback &amp; Kindle eBooks.
+        <p className="text-[11.5px] text-slate-600 leading-relaxed mb-3 line-clamp-3 font-normal">
+          Tell BooklierAI what you know. It structures chapters, designs high-res covers, and formats complete paperback &amp; Kindle eBooks.
         </p>
+
+        {/* Feature Highlights */}
+        <div className="flex flex-wrap gap-1 mb-3.5">
+          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">
+            Paperback &amp; Kindle
+          </span>
+          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">
+            Cover Studio
+          </span>
+          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">
+            Zero-Prompt
+          </span>
+        </div>
       </div>
 
-      <div className="pt-2 border-t border-gray-100 flex flex-col gap-1.5">
+      <div className="pt-2.5 border-t border-slate-100 flex flex-col gap-1.5">
         <a
           href="https://www.booklierai.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full py-2 px-3 rounded-xl bg-[#FF6154] hover:bg-[#E55347] text-white text-[11px] font-bold text-center transition-colors shadow-xs flex items-center justify-center gap-1"
+          className="w-full py-2 px-3 rounded-xl bg-slate-900 hover:bg-[#FF6154] text-white text-[11px] font-bold text-center transition-all duration-200 shadow-xs flex items-center justify-center gap-1.5"
         >
           <span>Launch BooklierAI</span>
-          <span className="text-[10px]">↗</span>
+          <span className="text-xs">↗</span>
         </a>
         <Link
           href="/agents/booklierai"
-          className="text-[10px] text-center text-gray-500 hover:text-gray-900 font-semibold transition-colors"
+          className="text-[10.5px] text-center text-slate-400 hover:text-slate-900 font-semibold transition-colors py-0.5"
         >
           Read Technical Review →
         </Link>
@@ -69,49 +96,95 @@ export default function SideSponsors({ position }: SideSponsorsProps) {
   );
 
   // Available Ad Slot Template
-  const availableSlot = (slotNumber: number, title: string, subtitle: string) => (
-    <div className="relative group bg-gradient-to-b from-white to-gray-50/70 rounded-2xl border border-dashed border-gray-300 hover:border-[#FF6154] shadow-xs hover:shadow-md transition-all p-4.5 flex flex-col justify-between">
+  const availableSlot = ({ slotNumber, icon, title, tagline, perks }: SponsorSlotMeta) => (
+    <div className="relative group bg-white hover:bg-slate-50/40 rounded-2xl border border-slate-200/80 hover:border-slate-300 shadow-xs hover:shadow-md transition-all duration-200 p-4 flex flex-col justify-between overflow-hidden">
+      {/* Top Header */}
       <div className="flex items-center justify-between gap-2 mb-2.5">
-        <span className="px-2 py-0.5 text-[9px] font-black uppercase tracking-wider rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
-          Slot #{slotNumber} Available
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider rounded-full bg-slate-100 text-slate-600 border border-slate-200/60">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          Slot #{slotNumber}
         </span>
-        <span className="text-[10px] font-mono font-bold text-[#FF6154]">$49/wk</span>
+        <span className="text-[10.5px] font-mono font-bold text-[#FF6154] bg-orange-50/80 px-2 py-0.5 rounded-full border border-orange-200/50">
+          $49/mo
+        </span>
       </div>
 
       <div>
-        <h4 className="font-black text-gray-950 text-xs tracking-tight mb-1 group-hover:text-[#FF6154] transition-colors">
-          {title}
-        </h4>
-        <p className="text-[11px] text-gray-500 leading-relaxed mb-3">
-          {subtitle}
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="text-base">{icon}</span>
+          <h4 className="font-bold text-slate-900 text-xs tracking-tight group-hover:text-[#FF6154] transition-colors">
+            {title}
+          </h4>
+        </div>
+        <p className="text-[11px] text-slate-500 leading-relaxed mb-3">
+          {tagline}
         </p>
+
+        {/* Micro perks */}
+        <div className="flex flex-wrap gap-1 mb-3.5">
+          {perks.map((perk, i) => (
+            <span
+              key={i}
+              className="text-[9.5px] font-medium text-slate-500 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100"
+            >
+              {perk}
+            </span>
+          ))}
+        </div>
       </div>
 
-      <div className="pt-2 border-t border-gray-100/80">
+      <div className="pt-2.5 border-t border-slate-100">
         <button
-          onClick={() => openModalFor(`Side Slot #${slotNumber}`)}
-          className="w-full py-2 px-3 rounded-xl border border-gray-200 bg-white hover:bg-gray-900 hover:text-white text-gray-800 text-[11px] font-bold text-center transition-all shadow-xs flex items-center justify-center gap-1"
+          onClick={() => openModalFor(`Slot #${slotNumber}: ${title}`)}
+          className="w-full py-2 px-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-900 hover:text-white text-slate-700 text-[11px] font-bold text-center transition-all duration-200 shadow-2xs flex items-center justify-center gap-1 group-hover:border-slate-900"
         >
-          <span>Advertise Here</span>
-          <span className="text-[10px]">→</span>
+          <span>Reserve Placement</span>
+          <span className="text-xs">→</span>
         </button>
       </div>
     </div>
   );
 
+  const slot2Data: SponsorSlotMeta = {
+    slotNumber: 2,
+    icon: '⚡',
+    title: 'Promote Your AI Agent',
+    tagline: 'Reach 50,000+ AI engineers, researchers, and technical founders discover daily.',
+    perks: ['50K+ Monthly Reach', 'Dofollow SEO Link', 'Instant Activation'],
+  };
+
+  const slot3Data: SponsorSlotMeta = {
+    slotNumber: 3,
+    icon: '🎯',
+    title: 'Scale Developer Growth',
+    tagline: 'Put your framework, tool, or API in front of high-intent autonomous workflow builders.',
+    perks: ['High CTR', 'Permanent Profile', 'Priority Review'],
+  };
+
+  const slot4Data: SponsorSlotMeta = {
+    slotNumber: 4,
+    icon: '🚀',
+    title: 'Launch Spotlight',
+    tagline: 'Drive authentic signups, benchmark evaluations, and developer adoption.',
+    perks: ['Desktop & Mobile', 'Direct Backlink', 'Real-Time Stats'],
+  };
+
   return (
     <>
       {position === 'left' && (
-        <aside className="w-60 shrink-0 hidden xl:flex flex-col gap-4 sticky top-24 self-start">
+        <aside className="w-60 shrink-0 hidden xl:flex flex-col gap-3.5 sticky top-24 self-start">
           <div className="flex items-center justify-between px-1">
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-              Featured Sponsors
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                Featured Sponsors
+              </span>
+            </div>
             <button
-              onClick={() => openModalFor('Left Rail')}
-              className="text-[10px] text-[#FF6154] hover:underline font-bold"
+              onClick={() => openModalFor('Left Rail Sponsorship')}
+              className="text-[10px] text-[#FF6154] hover:text-[#E55347] font-bold transition-colors"
             >
-              Advertise
+              Advertise →
             </button>
           </div>
 
@@ -119,74 +192,56 @@ export default function SideSponsors({ position }: SideSponsorsProps) {
           {booklierCard}
 
           {/* Slot 2: Available */}
-          {availableSlot(
-            2,
-            'Advertise Your AI Agent',
-            'Put your product directly in front of 50,000+ AI developers and technical decision makers.'
-          )}
+          {availableSlot(slot2Data)}
         </aside>
       )}
 
       {position === 'right' && (
-        <aside className="w-60 shrink-0 hidden xl:flex flex-col gap-4 sticky top-24 self-start">
+        <aside className="w-60 shrink-0 hidden xl:flex flex-col gap-3.5 sticky top-24 self-start">
           <div className="flex items-center justify-between px-1">
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-              Community Sponsors
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                Partner Spotlight
+              </span>
+            </div>
             <button
-              onClick={() => openModalFor('Right Rail')}
-              className="text-[10px] text-[#FF6154] hover:underline font-bold"
+              onClick={() => openModalFor('Right Rail Sponsorship')}
+              className="text-[10px] text-[#FF6154] hover:text-[#E55347] font-bold transition-colors"
             >
-              Advertise
+              Advertise →
             </button>
           </div>
 
           {/* Slot 3: Available */}
-          {availableSlot(
-            3,
-            'Scale Your AI Tool',
-            'Target engineers actively searching for autonomous tools, APIs, and workflows.'
-          )}
+          {availableSlot(slot3Data)}
 
           {/* Slot 4: Available */}
-          {availableSlot(
-            4,
-            'Reserve Spotlight Slot',
-            'Includes high-impact sidebar placement, live link, and instant directory exposure.'
-          )}
+          {availableSlot(slot4Data)}
         </aside>
       )}
 
       {position === 'mobile' && (
         <section className="xl:hidden w-full mb-8">
           <div className="flex items-center justify-between mb-3 px-1">
-            <span className="text-xs font-black text-gray-900 uppercase tracking-wider flex items-center gap-1.5">
-              <span>⚡ Featured Community Sponsors</span>
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                Featured Partners &amp; Sponsors
+              </span>
+            </div>
             <button
               onClick={() => openModalFor('Mobile Grid')}
-              className="text-xs text-[#FF6154] hover:underline font-bold"
+              className="text-xs text-[#FF6154] hover:text-[#E55347] font-bold transition-colors"
             >
-              Advertise Here ($49/wk) →
+              Advertise ($49/mo) →
             </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
             {booklierCard}
-            {availableSlot(
-              2,
-              'Advertise Your AI Agent',
-              'Get seen by 50,000+ AI builders and engineers weekly.'
-            )}
-            {availableSlot(
-              3,
-              'Scale Your AI Tool',
-              'Target developers looking for autonomous agent solutions.'
-            )}
-            {availableSlot(
-              4,
-              'Reserve Spotlight Slot',
-              'High-impact placement with instant directory reach.'
-            )}
+            {availableSlot(slot2Data)}
+            {availableSlot(slot3Data)}
+            {availableSlot(slot4Data)}
           </div>
         </section>
       )}

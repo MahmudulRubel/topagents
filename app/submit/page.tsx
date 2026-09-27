@@ -81,7 +81,7 @@ export default function SubmitPage() {
           Submit Your AI Agent
         </h1>
         <p className="text-base text-gray-600 max-w-2xl leading-relaxed">
-          Join the most rigorous technical directory of autonomous systems. When you submit your agent, our DeepSeek AI engine analyzes its architecture and automatically generates a comprehensive 2,000+ words technical review.
+          Join the most rigorous technical directory of autonomous systems. When you submit your agent, our review pipeline analyzes its architecture and generates a comprehensive 2,000+ words technical review.
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export default function SubmitPage() {
           </p>
           {submissionResult.wordCount && (
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-semibold mb-6">
-              <span>⚡ DeepSeek AI Technical Review:</span>
+              <span>⚡ Technical Systems Review:</span>
               <strong>{submissionResult.wordCount.toLocaleString()} words</strong>
             </div>
           )}
@@ -282,7 +282,7 @@ export default function SubmitPage() {
                   rows={4}
                   value={formData.description}
                   onChange={handleChange}
-                  placeholder="Tell our DeepSeek engine about your context management strategy, sandbox isolation, LLM routing logic, or SWE-bench scores."
+                  placeholder="Detail your context management strategy, sandbox isolation, LLM routing logic, or SWE-bench scores."
                   className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6154]/20 focus:border-[#FF6154] transition-all font-mono text-xs"
                 />
               </div>
@@ -297,21 +297,21 @@ export default function SubmitPage() {
                     <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
                   )}
                   {isSubmitting
-                    ? 'DeepSeek Generating 2,000+ Words Teardown...'
+                    ? 'Generating 2,000+ Words Teardown...'
                     : 'Submit & Auto-Publish Agent (100% Free) →'}
                 </button>
               </div>
             </form>
           </div>
 
-          {/* Right: DeepSeek AI Engine & Editorial Standards */}
+          {/* Right: Editorial Standards */}
           <div className="space-y-6">
             <div className="bg-gradient-to-br from-indigo-50/70 to-blue-50/70 p-5 rounded-2xl border border-indigo-100 text-xs space-y-3">
               <div className="flex items-center gap-2 text-indigo-900 font-bold uppercase tracking-wider">
-                <span>⚡ DeepSeek AI Editorial Engine</span>
+                <span>⚡ Automated Systems Editorial Pipeline</span>
               </div>
               <p className="text-indigo-800/90 leading-relaxed text-[11px]">
-                Every submission triggers our DeepSeek AI pipeline to produce an in-depth, 2,000+ words technical analysis covering execution topologies, memory sandboxes, benchmarks, and enterprise economics.
+                Every submission triggers our technical analysis pipeline to produce an in-depth, 2,000+ words technical review covering execution topologies, memory sandboxes, benchmarks, and enterprise economics.
               </p>
             </div>
 
