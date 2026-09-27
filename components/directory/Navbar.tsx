@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import SubmitAgentModal from '../submit/SubmitAgentModal';
+import AdvertiseModal from '../advertise/AdvertiseModal';
 
 export default function Navbar() {
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isAdvertiseModalOpen, setIsAdvertiseModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
@@ -20,7 +22,7 @@ export default function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo */}
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5 group">
@@ -61,8 +63,8 @@ export default function Navbar() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search 100+ AI agents (e.g. Devin, Claude Code, Vapi)..."
-                className="w-full pl-9 pr-4 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-full focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF6154]/20 focus:border-[#FF6154] transition-all placeholder:text-gray-400"
+                placeholder="Search 100+ AI agents, frameworks, models..."
+                className="w-full pl-9 pr-4 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#FF6154]/20 focus:border-[#FF6154] transition-all"
               />
               <span className="absolute left-3 top-2 text-gray-400 text-xs">
                 🔍
@@ -71,7 +73,14 @@ export default function Navbar() {
           </div>
 
           {/* Right Action Buttons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={() => setIsAdvertiseModalOpen(true)}
+              className="inline-flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg border border-gray-200 hover:border-gray-300 bg-white transition-colors"
+            >
+              <span>📢 Advertise</span>
+            </button>
+
             <Link
               href="/submit"
               className="hidden lg:inline-flex items-center gap-1 text-xs font-semibold text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg border border-transparent hover:border-gray-200"
@@ -96,6 +105,13 @@ export default function Navbar() {
       <SubmitAgentModal
         isOpen={isSubmitModalOpen}
         onClose={() => setIsSubmitModalOpen(false)}
+      />
+
+      {/* Advertise Reservation Modal */}
+      <AdvertiseModal
+        isOpen={isAdvertiseModalOpen}
+        onClose={() => setIsAdvertiseModalOpen(false)}
+        defaultSlot="Top Header Placement"
       />
     </>
   );
