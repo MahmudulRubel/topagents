@@ -104,6 +104,7 @@ export interface Agent {
   tags: string[];
   monogram: string;
   avatarBg: string;
+  logoUrl?: string;        // External logo image URL (og:image, favicon, etc.)
   // Detailed technical review exceeding 2,000 words
   editorialReview: EditorialReview;
 }

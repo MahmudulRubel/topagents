@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Agent } from '@/lib/data/types';
 import UpvoteButton from './UpvoteButton';
+import AgentAvatar from './AgentAvatar';
 
 interface FeaturedSpotlightProps {
   agent: Agent;
@@ -21,17 +22,20 @@ export default function FeaturedSpotlight({ agent }: FeaturedSpotlightProps) {
             <span>⭐ AGENT OF THE DAY</span>
           </div>
 
-          {/* Title & Tagline */}
-          <div className="flex items-center gap-3 mb-2 flex-wrap">
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              {agent.name}
-            </h2>
-            <span className="px-2.5 py-0.5 text-xs font-semibold rounded-md bg-white/20 text-white border border-white/20">
-              {agent.categoryLabel}
-            </span>
-            <span className="text-amber-400 font-semibold text-sm">
-              ★ {agent.overallRating.toFixed(1)} ({agent.reviewsCount} reviews)
-            </span>
+          {/* Title & Tagline with Logo */}
+          <div className="flex items-center gap-3.5 mb-2">
+            <AgentAvatar agent={agent} size="lg" className="shadow-md" />
+            <div className="flex items-center gap-3 flex-wrap">
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                {agent.name}
+              </h2>
+              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-md bg-white/20 text-white border border-white/20">
+                {agent.categoryLabel}
+              </span>
+              <span className="text-amber-400 font-semibold text-sm">
+                ★ {agent.overallRating.toFixed(1)} ({agent.reviewsCount} reviews)
+              </span>
+            </div>
           </div>
 
           <p className="text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed mb-5">

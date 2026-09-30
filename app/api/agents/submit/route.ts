@@ -63,6 +63,8 @@ export async function POST(req: NextRequest) {
       githubUrl,
       description,
       submitterHandle,
+      logoUrl,
+      autoMode, // true when URL-only flow — fields were auto-filled by the scraper
     } = body;
 
     // 4. Strict input sanitization and length limits
@@ -71,18 +73,22 @@ export async function POST(req: NextRequest) {
     const cleanDescription = sanitizeString(description, 3000);
     const cleanSubmitterHandle = sanitizeString(submitterHandle, 60);
 
-    if (!cleanAgentName || cleanAgentName.length < 2) {
-      return NextResponse.json(
-        { error: 'Agent name is required (2 to 80 characters).' },
-        { status: 400 }
-      );
-    }
+    // In autoMode the scraper already validated the URL and populated fields,
+    // so we only require websiteUrl; name and tagline may come from scraping.
+    if (!autoMode) {
+      if (!cleanAgentName || cleanAgentName.length < 2) {
+        return NextResponse.json(
+          { error: 'Agent name is required (2 to 80 characters).' },
+          { status: 400 }
+        );
+      }
 
-    if (!cleanTagline || cleanTagline.length < 10) {
-      return NextResponse.json(
-        { error: 'A concise technical tagline is required (10 to 200 characters).' },
-        { status: 400 }
-      );
+      if (!cleanTagline || cleanTagline.length < 10) {
+        return NextResponse.json(
+          { error: 'A concise technical tagline is required (10 to 200 characters).' },
+          { status: 400 }
+        );
+      }
     }
 
     // 5. SSRF & URL safety validation for websiteUrl
@@ -107,25 +113,31 @@ export async function POST(req: NextRequest) {
       cleanGithubUrl = githubCheck.sanitizedUrl;
     }
 
-    // 7. Slop check on submission content
-    const combinedText = `${cleanTagline} ${cleanDescription}`.toLowerCase();
-    for (const phrase of BANNED_SLOP_PHRASES) {
-      if (combinedText.includes(phrase)) {
-        return NextResponse.json(
-          {
-            error: `Submission contains promotional AI fluff ("${phrase}"). Please use concrete engineering terminology.`,
-          },
-          { status: 422 }
-        );
+    // 7. Slop check on submission content (skip in autoMode — AI pipeline handles this)
+    if (!autoMode) {
+      const combinedText = `${cleanTagline} ${cleanDescription}`.toLowerCase();
+      for (const phrase of BANNED_SLOP_PHRASES) {
+        if (combinedText.includes(phrase)) {
+          return NextResponse.json(
+            {
+              error: `Submission contains promotional AI fluff ("${phrase}"). Please use concrete engineering terminology.`,
+            },
+            { status: 422 }
+          );
+        }
       }
     }
 
     const cleanCategory: AgentCategory = (category as AgentCategory) || 'coding';
     const cleanPricing: PricingModel = (pricingModel as PricingModel) || 'freemium';
 
+    // In autoMode use the website URL as the name fallback if name is empty
+    const finalName = cleanAgentName || new URL(websiteCheck.sanitizedUrl!).hostname.replace(/^www\./, '');
+    const finalTagline = cleanTagline || `AI agent at ${websiteCheck.sanitizedUrl}`;
+
     const communitySub: CommunitySubmission = {
-      agentName: cleanAgentName,
-      tagline: cleanTagline,
+      agentName: finalName,
+      tagline: finalTagline,
       category: cleanCategory,
       pricingModel: cleanPricing,
       websiteUrl: websiteCheck.sanitizedUrl!,
@@ -147,6 +159,20 @@ export async function POST(req: NextRequest) {
     const status = isApproved ? 'published' : 'flagged';
 
     const submissionId = `sub_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    let finalLogoUrl: string | undefined =
+      typeof logoUrl === 'string' && logoUrl.trim().length > 0
+        ? logoUrl.trim().slice(0, 500)
+        : undefined;
+
+    if (!finalLogoUrl && communitySub.websiteUrl) {
+      try {
+        const host = new URL(communitySub.websiteUrl).hostname.replace(/^www\./, '');
+        if (host) {
+          finalLogoUrl = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=128`;
+        }
+      } catch {}
+    }
+
     const submissionRecord: AgentSubmissionRecord = {
       id: submissionId,
       slug,
@@ -156,6 +182,7 @@ export async function POST(req: NextRequest) {
       pricingModel: communitySub.pricingModel,
       websiteUrl: communitySub.websiteUrl,
       githubUrl: communitySub.githubUrl,
+      logoUrl: finalLogoUrl,
       submitterHandle: communitySub.submitterHandle,
       description: communitySub.description,
       status,

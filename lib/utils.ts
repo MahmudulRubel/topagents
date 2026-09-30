@@ -59,3 +59,28 @@ export function getCategoryLabel(category: Category): string {
   };
   return labels[category] || 'Other';
 }
+
+/**
+ * Returns the best logo URL for an agent.
+ * Prefers explicit logoUrl, falls back to Google S2 high-res favicon based on websiteUrl.
+ */
+export function getAgentLogoUrl(agent: {
+  logoUrl?: string;
+  websiteUrl?: string;
+}): string | undefined {
+  if (agent.logoUrl && agent.logoUrl.trim().length > 0) {
+    return agent.logoUrl;
+  }
+  if (agent.websiteUrl) {
+    try {
+      const hostname = new URL(agent.websiteUrl).hostname.replace(/^www\./, '');
+      if (hostname) {
+        return `https://www.google.com/s2/favicons?domain=${hostname}&sz=128`;
+      }
+    } catch {
+      // invalid URL
+    }
+  }
+  return undefined;
+}
+
