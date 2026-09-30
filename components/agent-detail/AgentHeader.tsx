@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Agent } from '@/lib/data/types';
 import UpvoteButton from '../directory/UpvoteButton';
+import AgentAvatar from '../directory/AgentAvatar';
 
 interface AgentHeaderProps {
   agent: Agent;
@@ -12,12 +13,7 @@ export default function AgentHeader({ agent }: AgentHeaderProps) {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
         {/* Left: Avatar + Title + Tagline */}
         <div className="flex items-start gap-4">
-          <div
-            className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center font-black text-2xl text-white shrink-0 shadow-md"
-            style={{ backgroundColor: agent.avatarBg || '#111827' }}
-          >
-            {agent.monogram}
-          </div>
+          <AgentAvatar agent={agent} size="xl" />
 
           <div>
             <div className="flex items-center gap-2 flex-wrap mb-1">

@@ -25,10 +25,9 @@ export default function SideSponsors({ position }: SideSponsorsProps) {
     setModalOpen(true);
   };
 
-  // Slot 1: BooklierAI (Active Featured Sponsor)
+  // ── Slot 1: BooklierAI (Active Featured Sponsor) ──────────────────────────
   const booklierCard = (
     <div className="relative group bg-white rounded-2xl border border-slate-200/80 hover:border-slate-300 shadow-xs hover:shadow-md transition-all duration-200 p-4 flex flex-col justify-between overflow-hidden">
-      {/* Top Tag & Slot Number */}
       <div className="flex items-center justify-between gap-2 mb-3">
         <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider rounded-full bg-amber-50 text-amber-700 border border-amber-200/70">
           <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
@@ -47,9 +46,7 @@ export default function SideSponsors({ position }: SideSponsorsProps) {
               <h4 className="font-bold text-slate-900 text-sm tracking-tight truncate group-hover:text-[#FF6154] transition-colors">
                 BooklierAI
               </h4>
-              <span className="text-emerald-600 text-xs" title="Verified Sponsor">
-                ✓
-              </span>
+              <span className="text-emerald-600 text-xs" title="Verified Sponsor">✓</span>
             </div>
             <span className="text-[10px] font-semibold text-indigo-600 block uppercase tracking-tight">
               AI Book &amp; eBook Writer
@@ -61,17 +58,10 @@ export default function SideSponsors({ position }: SideSponsorsProps) {
           Tell BooklierAI what you know. It structures chapters, designs high-res covers, and formats complete paperback &amp; Kindle eBooks.
         </p>
 
-        {/* Feature Highlights */}
         <div className="flex flex-wrap gap-1 mb-3.5">
-          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">
-            Paperback &amp; Kindle
-          </span>
-          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">
-            Cover Studio
-          </span>
-          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">
-            Zero-Prompt
-          </span>
+          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">Paperback &amp; Kindle</span>
+          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">Cover Studio</span>
+          <span className="text-[9.5px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/60">Zero-Prompt</span>
         </div>
       </div>
 
@@ -95,10 +85,9 @@ export default function SideSponsors({ position }: SideSponsorsProps) {
     </div>
   );
 
-  // Available Ad Slot Template
+  // ── Available Ad Slot Template ─────────────────────────────────────────────
   const availableSlot = ({ slotNumber, icon, title, tagline, perks }: SponsorSlotMeta) => (
     <div className="relative group bg-white hover:bg-slate-50/40 rounded-2xl border border-slate-200/80 hover:border-slate-300 shadow-xs hover:shadow-md transition-all duration-200 p-4 flex flex-col justify-between overflow-hidden">
-      {/* Top Header */}
       <div className="flex items-center justify-between gap-2 mb-2.5">
         <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider rounded-full bg-slate-100 text-slate-600 border border-slate-200/60">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -116,17 +105,10 @@ export default function SideSponsors({ position }: SideSponsorsProps) {
             {title}
           </h4>
         </div>
-        <p className="text-[11px] text-slate-500 leading-relaxed mb-3">
-          {tagline}
-        </p>
-
-        {/* Micro perks */}
+        <p className="text-[11px] text-slate-500 leading-relaxed mb-3">{tagline}</p>
         <div className="flex flex-wrap gap-1 mb-3.5">
           {perks.map((perk, i) => (
-            <span
-              key={i}
-              className="text-[9.5px] font-medium text-slate-500 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100"
-            >
+            <span key={i} className="text-[9.5px] font-medium text-slate-500 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">
               {perk}
             </span>
           ))}
@@ -169,79 +151,112 @@ export default function SideSponsors({ position }: SideSponsorsProps) {
     perks: ['Desktop & Mobile', 'Direct Backlink', 'Real-Time Stats'],
   };
 
+  // ── Mobile sponsor pill strip data ────────────────────────────────────────
+  // Matches reference image: horizontal row of [avatar] [Name] pills
+  const mobileSponsors = [
+    { key: 'booklierai', href: 'https://www.booklierai.com/', avatar: '📖', avatarBg: 'from-indigo-900 to-slate-900', avatarColor: 'text-white', name: 'BooklierAI', verified: true, cta: false },
+    { key: 'slot2', href: null, avatar: '⚡', avatarBg: 'from-slate-100 to-slate-200', avatarColor: 'text-slate-400', name: 'Your Agent', verified: false, cta: true },
+    { key: 'slot3', href: null, avatar: '🎯', avatarBg: 'from-slate-100 to-slate-200', avatarColor: 'text-slate-400', name: 'Advertise', verified: false, cta: true },
+    { key: 'slot4', href: null, avatar: '🚀', avatarBg: 'from-slate-100 to-slate-200', avatarColor: 'text-slate-400', name: 'Grow Here', verified: false, cta: true },
+  ];
+
   return (
     <>
+      {/* ── Desktop Left Rail ── */}
       {position === 'left' && (
         <aside className="w-60 shrink-0 hidden xl:flex flex-col gap-3.5 sticky top-24 self-start">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Featured Sponsors
-              </span>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Featured Sponsors</span>
             </div>
-            <button
-              onClick={() => openModalFor('Left Rail Sponsorship')}
-              className="text-[10px] text-[#FF6154] hover:text-[#E55347] font-bold transition-colors"
-            >
+            <button onClick={() => openModalFor('Left Rail Sponsorship')} className="text-[10px] text-[#FF6154] hover:text-[#E55347] font-bold transition-colors">
               Advertise →
             </button>
           </div>
-
-          {/* Slot 1: BooklierAI */}
           {booklierCard}
-
-          {/* Slot 2: Available */}
           {availableSlot(slot2Data)}
         </aside>
       )}
 
+      {/* ── Desktop Right Rail ── */}
       {position === 'right' && (
         <aside className="w-60 shrink-0 hidden xl:flex flex-col gap-3.5 sticky top-24 self-start">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Partner Spotlight
-              </span>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Partner Spotlight</span>
             </div>
-            <button
-              onClick={() => openModalFor('Right Rail Sponsorship')}
-              className="text-[10px] text-[#FF6154] hover:text-[#E55347] font-bold transition-colors"
-            >
+            <button onClick={() => openModalFor('Right Rail Sponsorship')} className="text-[10px] text-[#FF6154] hover:text-[#E55347] font-bold transition-colors">
               Advertise →
             </button>
           </div>
-
-          {/* Slot 3: Available */}
           {availableSlot(slot3Data)}
-
-          {/* Slot 4: Available */}
           {availableSlot(slot4Data)}
         </aside>
       )}
 
+      {/* ── Mobile: Slim horizontal scrollable logo-pill strip ── */}
       {position === 'mobile' && (
-        <section className="xl:hidden w-full mb-8">
-          <div className="flex items-center justify-between mb-3 px-1">
+        <section className="xl:hidden w-full mb-6">
+          {/* Header row */}
+          <div className="flex items-center justify-between mb-2 px-0.5">
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Featured Partners &amp; Sponsors
-              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Sponsors</span>
             </div>
             <button
-              onClick={() => openModalFor('Mobile Grid')}
-              className="text-xs text-[#FF6154] hover:text-[#E55347] font-bold transition-colors"
+              onClick={() => openModalFor('Mobile Strip')}
+              className="text-[10px] text-[#FF6154] hover:text-[#E55347] font-bold transition-colors"
             >
               Advertise ($49/mo) →
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-            {booklierCard}
-            {availableSlot(slot2Data)}
-            {availableSlot(slot3Data)}
-            {availableSlot(slot4Data)}
+
+          {/* Pill row — no scrollbar, horizontal scroll on mobile */}
+          <div
+            className="flex items-center gap-2 overflow-x-auto py-1"
+            style={{ scrollbarWidth: 'none' } as React.CSSProperties}
+          >
+            {mobileSponsors.map((s) =>
+              !s.cta ? (
+                // Active sponsor pill
+                <a
+                  key={s.key}
+                  href={s.href!}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="flex items-center gap-2 shrink-0 px-3 py-1.5 rounded-full bg-white border border-slate-200 shadow-2xs hover:border-slate-300 hover:shadow-sm transition-all group"
+                >
+                  <span className={`w-6 h-6 rounded-full bg-gradient-to-br ${s.avatarBg} ${s.avatarColor} text-[11px] flex items-center justify-center shrink-0`}>
+                    {s.avatar}
+                  </span>
+                  <span className="text-[12px] font-bold text-slate-800 whitespace-nowrap group-hover:text-[#FF6154] transition-colors">
+                    {s.name}
+                  </span>
+                  {s.verified && (
+                    <span className="text-emerald-500 text-[10px]" title="Verified Sponsor">✓</span>
+                  )}
+                </a>
+              ) : (
+                // Available slot CTA pill
+                <button
+                  key={s.key}
+                  onClick={() => openModalFor('Mobile Strip Slot')}
+                  className="flex items-center gap-2 shrink-0 px-3 py-1.5 rounded-full bg-white/80 border border-dashed border-slate-300 hover:border-[#FF6154] hover:bg-orange-50/40 transition-all group"
+                >
+                  <span className={`w-6 h-6 rounded-full bg-gradient-to-br ${s.avatarBg} ${s.avatarColor} text-[11px] flex items-center justify-center shrink-0`}>
+                    {s.avatar}
+                  </span>
+                  <span className="text-[11px] font-semibold text-slate-400 whitespace-nowrap group-hover:text-[#FF6154] transition-colors">
+                    {s.name}
+                  </span>
+                  <span className="text-[9px] font-bold text-[#FF6154] bg-orange-50 px-1.5 py-0.5 rounded-full border border-orange-200/60 whitespace-nowrap">
+                    $49/mo
+                  </span>
+                </button>
+              )
+            )}
           </div>
         </section>
       )}

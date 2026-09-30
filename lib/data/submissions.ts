@@ -11,6 +11,7 @@ export interface AgentSubmissionRecord {
   pricingModel: PricingModel;
   websiteUrl: string;
   githubUrl?: string;
+  logoUrl?: string;
   submitterHandle?: string;
   description?: string;
   status: 'published' | 'pending_review' | 'flagged' | 'rejected';
@@ -152,6 +153,7 @@ export function submissionToAgent(sub: AgentSubmissionRecord): Agent {
     tags: [sub.category, sub.pricingModel, 'community-launch'],
     monogram: sub.agentName.substring(0, 2).toUpperCase(),
     avatarBg: 'bg-emerald-500',
+    logoUrl: sub.logoUrl,
     editorialReview: sub.editorialData,
   };
 }

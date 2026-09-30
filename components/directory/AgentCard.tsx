@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Agent } from '@/lib/data/types';
 import UpvoteButton from './UpvoteButton';
+import AgentAvatar from './AgentAvatar';
 
 interface AgentCardProps {
   agent: Agent;
@@ -26,13 +27,12 @@ export default function AgentCard({ agent, rank }: AgentCardProps) {
           </span>
         )}
 
-        {/* Avatar / Monogram */}
+        {/* Avatar / Logo */}
         <Link
           href={`/agents/${agent.slug}`}
-          className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-base text-white shrink-0 shadow-sm transition-transform group-hover:scale-105"
-          style={{ backgroundColor: agent.avatarBg || '#111827' }}
+          className="shrink-0 transition-transform group-hover:scale-105"
         >
-          {agent.monogram}
+          <AgentAvatar agent={agent} size="lg" />
         </Link>
 
         {/* Center Details */}

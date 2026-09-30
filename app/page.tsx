@@ -4,6 +4,7 @@ import FeaturedSpotlight from '@/components/directory/FeaturedSpotlight';
 import DirectoryFeed from '@/components/directory/DirectoryFeed';
 import SideSponsors from '@/components/advertise/SideSponsors';
 import DirectoryFaq from '@/components/directory/DirectoryFaq';
+import NewAgentsSection from '@/components/directory/NewAgentsSection';
 import { DIRECTORY_HOMEPAGE_FAQS } from '@/lib/data/directory-faqs';
 import { generateHomeJsonLd } from '@/lib/seo/jsonld';
 
@@ -151,6 +152,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
         {/* Featured Agent Spotlight */}
         {featuredAgent && <FeaturedSpotlight agent={featuredAgent} />}
+
+        {/* Recently Added Agents */}
+        <NewAgentsSection agents={allAgents} />
 
         {/* Interactive Directory Feed (Search, Category Pills, Sort, Upvotes) */}
         <DirectoryFeed
