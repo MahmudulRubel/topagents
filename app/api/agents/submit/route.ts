@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { generateAgentEditorial, BANNED_SLOP_PHRASES } from '@/lib/ai/deepseek';
 import { saveSubmission, getSubmissionBySlug, AgentSubmissionRecord } from '@/lib/data/submissions';
 import { allAgents } from '@/lib/data/agents';
@@ -195,6 +196,15 @@ export async function POST(req: NextRequest) {
 
     await saveSubmission(submissionRecord);
     console.log(`[Submit Route] Saved submission ${submissionId} with status '${status}'.`);
+
+    // Invalidate ISR caches so the agent is immediately published and visible live
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath(`/agents/${submissionRecord.slug}`);
+      revalidatePath(`/category/${submissionRecord.category}`);
+    } catch (cacheErr) {
+      console.warn('[Submit Route] revalidatePath error:', cacheErr);
+    }
 
     return NextResponse.json(
       {

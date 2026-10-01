@@ -16,9 +16,9 @@ export default function AdvertiseForm() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const planPricing = {
-    '1-week': { price: 49, label: '1 Week ($49)' },
-    '2-weeks': { price: 89, label: '2 Weeks ($89 · Save 10%)' },
-    '1-month': { price: 149, label: '1 Month ($149 · Save 25%)' },
+    '1-week': { price: 49, label: '1 Month ($49/mo)' },
+    '2-weeks': { price: 89, label: '2 Months ($89 · Save 10%)' },
+    '1-month': { price: 149, label: '3 Months ($149 · Save 25%)' },
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

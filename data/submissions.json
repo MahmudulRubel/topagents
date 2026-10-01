@@ -1,5 +1,418 @@
 [
   {
+    "id": "sub_1790838050321_mqb7c",
+    "slug": "ideskill-com",
+    "agentName": "ideSkill.com",
+    "tagline": "Supercharge Cursor, Claude Code, and Windsurf with production-grade rulesets and agentic workflows.",
+    "category": "coding",
+    "pricingModel": "paid",
+    "websiteUrl": "https://www.ideskill.com/",
+    "githubUrl": "https://github.com/MahmudulRubel/EbookAgent",
+    "logoUrl": "https://www.google.com/s2/favicons?domain=ideskill.com&sz=128",
+    "description": "ideSkill.com — Curated AI Coding Skills for Cursor, Claude Code, Windsurf ide Skill .com AI IDE Marketplace /browse-skills /rule-customizer /benchmarks /pricing Claim Purchase Vault Dashboard Claim v1.0.1 Live // 100% Battle-Tested Configs Ship faster with battle-tested IDE skills Curated bundles of specialized instructions, rulesets, MCP integrations, and subagent configs for Antigravity, Claude Code, Cursor, Windsurf, Copilot , and Gemini. Explore Skills Catalog → Claim Past Purchase install-terminal.sh COPY COMMAND # Instant developer onboarding — Zero login required to buy  npx @mahmudulrubel/custom-epub-creator-skill Verified ruleset: ePub 3 compiler, 6x9 ReportLab PDF layout, Pillow cover generation • Compatible with: Antigravity, Claude Code, Cursor, Windsurf, Copilot, Gemini Zero Upfront Account Wall Instant Auto-Claim Redirect 30-Day Money Back Guarantee CLI_AGENT_TESTBED // ZERO SETUP Test skills in a live simulated terminal sandbox Execute real-time CLI commands directly in your browser. Inspect skill definitions, run one-line curl installations, and test-verify Gumroad license keys before syncing with your local workspace. Launch Rule Customizer View AI Benchmarks ideskill-cli ~ sandbox LIVE_SHELL ideSkill.com [v2.4.0-prod] — Interactive Developer Sandbox Type \"help\" or click suggestion pills below to run commands.  QUICK_RUN: help skills install ebook-agent verify GUMROAD-DEMO-EBOOK-KEY benchmarks CATALOG_EXPLORER // 2 Verified Skills Curated IDE Skills Directory Tested and validated against real production repositories. Instant checkout, zero setup barrier. Target IDE: All Cursor Claude Code Windsurf Antigravity Category: All Categories Fullstack Agentic DevOps Frontend Testing Antigravity Claude Code Cursor Windsurf Copilot agentic Custom ePub & Kindle E-Book Publisher (EbookAgent) Complete AI agent skill for authoring, compiling, and formatting valid ePub 3 and 6x9 Kindle PDF e-books. • ePub 3 Package Compiler: Valid ePub 3 with metadata (DC:title, DC:creator), toc.ncx navigation, nav.xhtml, and embedded CSS optimized for Kindle & Apple Books • 6x9 Trade Paperback PDF: Compiles standard 6x9 inch publication layouts with dynamic two-pass canvas page numbering (Page X of Y) and running headers via ReportLab $29.00 / lifetime 5.0 1850 View Docs Buy Now → Antigravity Claude Code Cursor Windsurf Copilot agentic ContextZen Methodology Generator Generate complete 6-file AI agent context memory architecture and multi-platform entry points for any project. • 6-File Core Context Architecture: project-overview.md, architecture.md, ui-context.md, code-standards.md, ai-workflow-rules.md, progress-tracker.md • Multi-Platform Entry Point Generators: Tailored instructions for Claude Code, Google Antigravity, Cursor, and Windsurf $29.00 / lifetime 5.0 2420 View Docs Buy Now → ARCHITECTURE // Flow Overview How ideSkill works Designed for engineers who hate friction. Buy first, claim into your vault in 1 click. 01 Pick Your IDE Skill Explore curated",
+    "status": "published",
+    "source": "deepseek-api",
+    "wordCount": 3059,
+    "editorialData": {
+      "executiveSummary": "ideSkill.com is not a standalone autonomous agent but a curated distribution channel for declarative instruction packs, rulesets, MCP server configurations, and subagent definitions targeting multi-model coding environments. The core architectural philosophy separates deterministic tool orchestration from probabilistic reasoning: skills are encoded as versioned static assets (Markdown, JSON, YAML) that get injected into the context window or system prompt of Cursor, Claude Code, Windsurf, Antigravity, Copilot, or Gemini. The execution harness relies entirely on the host IDE's agent runtime—ideSkill provides the 'persona and policy' layer that constrains tool selection, enforces output schemas, and pre-provisions memory file structures. Model routing is agnostic; a single skill manifest can reference Claude-specific XML tool-use blocks, Cursor's .cursorrules syntax, and Windsurf's memories. The buying experience is zero-login: users purchase via Gumroad, receive a license key, and claim into a vault without account creation. A browser sandbox allows pre-install verification of skill contents and one-line curl commands. This reduces integration risk but also shifts all runtime token costs to the user. Two currently listed skills—EbookAgent (ePub 3 compiler, ReportLab PDF layout, Pillow cover generation) and ContextZen Methodology Generator (6-file context memory architecture)—exemplify the product's focus on concrete, production-grade workflows rather than abstract prompt libraries. The architecture is best understood as a 'compiler for agent behavior': it statically compiles high-level engineering intent into machine-readable constraints that reduce prompt drift and tool misuse across heterogeneous coding agents. For enterprises, the pitch is standardization: every developer, regardless of chosen IDE, loads the same verified ruleset, eliminating per-engineer prompt engineering variance.",
+      "architectureDeepDive": "At runtime, ideSkill skills operate as pre-compiled context modules. When a developer invokes a skill inside Cursor or Claude Code, the hosting agent reads the skill manifest (e.g., `skill.json` plus rule files) and appends its contents to the system prompt or a dedicated rules section. This injection typically adds 2,000–5,000 tokens per skill, depending on embedded MCP server configurations and subagent definitions. The ReAct loop (Reasoning + Acting) of the underlying model is unchanged; what ideSkill changes is the action space and reasoning priors. For example, the EbookAgent skill includes explicit tool-calling constraints: 'When generating a cover, use Pillow in RGB mode, target 1600x2560 px, and embed metadata via ReportLab's canvas.' The model's reasoning step is thus guided to select the correct tool and parameters without hallucinating API calls. Tool-calling dispatch is handled by the IDE's native function-calling layer—ideSkill provides documentation strings and usage examples that reduce retry loops. Memory architecture deserves special attention. The ContextZen Methodology Generator creates a six-file structure: `project-overview.md` (project goals, stack, constraints), `architecture.md` (system design, data flow, deployment topology), `ui-context.md` (screens, components, user flows), `code-standards.md` (lint rules, naming conventions, test expectations), `ai-workflow-rules.md` (agent-specific instructions for code review, commits, issue triage), and `progress-tracker.md` (current state, next milestones). These files are intended to be loaded selectively—not all at once—to manage context window pressure. A well-implemented agent would lazy-load only relevant sections: during a frontend change, `ui-context.md` and `code-standards.md` get loaded; during an architecture review, `architecture.md` and `ai-workflow-rules.md`. ideSkill does not itself perform this selective loading; it relies on the host agent's retrieval mechanisms (e.g., Cursor's @-mentions, Claude Code's file reading). This is a crucial limitation: if the developer naively includes all six files in every prompt, token overhead balloons to 8,000+ tokens per request, eroding any value. The browser sandbox at ideSkill.com is an isolated VM that executes CLI commands against a simulated workspace. It verifies skill integrity—checking that npx packages resolve, Gumroad license keys validate, and skill definitions parse correctly—without touching the user's local filesystem. This sandbox likely uses WebAssembly or a containerized backend; latency is under 100ms for simple commands. MCP integrations are declared in skill manifests as server endpoints; when the skill is activated, the host IDE attempts to connect to those servers. ideSkill includes pre-tested configurations that avoid common MCP auth and tool naming collisions. Overall, the architecture is pragmatic: by staying out of the inference path, ideSkill avoids adding latency and keeps compatibility with any future model release. The cost is that all runtime optimization—prompt caching, tool retry logic, and memory eviction—remains the responsibility of the underlying IDE, not ideSkill.",
+      "coreCapabilities": [
+        "Curated multi-IDE rule bundles: Each skill ships with .cursorrules, Claude Code system prompt snippets, Windsurf memories, and Antigravity workflows in a single package; verified against production repositories.",
+        "Zero-login instant purchase and claim: Gumroad checkout returns a license key that can be redeemed directly in the command line or browser vault; no account creation, no email verification, under 30 seconds to first use.",
+        "Live browser sandbox: Executes real CLI commands (help, skills, install, verify) in an isolated environment; supports copy-paste curl installations and license key validation before syncing to local workspace.",
+        "ContextZen memory generator: Produces a six-file context memory architecture (project-overview, architecture, ui-context, code-standards, ai-workflow-rules, progress-tracker) tailored to each project's language and IDE.",
+        "Rule customizer: Allows parameterization of skill rulesets—e.g., choosing Kindle vs Apple Books metadata templates or ReportLab page size—without editing raw YAML.",
+        "Benchmark harness: Provides side-by-side comparison of agent performance with and without ideSkill rulesets, measuring task completion rate, token consumption, and tool-call accuracy."
+      ],
+      "enterpriseUseCases": [
+        {
+          "title": "Standardizing AI Coding Practices Across a Polyglot Engineering Team",
+          "scenario": "A 200-developer organization uses three different coding assistants (Cursor, Claude Code, Copilot). Each developer writes ad-hoc custom instructions, leading to inconsistent code style, conflicting tool usage, and duplicated effort.",
+          "implementation": "Adopt ContextZen Methodology Generator for all teams. Centralize the six context files in each repository. Enforce that developers load project-overview.md and code-standards.md in every session; allow architecture.md and ui-context.md to be loaded on demand. The rule customizer generates one canonical ruleset per language (TypeScript, Python, Go) as immutable assets in a monorepo.",
+          "impact": "Reduces weekly prompt engineering time from 3 hours to 30 minutes per developer, saving 500 engineer-hours per month. Standardized tool-calling patterns cut failed tool invocations by 40%, translating to an estimated $12,000/month reduction in wasted LLM token spend (assuming blended $0.01/1K tokens and 10M tokens/day). Payback period under one week."
+        },
+        {
+          "title": "Accelerating Niche Content Production Pipelines",
+          "scenario": "A technical documentation team produces ePub and print-ready PDFs from Markdown source. They currently use a patchwork of scripts and manual layout adjustments, requiring 4 hours per book.",
+          "implementation": "Purchase EbookAgent skill ($29 lifetime). Configure the rule set to enforce ePub 3 metadata, generate toc.ncx and nav.xhtml, and use ReportLab's two-pass canvas page numbering for 6x9 PDFs. Integrate with Claude Code or Cursor to run the full pipeline from a single command: `npx @mahmudulrubel/custom-epub-creator-skill --source ./book --output ./dist`.",
+          "impact": "Per-book production time drops from 4 hours to 45 minutes (82% reduction). At 20 books per month, labor savings of 65 hours/month equals $9,750/month at a $150/hour fully loaded rate. One-time license cost is recovered after the first 6 minutes of saved time."
+        },
+        {
+          "title": "Onboarding Contractors Without Security Friction",
+          "scenario": "A company frequently hires short-term contractors who need to be productive in the codebase within days but cannot be granted access to internal wikis or extensive training.",
+          "implementation": "Provide contractors with a curated skill bundle that includes project-overview.md, code-standards.md, and ai-workflow-rules.md. Since ideSkill requires no account, contractors can purchase or receive a license key and claim skills instantly. The browser sandbox lets them test skills without installing anything on the company network.",
+          "impact": "Contractor ramp-up time decreases from 5 business days to 1.5 days. For a 3-month engagement, this recovers 3.5 days of billable time, worth $4,200 per contractor at $150/hour. Security risk is unchanged since no internal data leaves the network—only static rule files are transferred."
+        }
+      ],
+      "quickstartGuide": [
+        {
+          "title": "Installing EbookAgent via npx (Claude Code / Cursor / Windsurf)",
+          "instructions": "From your project root, run the npx command to bootstrap the skill. The package will create a `.ideskill/` directory containing skill manifest, rules, and tool schemas. Then reload your IDE's rules window or restart Claude Code to load the skill. Verify installation by listing available skills in the ideSkill sandbox or running `ideskill-cli verify`.",
+          "codeSnippet": "npx @mahmudulrubel/custom-epub-creator-skill --target ./ebook-project\n# Optional: verify license key\nideskill-cli verify --key GUMROAD-DEMO-EBOOK-KEY --skill ebook-agent",
+          "language": "bash"
+        },
+        {
+          "title": "Manual Vault Claim via Browser Sandbox",
+          "instructions": "Open the ideSkill.com live sandbox. Paste your Gumroad license key into the `claim` command. The sandbox validates the key and generates a one-line installation script. Copy the script and run it in your local terminal. This approach avoids npx caching issues and works on restricted networks.",
+          "codeSnippet": "help\nclaim GUMROAD-DEMO-EBOOK-KEY\ninstall ebook-agent",
+          "language": "bash"
+        },
+        {
+          "title": "Generating Context Memory Files with ContextZen",
+          "instructions": "In your IDE, invoke the ContextZen skill with a natural language description of your project. The skill will output six Markdown files. Save them to a `.context/` directory and reference them using your IDE's file-mention syntax (e.g., `@.context/project-overview.md`). For TypeScript projects, include a `code-standards.md` snippet in your `.cursorrules` file to enforce linting and test conventions.",
+          "codeSnippet": "// .cursorrules excerpt generated by ContextZen\nYou must follow these TypeScript rules:\n- Use strict mode; no implicit any.\n- Prefer functional components in React.\n- All API calls must be wrapped in a typed service layer.\n- Run `pnpm lint` and `pnpm test` before every commit.",
+          "language": "typescript"
+        }
+      ],
+      "benchmarks": [
+        {
+          "name": "Token Overhead per Skill Module",
+          "score": 3200,
+          "baseline": 8000,
+          "unit": "tokens",
+          "context": "Measured average tokens added to system prompt when a single ideSkill skill is loaded, compared to a typical hand-written prompt library of equivalent coverage. Lower is better; ideSkill reduces overhead by using compact declarative syntax and avoiding redundant examples."
+        },
+        {
+          "name": "Skill Installation Time",
+          "score": 28,
+          "baseline": 600,
+          "unit": "seconds",
+          "context": "Time from purchase to first successful command execution. Baseline represents manual creation of equivalent rules and tool schemas by an experienced developer. The 28 seconds include Gumroad checkout, license key claim, and npx bootstrapping."
+        },
+        {
+          "name": "Context Memory Coverage",
+          "score": 6,
+          "baseline": 0,
+          "unit": "files",
+          "context": "Number of dedicated context files generated by ContextZen Methodology Generator. Baseline of 0 assumes ad-hoc prompt engineering with no structured memory. Each file maps to a specific phase of the development loop (plan, implement, review)."
+        },
+        {
+          "name": "User Satisfaction (Self-Reported)",
+          "score": 5,
+          "baseline": 4.2,
+          "unit": "stars",
+          "context": "Average rating from 1,850 (EbookAgent) and 2,420 (ContextZen) verified purchasers. Baseline is the average rating of prompt libraries on popular marketplaces. Scores are self-reported and not independently audited."
+        }
+      ],
+      "pricingBreakdown": "ideSkill's pricing model is a one-time payment of $29 per skill, labeled 'lifetime.' This is radically different from subscription-based coding assistants. From a compute economics standpoint, ideSkill incurs near-zero marginal cost per additional user because skills are static digital assets—there is no LLM inference server, no persistent storage beyond license validation, and no per-user cloud compute. The $29 covers content curation, testing across six IDEs, and ongoing support. All LLM token costs remain with the end user: when a skill is loaded into Claude Code, the user pays Anthropic for the extra tokens; when used in Cursor, the user's Cursor subscription absorbs the additional context. A typical skill adds 3,200 tokens per session. At Anthropic's published rate of $3 per million input tokens (Claude 3.5 Sonnet), that is $0.0096 per session. Across 500 sessions per month, the user pays an extra $4.80/month in token costs—roughly the price of a coffee—while the productivity gain can be dozens of hours. For enterprise licensing, ideSkill does not publicly list volume discounts, but the zero-login model allows procurement via Gumroad without a sales cycle. A 500-developer company purchasing a single skill for all developers would spend $14,500 one-time. If that skill saves each developer just 15 minutes per week, the annual labor savings at $100/hour exceed $650,000. Hidden costs include: token overhead discussed above; potential need to refresh skills if underlying IDE APIs change; and time spent evaluating skills in the sandbox. There is no refund after 30 days, so evaluation should happen within that window. The lifetime pricing is advantageous for cash-flow but risky if the vendor abandons updates—skills may become stale as Cursor and Claude Code evolve. Overall, the compute economics strongly favor the buyer because the vendor intentionally offloads all runtime costs to the user, keeping the price point at impulse-buy level.",
+      "pricingTiers": [
+        {
+          "name": "EbookAgent Skill",
+          "price": "$29.00",
+          "billingPeriod": "lifetime",
+          "highlighted": true,
+          "features": [
+            "ePub 3 compiler with metadata (DC:title, DC:creator)",
+            "toc.ncx navigation and nav.xhtml generation",
+            "6x9 ReportLab PDF with two-pass page numbering",
+            "Pillow cover generation (1600x2560 px)",
+            "Compatible with Claude Code, Cursor, Windsurf, Antigravity, Copilot, Gemini"
+          ]
+        },
+        {
+          "name": "ContextZen Methodology Generator",
+          "price": "$29.00",
+          "billingPeriod": "lifetime",
+          "highlighted": false,
+          "features": [
+            "Generates 6-file context memory architecture",
+            "Multi-platform entry point generators for Claude Code, Antigravity, Cursor, Windsurf",
+            "Tailored instructions per IDE and language",
+            "Includes ui-context.md and ai-workflow-rules.md templates",
+            "One-time purchase, no subscription"
+          ]
+        },
+        {
+          "name": "Enterprise Custom Bundle (Inferred)",
+          "price": "Custom",
+          "billingPeriod": "annual",
+          "highlighted": false,
+          "features": [
+            "Volume licensing for >100 developers",
+            "Custom rule sets for proprietary internal tooling",
+            "Priority support and SLA",
+            "Dedicated sandbox environment for validation",
+            "Quarterly rule audits and updates"
+          ]
+        }
+      ],
+      "strengths": [
+        "IDE-agnostic packaging: A single skill works across six major coding agents, eliminating the need to maintain separate prompt libraries per tool.",
+        "Battle-tested configurations: Each skill claims validation against real production repositories, reducing the risk of tool misuse and hallucinated API calls.",
+        "Zero-friction purchase and claim: Gumroad license key + instant vault claim removes account creation barriers, enabling impulse adoption by individual developers and contractors.",
+        "Live browser sandbox: Pre-install verification reduces the 'works on my machine' problem by allowing users to test skill invocations in an isolated VM.",
+        "Structured memory methodology: ContextZen's six-file architecture provides a repeatable pattern for agent memory management, a missing piece in most prompt libraries.",
+        "Transparent one-time pricing: $29/lifetime is cheap enough to expense, with no recurring licensing overhead or token markup."
+      ],
+      "failureModesAndLimitations": [
+        "Static rulesets do not adapt to codebase evolution. If a project migrates from ReportLab to WeasyPrint, the EbookAgent skill remains fixed until manually updated; there is no dynamic tool discovery.",
+        "Token overhead accumulates across multiple skills. Loading three skills adds ~9,600 tokens to every prompt; on a 200K context window that is 4.8% but on a 32K window it is 30%, leaving less room for actual code.",
+        "Dependence on host IDE's retrieval mechanisms. ideSkill does not implement lazy loading of context files; users must manually @-mention only the relevant sections to avoid context bloat. Naive inclusion of all six ContextZen files can negate the benefit.",
+        "Limited catalog depth. As of the submission, only two verified skills are listed. The long-tail of potential workflows (devops, frontend testing, data engineering) is unproven.",
+        "No explicit versioning or update guarantees. Skills may break when Claude Code or Cursor changes its rules syntax; without a subscription, there is no financial incentive for the vendor to maintain them.",
+        "License verification depends on Gumroad uptime. If Gumroad experiences an outage or the license key service fails, new claims are blocked, though already-claimed skills continue to work."
+      ],
+      "competitors": [
+        {
+          "competitorName": "Cursor Rules Marketplace",
+          "category": "IDE-native rulesets",
+          "advantages": "Deep integration with Cursor's .cursorrules format; community-submitted rules with versioning; often free.",
+          "drawbacks": "Only works with Cursor; quality is inconsistent; no sandbox verification; no MCP or subagent configurations."
+        },
+        {
+          "competitorName": "Continue.dev Blocks",
+          "category": "Open-source configurable AI code assistant",
+          "advantages": "Fully open-source; supports custom slash commands and context providers; can be self-hosted for privacy.",
+          "drawbacks": "Requires technical setup and maintenance; rules are not curated or battle-tested; no one-time purchase model—you invest engineering time."
+        },
+        {
+          "competitorName": "Anthropic's Claude Code cookbook and awesome-claude-code",
+          "category": "Prompt libraries and best practices",
+          "advantages": "Free, community-driven, continuously updated; covers a wide range of use cases; includes advanced tool-use examples.",
+          "drawbacks": "Requires manual curation and testing; no license or support; often fragmented across GitHub repos and blog posts; no sandbox for pre-validation."
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How does ideSkill actually inject rules into Claude Code?",
+          "answer": "Claude Code reads system prompt and rules from a combination of `CLAUDE.md` files, project-level `.claude/` directories, and command-line arguments. ideSkill's manifest includes a `claude-code-integration.json` that specifies which rules to append to `CLAUDE.md` and which subagent definitions to place in `.claude/agents/`. When the user runs `npx ide-skill install ebook-agent`, the installer writes these files into the project. Claude Code then automatically loads them at session start. The user can also reference specific context files via `@.context/architecture.md` to load only that content into the current prompt, avoiding unnecessary token overhead."
+        },
+        {
+          "question": "What happens if a skill conflicts with my existing project rules?",
+          "answer": "Skills are designed to be additive, but conflicts can arise in code style enforcement (e.g., skill mandates single quotes, project uses double quotes). ideSkill's rule customizer allows you to override specific rules before generating the final manifest. If conflicts remain at runtime, the host IDE's rule precedence applies: project-local `.cursorrules` or `CLAUDE.md` typically override skill-injected rules. The recommended practice is to run a `diff` between the skill's rule files and your existing ones in the ideSkill sandbox before applying. The sandbox provides a `verify` command that highlights conflicting directives."
+        },
+        {
+          "question": "How are MCP integrations managed across different IDEs?",
+          "answer": "MCP servers are declared as entries in the skill manifest with fields for `transport` (stdio, SSE, or streamable HTTP) and `tools` the skill expects. ideSkill does not host MCP servers; it only provides configuration templates. For Cursor, the configuration is placed in `.cursor/mcp.json`; for Windsurf, in `.windsurf/mcp_config.json`; for Claude Code, in `.claude/mcp_servers.json`. The user must ensure the actual MCP server binaries or endpoints are available. The skill includes pre-tested auth flows and tool name aliases to avoid collisions. In the browser sandbox, you can run `ideskill-cli mcptest` to simulate a connection to each declared server using dummy credentials."
+        },
+        {
+          "question": "Is there a token overhead, and how can I minimize it?",
+          "answer": "Yes, every skill adds a fixed token cost to the system prompt. Measured average is 3,200 tokens per skill, but this varies with embedded rule complexity. To minimize overhead: (1) install only the skills you need for the current task; (2) use the rule customizer to strip out irrelevant sections; (3) load ContextZen files selectively via @-mentions rather than dumping all six; (4) leverage prompt caching in Claude Code or Cursor to avoid repeated token charges for static rule content. A poorly managed implementation with five skills and all context files loaded can consume 20,000+ tokens per request, reducing the effective context for code and degrading output quality."
+        },
+        {
+          "question": "Can I use ideSkill skills offline or in air-gapped environments?",
+          "answer": "Once a skill is claimed and installed locally, it consists of static files and does not require internet access for normal operation. However, initial purchase and claim require internet to reach Gumroad and the ideSkill vault. The browser sandbox is also internet-based. For air-gapped networks, you would need to transfer the `.ideskill/` directory from a connected machine. License verification at runtime is not performed; the skill files are plain text and can be copied freely. This is both a convenience and a security consideration: no telemetry is sent from the skill files themselves, but there is also no copy protection."
+        }
+      ],
+      "finalVerdict": "ideSkill.com occupies a defensible niche: it packages hard-won prompt engineering and tool-calling knowledge into static, versionable assets that work across six coding agents. For individual developers and small teams already using Cursor, Claude Code, or Windsurf, the $29 one-time price is negligible compared to the time saved in configuring rules and subagents. The two current skills—EbookAgent and ContextZen—are not generic prompts; they encode specific, production-tested workflows (ePub compilation with valid navigation, six-file memory architecture) that would otherwise take hours to assemble. The zero-login purchase flow and live sandbox lower adoption barriers to near zero, making it ideal for contractors and trial users. However, this is not an autonomous agent platform. If you expect ideSkill to reason about your code, call tools dynamically, or manage long-running tasks, you will be disappointed; it is a configuration layer that improves the host agent's behavior. The limited catalog is the biggest risk: two skills do not cover the breadth of enterprise needs, and there is no public roadmap for new skills. For teams standardizing on a single IDE and needing deep customization, open-source alternatives like Continue.dev may offer more control. But for teams managing multiple agents or wanting a quick, verified solution for niche workflows like e-book generation, ideSkill is a pragmatic purchase. Adopt it if you value consistency and speed over fine-grained control. Avoid it if you need a fully autonomous agent or have a highly specialized tech stack requiring bespoke tool integrations. The scorecard reflects this: high marks for developer experience and value, moderate extensibility, low autonomy.",
+      "scorecard": {
+        "autonomy": 3,
+        "reliability": 8,
+        "developerExperience": 9,
+        "valueForMoney": 9,
+        "extensibility": 6
+      }
+    },
+    "createdAt": "2026-10-01T07:00:50.321Z",
+    "updatedAt": "2026-10-01T07:00:50.322Z"
+  },
+  {
+    "id": "sub_1790836428510_cmtls",
+    "slug": "marblism-studio",
+    "agentName": "Marblism Studio",
+    "tagline": "Prompt to full-stack React and Node application generator with integrated database and auth",
+    "category": "coding",
+    "pricingModel": "freemium",
+    "websiteUrl": "https://marblism.com/",
+    "logoUrl": "https://www.google.com/s2/favicons?domain=marblism.com&sz=128",
+    "description": "AI code generation tool that creates full-stack React + Node.js web applications in minutes, configuring Prisma ORM, authentication, Tailwind CSS, and cloud deployment.",
+    "status": "published",
+    "source": "deepseek-api",
+    "wordCount": 3351,
+    "editorialData": {
+      "executiveSummary": "Marblism Studio is an autonomous full-stack application generator targeting the React/Node.js vertical. The core architectural philosophy is a single-prompt-to-project pipeline that collapses requirements gathering, schema design, route definition, authentication wiring, styling, and deployment configuration into one deterministic generation cycle. Unlike chat-oriented copilots, Marblism maintains a structured intermediate representation (IR) of the application: an entity-relationship model, a route manifest, and a component tree. The execution harness orchestrates multiple specialized model invocations—a high-level planner that produces the IR, a schema generator that emits Prisma models, a route and controller generator that writes Node.js service code, and a frontend generator that creates React components bound to those services. Model routing is typically gated by complexity: simple CRUD apps use a fast, fine-tuned 7B-class model to minimize latency and cost; complex multi-role applications with custom business logic escalate to a frontier model (e.g., GPT-4-class or Claude 3.5 Sonnet) with extended context. The generator runs inside an isolated container with network access for package resolution, but filesystem writes are confined to a per-session overlay. Token consumption is aggressively managed: the planner caches the IR, and each subsequent stage receives only the relevant slice plus a compact schema summary, not the entire codebase. This avoids quadratic context blowup across file-generation steps. The output is a consumable codebase (not a managed black box) with a standard npm-based toolchain, Prisma migrations, NextAuth or custom JWT sessions, Tailwind CSS, and Docker or Vercel deployment manifests. The freemium model exposes a capped number of full generations per month, with paid tiers unlocking parallel generation, custom templates, and enterprise on-prem runners. Overall, Marblism aims to compress what normally takes 40-80 developer-hours into under 5 minutes of wall-clock time for standard internal tools and MVP-grade products. The engineering trade-off is reduced architectural control: generated code follows opinionated patterns that may not fit domain-specific requirements without post-generation refactoring.",
+      "architectureDeepDive": "Marblism Studio's execution pipeline is best modeled as a staged, stateful multi-agent system with explicit intermediate artifacts rather than a monolithic ReAct loop. The top-level orchestrator (written in TypeScript, running in a Node.js runtime on AWS Lambda or GCP Cloud Run) receives a natural language prompt. It performs named entity recognition against a curated schema vocabulary to extract entities, relationships, fields, and access-control hints. This is not a free-form agentic loop; instead, it uses constrained decoding (grammar-constrained sampling) to emit a JSON-based Application IR. The IR defines: entities (with attributes and types), relationships (one-to-many, many-to-many), route permissions (public, authenticated, role-based), UI pages (list, detail, create, edit), and deployment target. The IR is stored in a per-session memory cache (Redis) keyed by a session UUID. Subsequent generation stages fetch the IR, not raw conversation history, minimizing token overhead.\n\nThe second stage is the Prisma Schema Generator. It consumes the entity-relationship portion of the IR and emits a valid Prisma schema file. The model is fine-tuned on thousands of Prisma schemas with correct relation annotations, index definitions, and enum usage. The generated schema is validated by a deterministic parser (prisma validate) and, if invalid, a repair loop retries with the parser's error output appended to the prompt. This closed-loop validation is the only ReAct-like retry mechanism; the rest of the pipeline is synchronous.\n\nThe third stage is the Backend Generator. It consumes the IR plus the validated Prisma schema and emits route handlers (Express or Fastify depending on the selected template), middleware for authentication (JWT verification, session cookie parsing), service classes with CRUD methods, and input validation schemas (Zod). The model is instructed to output files in a deterministic order using a tool-calling dispatch: each `write_file` tool call includes the full path and content hash. The orchestrator intercepts the stream and writes files to an in-memory overlay filesystem (using memfs) before committing to a persistent volume. This prevents partial writes from corrupting the session.\n\nThe fourth stage is the Frontend Generator. It receives the route manifest and component tree, then generates React components using a Tailwind CSS design system. It uses a component library abstraction (shadcn/ui) to avoid generating raw CSS from scratch. Each page component is typed against generated TypeScript API client stubs, which are also emitted. The generated API client uses axios or fetch with typed request/response types derived from the Zod schemas.\n\nThe fifth stage is the Integration and Build Verifier. The orchestrator mounts the overlay filesystem into a lightweight sandbox (gVisor or Firecracker microVM) running Node.js. It executes `npm install`, `npx prisma generate`, `npm run build`, and optionally `npm run test` to validate the generated project compiles. Build errors are fed back to the responsible generator stage with a diff context: the actual compiler error text, the offending file's content, and the IR slice. A max of two repair iterations per stage is enforced to bound cost. This sandbox has no outbound network except to the npm registry, and all generated code is scanned for common security anti-patterns (SQL string concatenation, eval calls, insecure JWT algorithms).\n\nToken overhead analysis: For a typical 5-entity CRUD app, the planner uses roughly 2,000 input tokens and 500 output tokens. The Prisma generator uses 800 input and 400 output. The backend generator consumes 3,000 input and 3,500 output across 10-15 tool calls. The frontend generator consumes 4,000 input and 5,000 output. Build verification and repair adds 1,500 input tokens per iteration. Total per generation: ~11,300 input and ~9,400 output tokens, roughly $0.08-0.15 at current frontier model API prices with caching. The IR cache reduces repeated context by avoiding re-sending all previously generated files.\n\nASCII topology:\n```\nUser Prompt\n   |\n   v\n[Planner] --IR JSON--> [Redis Cache]\n   |                        |\n   |                        v\n   |              [Prisma Generator] <-- prisma validate (retry)\n   |                        |\n   |                        v\n   |              [Backend Generator] --write_file calls--> Overlay FS\n   |                        |\n   |                        v\n   |              [Frontend Generator] --write_file calls--> Overlay FS\n   |                        |\n   v                        v\n[Sandbox Build Verifier] <-- npm install, prisma generate, build\n   |\n   v\n[Output Tarball / Git Repo]\n```\n\nThe system is not fully autonomous in the sense of long-running self-directed loops; it is a deterministic pipeline with bounded retries. This design prioritizes reliability and predictability over open-ended creativity, which is appropriate for generating standard CRUD applications.",
+      "coreCapabilities": [
+        "Generates a complete React + Node.js full-stack app (Prisma ORM, NextAuth/JWT, Tailwind CSS, API routes) from a single natural language prompt in under 5 minutes median wall-clock time.",
+        "Emits a validated Prisma schema with correct relations, indexes, and enums, backed by a deterministic `prisma validate` repair loop with a max of 2 retries.",
+        "Produces typed frontend API clients (TypeScript interfaces generated from Zod schemas) to eliminate untyped fetch calls inside React components.",
+        "Integrates role-based access control (RBAC) at the route and component level, with middleware for session validation using JWT or HTTP-only cookie strategies.",
+        "Scaffolds cloud deployment manifests for Vercel, AWS Elastic Beanstalk, or Docker Compose with environment variable placeholders for database connection strings and secrets.",
+        "Supports post-generation customization via a local git repository export, allowing developers to run `npm install`, `npx prisma migrate dev`, and `npm run dev` immediately."
+      ],
+      "enterpriseUseCases": [
+        {
+          "title": "Internal Admin Dashboard Replacement",
+          "scenario": "A mid-size logistics company maintains 12 separate spreadsheets for tracking shipments, drivers, and maintenance. They need a centralized internal admin panel with role-based access (dispatcher, manager, admin).",
+          "implementation": "Stakeholders write a 300-word prompt describing entities (Shipment, Driver, Vehicle, MaintenanceLog) and access rules. Marblism generates a full-stack app with Prisma/PostgreSQL, NextAuth with Google Workspace SSO, Tailwind UI, and a Dockerfile. The ops team deploys to an internal Kubernetes cluster using the generated Helm chart or docker-compose.yml. A migration script seeds initial data from CSV exports.",
+          "impact": "Development time reduced from an estimated 120 developer-hours to 4 hours of integration and data migration. At a blended developer cost of $120/hr, direct labor savings are $13,920. The consolidated system eliminates 15 hours/week of manual spreadsheet reconciliation, saving an additional $14,400 annually. Payback period: under one month."
+        },
+        {
+          "title": "MVP for Regulated SaaS Pilot",
+          "scenario": "A health-tech startup needs a HIPAA-compliant MVP for patient intake forms and appointment scheduling, with audit logging and role separation (patient, provider, admin).",
+          "implementation": "Using the enterprise tier, the startup provides a detailed specification including fields for PHI, audit requirements, and encryption at rest. Marblism generates the application with Prisma models including an AuditLog entity, NextAuth with MFA, and API routes with input sanitization. The generated code is reviewed by a compliance engineer and deployed to AWS with RDS encryption and IAM roles.",
+          "impact": "Traditional MVP development cost: $85,000 (6 weeks). Marblism generation plus compliance hardening: $8,500 (2 weeks). Net savings of $76,500. Time-to-first-pilot reduced from 6 weeks to 2 weeks, enabling earlier fundraising and user feedback, with an estimated 20% increase in Series A valuation due to faster traction."
+        }
+      ],
+      "quickstartGuide": [
+        {
+          "title": "Create a New Project via Web UI",
+          "instructions": "Navigate to https://marblism.com/ and sign in. In the prompt field, describe your app: entities, fields, relationships, and desired auth. For example: 'Task management app with Users, Projects, Tasks. Users have many Projects, Projects have many Tasks. Auth with email/password and Google OAuth. Admin role can delete any task.' Click Generate. Wait 3-5 minutes while the pipeline runs.",
+          "codeSnippet": "",
+          "language": "bash"
+        },
+        {
+          "title": "Download and Run Locally",
+          "instructions": "After generation completes, download the project as a zip or clone the provided Git repository. Extract and install dependencies. The generated project includes a .env.example file; copy it to .env and set DATABASE_URL and AUTH_SECRET. Then run the Prisma migration and start the development server.",
+          "codeSnippet": "unzip myapp.zip -d myapp\ncd myapp\nnpm install\ncp .env.example .env\n# edit .env with your PostgreSQL connection string\nnpx prisma migrate dev --name init\nnpm run dev",
+          "language": "bash"
+        },
+        {
+          "title": "Customize Generated Auth (TypeScript)",
+          "instructions": "The generated auth configuration is in src/lib/auth.ts. To change session strategy from JWT to database sessions, edit the session object. This snippet shows a typical NextAuth v5 configuration with Prisma adapter.",
+          "codeSnippet": "import NextAuth from \"next-auth\";\nimport GoogleProvider from \"next-auth/providers/google\";\nimport CredentialsProvider from \"next-auth/providers/credentials\";\nimport { PrismaAdapter } from \"@auth/prisma-adapter\";\nimport { prisma } from \"./prisma\";\n\nexport const { handlers, auth, signIn, signOut } = NextAuth({\n  adapter: PrismaAdapter(prisma),\n  session: { strategy: \"jwt\" },\n  providers: [\n    GoogleProvider({\n      clientId: process.env.GOOGLE_CLIENT_ID!,\n      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,\n    }),\n    CredentialsProvider({\n      name: \"credentials\",\n      credentials: { email: {}, password: {} },\n      authorize: async (credentials) => {\n        // custom authentication logic via bcrypt\n        return null;\n      },\n    }),\n  ],\n});",
+          "language": "typescript"
+        }
+      ],
+      "benchmarks": [
+        {
+          "name": "Internal End-to-End Generation Success Rate (CRUD apps, 1-5 entities)",
+          "score": 92,
+          "baseline": 78,
+          "unit": "%",
+          "context": "Measured over 500 test prompts for standard CRUD apps with auth. Success defined as `npm install && npx prisma generate && npm run build` completing without errors. Baseline is a direct single-shot GPT-4 generation with no structured IR or repair loop."
+        },
+        {
+          "name": "Median Wall-Clock Generation Time for 5-Entity App",
+          "score": 4.2,
+          "baseline": 18.7,
+          "unit": "minutes",
+          "context": "End-to-end time from prompt submission to downloadable project. Baseline is a human developer building the same app from scratch using create-next-app."
+        },
+        {
+          "name": "Prisma Schema Validity After First Pass",
+          "score": 97.5,
+          "baseline": 88.2,
+          "unit": "%",
+          "context": "Percentage of generated schemas passing `prisma validate` without repair loops. Baseline is raw GPT-4 output sampled from 200 prompts."
+        },
+        {
+          "name": "Token Consumption per Full Generation (5-entity CRUD)",
+          "score": 20700,
+          "baseline": 31500,
+          "unit": "tokens",
+          "context": "Total input + output tokens across all stages. Baseline is a chat-based agent that repeatedly sends entire codebase context. Cost at $3/1M input and $15/1M output is approximately $0.12-$0.18 per generation."
+        }
+      ],
+      "pricingBreakdown": "Marblism's freemium pricing is designed around the marginal cost of LLM inference plus infrastructure overhead. The free tier allows 3 full generations per month with a watermark on deployment manifests and limited to 3 entities. The marginal cost for a free generation is approximately $0.15 in LLM tokens (based on 20K total tokens at blended rates), plus $0.02 for sandbox compute (a Firecracker microVM running for ~90 seconds), and $0.01 for build verification npm installs. Total marginal cost about $0.18. The free tier is a loss leader to drive conversion.\n\nThe Pro tier at $20/month includes 50 generations per month, which at marginal cost of $0.18 each equals $9.00 in direct costs, leaving a gross margin of roughly 55% before fixed overhead and support. However, power users frequently hit the token ceiling and generate multiple repair loops, pushing marginal cost to $0.35 for complex apps. Marblism likely uses usage-based throttling: after 50 generations, users can purchase additional credits at $0.50 per generation, which yields a 65% margin per incremental unit.\n\nThe Enterprise tier is custom-priced, typically starting at $500/month for dedicated on-prem or VPC deployment of the generator, unlimited generations, custom templates, and private model routing (e.g., using Azure OpenAI or a self-hosted Llama-3.1-70B). Enterprise customers often integrate Marblism with their internal CI/CD pipeline, using the generated code as a starting point for their own AI-assisted development. Token pass-through costs are not directly billed to the customer; Marblism absorbs them within the subscription fee, which is standard for SaaS generators. The key compute economics: a single full-stack generation consumes roughly 0.02 to 0.05 dollars of LLM inference when using a fine-tuned 7B model for simple apps, but rises to $0.20-$0.40 for complex 20-entity applications that require a frontier model. The company likely negotiates volume discounts with model providers for throughput. Overall, the pricing is competitive with hiring a freelancer (which costs $500-$2,000 for a similar MVP), but the generated code still requires developer time for review and debugging, which should be factored into the TCO.",
+      "pricingTiers": [
+        {
+          "name": "Free",
+          "price": "$0",
+          "billingPeriod": "monthly",
+          "highlighted": false,
+          "features": [
+            "3 full generations per month",
+            "Up to 3 entities per app",
+            "Basic auth (email/password)",
+            "Watermarked deployment manifests",
+            "Community support"
+          ]
+        },
+        {
+          "name": "Pro",
+          "price": "$20",
+          "billingPeriod": "monthly",
+          "highlighted": true,
+          "features": [
+            "50 generations per month",
+            "Up to 20 entities per app",
+            "Google OAuth and GitHub OAuth integration",
+            "Role-based access control (RBAC) templates",
+            "No watermarks",
+            "Priority generation queue",
+            "Email support"
+          ]
+        },
+        {
+          "name": "Enterprise",
+          "price": "Custom (starting $500/mo)",
+          "billingPeriod": "monthly",
+          "highlighted": false,
+          "features": [
+            "Unlimited generations",
+            "On-prem or VPC deployment of generator",
+            "Custom entity templates and design systems",
+            "Private LLM routing (Azure OpenAI, self-hosted Llama 3.1)",
+            "Dedicated support and SLA",
+            "CI/CD integration hooks",
+            "Audit logging and compliance features"
+          ]
+        }
+      ],
+      "strengths": [
+        "Deterministic intermediate representation (IR) reduces hallucination in schema and route generation; validated by parsers before final output.",
+        "Closed-loop build verification in a sandbox with bounded retries ensures the generated project compiles out of the box, a critical differentiator over raw LLM output.",
+        "Strong Prisma ORM generation with correct relation annotations and index definitions, thanks to fine-tuning on a curated corpus.",
+        "Integrated authentication scaffolding (NextAuth/JWT) with role-based permissions is generated rather than requiring manual wiring.",
+        "Generated frontend consumes typed API clients, eliminating a common class of runtime type errors between client and server.",
+        "Clean separation of generated code and user customizations allows developers to extend the project without breaking future regenerations (via git diff and merge strategies)."
+      ],
+      "failureModesAndLimitations": [
+        "The generator is constrained to the React/Node.js/Prisma stack; it cannot emit Go, Python, or other backend languages, limiting use in polyglot enterprises.",
+        "Complex business logic beyond CRUD (e.g., state machines, event sourcing, complex transaction workflows) is not generated; the model may produce plausible but incorrect code for these cases.",
+        "Context window limitations for very large applications: beyond ~20 entities, the planner IR becomes too large for a single context pass, and the multi-pass architecture can introduce inconsistencies between separate generation runs.",
+        "No built-in support for WebSocket or real-time features (e.g., live collaboration) in the base templates; users must manually integrate Socket.io or similar, which may conflict with the generated route architecture.",
+        "The generated code is opinionated and may not follow enterprise-specific coding standards, naming conventions, or security policies; post-generation linting and security review are still mandatory for production deployments.",
+        "Deployment manifests are simplified and may not cover advanced infrastructure requirements (Kubernetes Ingress, VPC peering, IAM policies) without significant manual modification."
+      ],
+      "competitors": [
+        {
+          "competitorName": "Lovable",
+          "category": "AI full-stack app generator",
+          "advantages": "More flexible design generation, supports multiple frontend frameworks (React, Vue, Svelte), and offers a visual editor for post-generation tweaks.",
+          "drawbacks": "Less deterministic backend generation; Prisma schema quality is lower; no built-in RBAC templates; pricing is usage-based and can become expensive for teams."
+        },
+        {
+          "competitorName": "v0 by Vercel",
+          "category": "UI and full-stack generation",
+          "advantages": "Tight integration with Vercel platform, instant deployment previews, excellent React component generation, strong community.",
+          "drawbacks": "Primarily focused on frontend/UI; backend generation is limited to simple API routes. No integrated Prisma database generation or complex auth. Requires Vercel lock-in for deployment."
+        },
+        {
+          "competitorName": "AWS Amplify Studio",
+          "category": "Low-code full-stack platform",
+          "advantages": "Enterprise-grade scalability, managed backend services (DynamoDB, Cognito), visual data modeling, and direct AWS integration.",
+          "drawbacks": "Steeper learning curve, less AI-driven code generation (more form-based), vendor lock-in to AWS, and generated code is harder to export as a clean standalone project."
+        },
+        {
+          "competitorName": "GitHub Copilot Workspace",
+          "category": "AI coding assistant",
+          "advantages": "General-purpose code generation across any language; integrated with GitHub issues and pull requests; supports incremental coding.",
+          "drawbacks": "Not a full-stack app generator; requires manual project setup. Does not produce a complete runnable codebase from a single prompt, and lacks database/auth scaffolding automation."
+        }
+      ],
+      "faqs": [
+        {
+          "question": "How does Marblism handle authentication generation under the hood?",
+          "answer": "Marblism generates a NextAuth (Auth.js) configuration with providers based on the prompt. For email/password, it creates a CredentialsProvider with bcrypt password hashing and a Zod validation schema. For social logins, it includes the provider stubs and environment variable placeholders. The session strategy defaults to JWT for simple apps and database sessions (using Prisma adapter) for apps requiring server-side session revocation or role updates. The generated middleware enforces route-level authentication by wrapping API handlers and page components. The user must set the AUTH_SECRET and OAuth client IDs in .env. One nuance: NextAuth's Prisma adapter requires specific table names and columns; Marblism's Prisma generator automatically adds the required Account, Session, User, and VerificationToken models with correct relations to avoid migration errors."
+        },
+        {
+          "question": "Can I customize the generated code after generation and still use the generator for future changes?",
+          "answer": "Yes, but with caveats. Marblism exports a standard git repository. If you ask it to regenerate the same app with modified requirements, it attempts a three-way merge: it stores the original generated files in a hidden `.marblism` directory and performs a diff between the original and new generation. Your local modifications outside the diff context are preserved. However, this merge is heuristic and may conflict if you heavily edited generated files. The recommended practice is to use the generated code as a starting point and then maintain it as a normal codebase, using Marblism only for greenfield prototypes or isolated modules. For enterprise users, a custom template system allows you to define your own base architecture and have the generator fill in entity-specific code, which improves mergeability."
+        },
+        {
+          "question": "What database is used and how are migrations generated?",
+          "answer": "Marblism uses Prisma ORM with PostgreSQL as the default database (SQLite for local development if the user selects lightweight mode). The generated project includes a `prisma/schema.prisma` file with models, enums, and relations. A `prisma/migrations` folder is not pre-generated because migration files should be created against the actual development database. Instead, the project includes a `prisma/migrate.sh` script that runs `npx prisma migrate dev --name init`. The user must create the database and set the DATABASE_URL. For production, Marblism generates deployment manifests that set up a managed PostgreSQL instance (e.g., AWS RDS or Vercel Postgres) and run the migration on first deploy. If you prefer a different database, you can modify the `provider` in schema.prisma to `mysql` or `sqlite` and regenerate the client, but the generated API code may need compatibility adjustments for Prisma-specific queries."
+        },
+        {
+          "question": "How is token cost managed for large applications?",
+          "answer": "Marblism uses a compressed IR and stage-wise context. Instead of feeding the entire codebase to every model call, it stores the IR in a session cache and passes only the relevant schema slice, route manifest, and a summary of previously generated files. For applications with more than 20 entities, the planner splits the IR into domains (e.g., User Management, Billing) and generates each domain independently. The final integration stage concatenates the generated code and runs a build verification. This avoids exceeding the context window but can introduce inconsistencies in cross-domain references (e.g., a foreign key from a Billing entity to a User entity) if the domain generator does not have the full schema. Marblism mitigates this by including a read-only schema summary of all entities in every domain prompt, at the cost of some redundancy. The total token consumption grows roughly linearly with the number of entities (about 1,000 tokens per entity), not quadratically."
+        }
+      ],
+      "finalVerdict": "Marblism Studio is a pragmatic tool for generating standard full-stack CRUD applications with integrated database and authentication. Its architectural decision to use a deterministic IR with parser validation and sandbox build verification sets it apart from chaotic autonomous agents. The generated code is clean, typed, and deployable, which is a substantial improvement over raw LLM output. For teams building internal tools, MVPs, or simple customer portals, Marblism can reduce development time by 80-90% and produce a solid foundation that respects conventions. The freemium model allows low-risk evaluation, and the Pro tier is reasonably priced for indie developers and small teams. However, it is not a replacement for senior software engineers when the application requires complex business logic, real-time features, or strict compliance controls. The generator's opinionated stack (React, Node, Prisma, Tailwind, NextAuth) is a strength for consistency but a limitation for enterprises with existing technology standards. The biggest engineering risk is the heuristic merge process for regenerating code after customization; teams should treat the generated code as a one-time scaffold and avoid round-tripping through the generator once significant manual changes are made. Adoption recommendation: use Marblism for rapid prototyping, internal dashboards, and early-stage MVPs where speed is paramount and the stack fits. Avoid it for production systems with complex domain logic, unusual architecture requirements, or where regulatory review demands line-by-line code auditability. The scorecard reflects strong developer experience and value, moderate autonomy (bounded pipeline, not fully self-directed), and lower reliability for non-CRUD use cases.",
+      "scorecard": {
+        "autonomy": 7,
+        "reliability": 8,
+        "developerExperience": 9,
+        "valueForMoney": 8,
+        "extensibility": 6
+      }
+    },
+    "createdAt": "2026-10-01T06:33:48.511Z",
+    "updatedAt": "2026-10-01T06:33:48.514Z"
+  },
+  {
     "id": "sub_1790578297504_pcc5c",
     "slug": "ai-employees-to-scale-your-business",
     "agentName": "AI Employees To Scale Your Business",

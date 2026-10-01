@@ -11,7 +11,7 @@ interface DirectoryFeedProps {
   initialQuery?: string;
 }
 
-type SortOption = 'upvotes' | 'rating' | 'rank' | 'open-source';
+type SortOption = 'newest' | 'upvotes' | 'rating' | 'rank' | 'open-source';
 
 export default function DirectoryFeed({
   initialAgents,
@@ -45,7 +45,15 @@ export default function DirectoryFeed({
     }
 
     // Sort
-    if (sortBy === 'upvotes') {
+    if (sortBy === 'newest') {
+      // Community submissions first, then descending launch rank
+      list.sort((a, b) => {
+        const aIsSub = a.id.startsWith('sub_') ? 1 : 0;
+        const bIsSub = b.id.startsWith('sub_') ? 1 : 0;
+        if (aIsSub !== bIsSub) return bIsSub - aIsSub;
+        return (b.releaseYear || 2026) - (a.releaseYear || 2026);
+      });
+    } else if (sortBy === 'upvotes') {
       list.sort((a, b) => b.upvotesCount - a.upvotesCount);
     } else if (sortBy === 'rating') {
       list.sort((a, b) => b.overallRating - a.overallRating);
@@ -106,6 +114,17 @@ export default function DirectoryFeed({
             <span className="text-[11px] uppercase tracking-wider text-gray-400 mr-1 hidden sm:inline">
               Sort:
             </span>
+
+            <button
+              onClick={() => setSortBy('newest')}
+              className={`px-3 py-1.5 rounded-lg transition-colors shrink-0 flex items-center gap-1.5 ${
+                sortBy === 'newest'
+                  ? 'bg-gray-100 text-gray-900 font-bold'
+                  : 'hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              <span>⚡ Newest</span>
+            </button>
 
             <button
               onClick={() => setSortBy('upvotes')}

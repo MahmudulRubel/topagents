@@ -8,7 +8,8 @@ import NewAgentsSection from '@/components/directory/NewAgentsSection';
 import { DIRECTORY_HOMEPAGE_FAQS } from '@/lib/data/directory-faqs';
 import { generateHomeJsonLd } from '@/lib/seo/jsonld';
 
-export const revalidate = 3600; // 1 hour ISR
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'Top 100 AI Agents Directory (2026 Rankings & Benchmarks) | topagents.lol',
