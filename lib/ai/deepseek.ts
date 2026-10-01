@@ -444,7 +444,12 @@ export async function generateAgentEditorial(
 ): Promise<{ editorial: EditorialReview; quality: QualityCheckResult; source: 'deepseek-api' | 'fallback-engine' }> {
   const apiKey = process.env.DEEPSEEK_API_KEY;
   const baseUrl = process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com';
-  const model = process.env.DEEPSEEK_MODEL || 'deepseek-chat';
+
+  // Normalize model name (convert openrouter style deepseek/... to direct api model name)
+  let rawModel = (process.env.DEEPSEEK_MODEL || 'deepseek-v4-pro').trim();
+  if (rawModel.includes('/') || rawModel === 'deepseek-chat') {
+    rawModel = 'deepseek-v4-pro';
+  }
 
   if (!apiKey || apiKey === 'demo_key' || apiKey.trim() === '') {
     console.log('[DeepSeek AI] No DEEPSEEK_API_KEY detected. Using deterministic senior-engineer fallback generator.');
@@ -453,60 +458,78 @@ export async function generateAgentEditorial(
     return { editorial, quality, source: 'fallback-engine' };
   }
 
-  try {
-    console.log(`[DeepSeek AI] Generating editorial review for ${submission.agentName} using ${model}...`);
-    
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
+  const candidateModels = [rawModel, 'deepseek-v4-pro', 'deepseek-flash'];
+  const triedModels = new Set<string>();
 
-    const response = await fetch(`${baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: buildDeepSeekSystemPrompt() },
-          { role: 'user', content: buildDeepSeekUserPrompt(submission) },
-        ],
-        temperature: 0.3,
-        response_format: { type: 'json_object' },
-        max_tokens: 4000,
-      }),
-      signal: controller.signal,
-    });
+  for (const model of candidateModels) {
+    if (triedModels.has(model)) continue;
+    triedModels.add(model);
 
-    clearTimeout(timeoutId);
+    try {
+      console.log(`[DeepSeek AI] Generating editorial review for "${submission.agentName}" using model ${model}...`);
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error(`[DeepSeek API Error] Status ${response.status}:`, errText);
-      console.log('[DeepSeek AI] Falling back to high-quality fallback generator.');
-      const fallback = generateFallbackEditorial(submission);
-      return { editorial: fallback, quality: verifyEditorialQuality(fallback), source: 'fallback-engine' };
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
+
+      const response = await fetch(`${baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: 'system', content: buildDeepSeekSystemPrompt() },
+            { role: 'user', content: buildDeepSeekUserPrompt(submission) },
+          ],
+          temperature: 0.3,
+          response_format: { type: 'json_object' },
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error(`[DeepSeek API Error] Model ${model} returned status ${response.status}:`, errText);
+        continue; // Try next model candidate
+      }
+
+      const data = await response.json();
+      const rawContent = data.choices?.[0]?.message?.content;
+
+      if (!rawContent || typeof rawContent !== 'string') {
+        console.warn(`[DeepSeek API] Empty content returned for model ${model}`);
+        continue;
+      }
+
+      // Strip markdown code fences if present
+      let cleanJson = rawContent.trim();
+      if (cleanJson.startsWith('```json')) {
+        cleanJson = cleanJson.replace(/^```json\s*/i, '').replace(/```\s*$/, '').trim();
+      } else if (cleanJson.startsWith('```')) {
+        cleanJson = cleanJson.replace(/^```\s*/, '').replace(/```\s*$/, '').trim();
+      }
+
+      const parsedEditorial: EditorialReview = JSON.parse(cleanJson);
+      const quality = verifyEditorialQuality(parsedEditorial);
+
+      console.log(`[DeepSeek AI] Successfully generated editorial (${quality.wordCount} words) via model ${model}`);
+
+      return {
+        editorial: parsedEditorial,
+        quality,
+        source: 'deepseek-api',
+      };
+    } catch (err: any) {
+      console.error(`[DeepSeek AI Model ${model} Exception]:`, err?.message || err);
     }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
-
-    if (!content) {
-      throw new Error('DeepSeek API returned empty content.');
-    }
-
-    const parsedEditorial: EditorialReview = JSON.parse(content);
-    const quality = verifyEditorialQuality(parsedEditorial);
-
-    return {
-      editorial: parsedEditorial,
-      quality,
-      source: 'deepseek-api',
-    };
-  } catch (err: any) {
-    console.error('[DeepSeek AI Generation Exception]:', err?.message || err);
-    console.log('[DeepSeek AI] Recovering with fallback generator.');
-    const fallback = generateFallbackEditorial(submission);
-    return { editorial: fallback, quality: verifyEditorialQuality(fallback), source: 'fallback-engine' };
   }
+
+  // If all models failed or timed out, use the fallback generator
+  console.warn('[DeepSeek AI] All models failed or timed out. Falling back to deterministic editorial generator.');
+  const fallback = generateFallbackEditorial(submission);
+  return { editorial: fallback, quality: verifyEditorialQuality(fallback), source: 'fallback-engine' };
 }

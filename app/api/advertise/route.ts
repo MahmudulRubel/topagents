@@ -1,48 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
 import { checkRateLimit, createRateLimitResponse, getClientIp } from '@/lib/security/rate-limit';
 import { sanitizeString, isValidSafeUrl, isValidEmail, verifySameOrigin } from '@/lib/security/sanitize';
-
-export interface SponsorInquiry {
-  id: string;
-  productName: string;
-  websiteUrl: string;
-  email: string;
-  slotDuration: string;
-  preferredSlot?: string;
-  tagline?: string;
-  notes?: string;
-  createdAt: string;
-  status: 'pending' | 'confirmed' | 'contacted';
-}
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-const INQUIRIES_FILE = path.join(DATA_DIR, 'inquiries.json');
+import { saveInquiry, SponsorInquiry } from '@/lib/data/inquiries';
+import { sendInquiryNotification } from '@/lib/email/send-inquiry-notification';
 
 // 10 sponsor inquiries per hour per IP
 const ADVERTISE_RATE_LIMIT = 10;
 const ADVERTISE_WINDOW_MS = 60 * 60 * 1000;
-
-async function getInquiries(): Promise<SponsorInquiry[]> {
-  try {
-    const data = await fs.readFile(INQUIRIES_FILE, 'utf-8');
-    return JSON.parse(data);
-  } catch {
-    return [];
-  }
-}
-
-async function saveInquiry(inquiry: SponsorInquiry): Promise<void> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  const inquiries = await getInquiries();
-  inquiries.unshift(inquiry);
-  // Cap inquiries history at 1,000 to prevent unbounded disk growth
-  if (inquiries.length > 1000) {
-    inquiries.length = 1000;
-  }
-  await fs.writeFile(INQUIRIES_FILE, JSON.stringify(inquiries, null, 2), 'utf-8');
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -109,6 +73,13 @@ export async function POST(req: NextRequest) {
     };
 
     await saveInquiry(inquiry);
+
+    // Dispatch instant email notification to site owner (mahomudulhasanrubel@gmail.com)
+    try {
+      await sendInquiryNotification(inquiry);
+    } catch (emailErr) {
+      console.error('[Advertise Route] Email notification error:', emailErr);
+    }
 
     return NextResponse.json(
       {
