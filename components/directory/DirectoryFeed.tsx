@@ -1,59 +1,78 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Agent } from '@/lib/data/types';
+import { searchAgents } from '@/lib/search/agent-search';
 import AgentCard from './AgentCard';
 import CategoryFilter from './CategoryFilter';
+import AgentIntentSearchBar from './AgentIntentSearchBar';
+import NewAgentsSection from './NewAgentsSection';
 
 interface DirectoryFeedProps {
   initialAgents: Agent[];
   initialCategory?: string;
   initialQuery?: string;
+  showRecentlyAdded?: boolean;
 }
 
-type SortOption = 'newest' | 'upvotes' | 'rating' | 'rank' | 'open-source';
+type SortOption = 'relevance' | 'newest' | 'upvotes' | 'rating' | 'rank' | 'open-source';
 
 export default function DirectoryFeed({
   initialAgents,
   initialCategory = 'all',
   initialQuery = '',
+  showRecentlyAdded = false,
 }: DirectoryFeedProps) {
   const [activeCategory, setActiveCategory] = useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
-  const [sortBy, setSortBy] = useState<SortOption>('upvotes');
+  const [sortBy, setSortBy] = useState<SortOption>(initialQuery.trim() ? 'relevance' : 'upvotes');
   const [displayCount, setDisplayCount] = useState<number>(25);
 
+  // Sync URL query / category changes (e.g. from Navbar search)
+  useEffect(() => {
+    setSearchQuery(initialQuery);
+    if (initialQuery.trim()) {
+      setSortBy('relevance');
+    }
+  }, [initialQuery]);
+
+  useEffect(() => {
+    setActiveCategory(initialCategory);
+  }, [initialCategory]);
+
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    setDisplayCount(25);
+    if (query.trim()) {
+      setSortBy('relevance');
+    } else if (sortBy === 'relevance') {
+      setSortBy('upvotes');
+    }
+  };
+
+  // Run multi-signal search & scoring
+  const searchResult = useMemo(() => {
+    return searchAgents(initialAgents, searchQuery, activeCategory);
+  }, [initialAgents, searchQuery, activeCategory]);
+
   const filteredAgents = useMemo(() => {
-    let list = [...initialAgents];
+    let list = [...searchResult.results];
+    const isSearching = searchQuery.trim().length > 0;
 
-    // Filter by Category
-    if (activeCategory !== 'all') {
-      list = list.filter((a) => a.category === activeCategory);
+    // If user selected 'relevance' and is actively searching, preserve the semantic score order
+    if (sortBy === 'relevance' && isSearching) {
+      return list;
     }
 
-    // Filter by Search
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
-      list = list.filter(
-        (a) =>
-          a.name.toLowerCase().includes(q) ||
-          a.tagline.toLowerCase().includes(q) ||
-          a.categoryLabel.toLowerCase().includes(q) ||
-          a.tags.some((t) => t.toLowerCase().includes(q)) ||
-          a.developer.toLowerCase().includes(q)
-      );
-    }
-
-    // Sort
+    // Apply user-selected sort
     if (sortBy === 'newest') {
-      // Community submissions first, then descending launch rank
       list.sort((a, b) => {
         const aIsSub = a.id.startsWith('sub_') ? 1 : 0;
         const bIsSub = b.id.startsWith('sub_') ? 1 : 0;
         if (aIsSub !== bIsSub) return bIsSub - aIsSub;
         return (b.releaseYear || 2026) - (a.releaseYear || 2026);
       });
-    } else if (sortBy === 'upvotes') {
+    } else if (sortBy === 'upvotes' || (sortBy === 'relevance' && !isSearching)) {
       list.sort((a, b) => b.upvotesCount - a.upvotesCount);
     } else if (sortBy === 'rating') {
       list.sort((a, b) => b.overallRating - a.overallRating);
@@ -61,17 +80,41 @@ export default function DirectoryFeed({
       list.sort((a, b) => a.launchRank - b.launchRank);
     } else if (sortBy === 'open-source') {
       list = list.filter((a) => a.pricingModel === 'open-source');
-      list.sort((a, b) => b.upvotesCount - a.upvotesCount);
+      if (!isSearching) {
+        list.sort((a, b) => b.upvotesCount - a.upvotesCount);
+      }
     }
 
     return list;
-  }, [initialAgents, activeCategory, searchQuery, sortBy]);
+  }, [searchResult.results, searchQuery, sortBy]);
 
   const visibleAgents = filteredAgents.slice(0, displayCount);
   const hasMore = visibleAgents.length < filteredAgents.length;
+  const isSearching = searchQuery.trim().length > 0;
 
   return (
     <div className="space-y-6">
+      {/* Advanced "I want an agent for..." Search Bar (Top of feed, above Recently Added) */}
+      <AgentIntentSearchBar
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        resultCount={filteredAgents.length}
+        totalCount={initialAgents.length}
+        activeCategory={activeCategory}
+        totalAcrossCategories={searchResult.totalMatchesAcrossAllCategories}
+        onResetCategory={() => {
+          setActiveCategory('all');
+          setDisplayCount(25);
+        }}
+      />
+
+      {/* Recently Added Agents (Shown below Search Bar when not actively searching) */}
+      {showRecentlyAdded && !isSearching && (
+        <div className="pt-2">
+          <NewAgentsSection agents={initialAgents} />
+        </div>
+      )}
+
       {/* Category Pills Header */}
       <div className="space-y-4">
         <CategoryFilter
@@ -82,29 +125,35 @@ export default function DirectoryFeed({
           }}
         />
 
-        {/* Filter Controls Row: Search + Sort options */}
+        {/* Filter Controls Row: Result count & Sort options */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-gray-100">
-          {/* Search bar inside feed */}
-          <div className="relative flex-1 max-w-sm">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setDisplayCount(25);
-              }}
-              placeholder="Filter agents by name, tag, or tech..."
-              className="w-full pl-9 pr-4 py-1.5 text-xs bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6154]/20 focus:border-[#FF6154]"
-            />
-            <span className="absolute left-3 top-2 text-gray-400 text-xs">
-              🔍
+          <div className="flex items-center gap-2 text-xs text-gray-500 font-medium flex-wrap">
+            <span>
+              Showing <strong className="text-gray-900">{visibleAgents.length}</strong> of{' '}
+              <strong className="text-gray-900">{filteredAgents.length}</strong> agents
+              {isSearching && searchResult.cleanedQuery && (
+                <span className="text-gray-500">
+                  {' '}
+                  for <strong className="text-[#FF6154]">&ldquo;{searchResult.cleanedQuery}&rdquo;</strong>
+                </span>
+              )}
             </span>
-            {searchQuery && (
+            {isSearching && (
               <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1.5 text-gray-400 hover:text-gray-600 text-xs"
+                type="button"
+                onClick={() => handleSearchChange('')}
+                className="text-xs text-[#FF6154] hover:underline font-bold ml-1"
               >
-                ✕
+                Clear search
+              </button>
+            )}
+            {activeCategory !== 'all' && (
+              <button
+                type="button"
+                onClick={() => setActiveCategory('all')}
+                className="text-xs text-[#FF6154] hover:underline font-bold ml-1"
+              >
+                Clear category filter
               </button>
             )}
           </div>
@@ -115,18 +164,22 @@ export default function DirectoryFeed({
               Sort:
             </span>
 
-            <button
-              onClick={() => setSortBy('newest')}
-              className={`px-3 py-1.5 rounded-lg transition-colors shrink-0 flex items-center gap-1.5 ${
-                sortBy === 'newest'
-                  ? 'bg-gray-100 text-gray-900 font-bold'
-                  : 'hover:text-gray-900 hover:bg-gray-50'
-              }`}
-            >
-              <span>⚡ Newest</span>
-            </button>
+            {isSearching && (
+              <button
+                type="button"
+                onClick={() => setSortBy('relevance')}
+                className={`px-3 py-1.5 rounded-lg transition-colors shrink-0 flex items-center gap-1 ${
+                  sortBy === 'relevance'
+                    ? 'bg-orange-50 text-[#FF6154] border border-orange-200 font-bold'
+                    : 'hover:text-gray-900 hover:bg-gray-50'
+                }`}
+              >
+                <span>🎯 Best Match</span>
+              </button>
+            )}
 
             <button
+              type="button"
               onClick={() => setSortBy('upvotes')}
               className={`px-3 py-1.5 rounded-lg transition-colors shrink-0 ${
                 sortBy === 'upvotes'
@@ -138,6 +191,19 @@ export default function DirectoryFeed({
             </button>
 
             <button
+              type="button"
+              onClick={() => setSortBy('newest')}
+              className={`px-3 py-1.5 rounded-lg transition-colors shrink-0 flex items-center gap-1.5 ${
+                sortBy === 'newest'
+                  ? 'bg-gray-100 text-gray-900 font-bold'
+                  : 'hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              <span>⚡ Newest</span>
+            </button>
+
+            <button
+              type="button"
               onClick={() => setSortBy('rating')}
               className={`px-3 py-1.5 rounded-lg transition-colors shrink-0 ${
                 sortBy === 'rating'
@@ -149,6 +215,7 @@ export default function DirectoryFeed({
             </button>
 
             <button
+              type="button"
               onClick={() => setSortBy('open-source')}
               className={`px-3 py-1.5 rounded-lg transition-colors shrink-0 ${
                 sortBy === 'open-source'
@@ -160,6 +227,7 @@ export default function DirectoryFeed({
             </button>
 
             <button
+              type="button"
               onClick={() => setSortBy('rank')}
               className={`px-3 py-1.5 rounded-lg transition-colors shrink-0 ${
                 sortBy === 'rank'
@@ -173,22 +241,6 @@ export default function DirectoryFeed({
         </div>
       </div>
 
-      {/* Directory Count Header */}
-      <div className="flex items-center justify-between text-xs text-gray-500 px-1">
-        <span>
-          Showing <strong>{visibleAgents.length}</strong> of{' '}
-          <strong>{filteredAgents.length}</strong> AI agents
-        </span>
-        {activeCategory !== 'all' && (
-          <button
-            onClick={() => setActiveCategory('all')}
-            className="text-[#FF6154] hover:underline font-semibold"
-          >
-            Clear category filter
-          </button>
-        )}
-      </div>
-
       {/* Agent Cards Stack */}
       {visibleAgents.length > 0 ? (
         <div className="space-y-3">
@@ -197,19 +249,41 @@ export default function DirectoryFeed({
           ))}
         </div>
       ) : (
-        <div className="p-12 text-center bg-white rounded-xl border border-gray-200">
-          <p className="text-gray-500 text-sm mb-3">
-            No agents found matching &ldquo;{searchQuery}&rdquo; in this category.
-          </p>
-          <button
-            onClick={() => {
-              setSearchQuery('');
-              setActiveCategory('all');
-            }}
-            className="px-4 py-2 rounded-full bg-gray-900 text-white text-xs font-semibold"
-          >
-            Reset All Filters
-          </button>
+        <div className="p-10 sm:p-12 text-center bg-white rounded-2xl border border-gray-200 space-y-4">
+          <div className="text-3xl">🔎</div>
+          <div className="space-y-1">
+            <h3 className="text-base font-bold text-gray-900">
+              No agents found matching &ldquo;{searchQuery}&rdquo;
+              {activeCategory !== 'all' ? ` in ${activeCategory}` : ''}
+            </h3>
+            <p className="text-xs text-gray-500 max-w-md mx-auto">
+              {activeCategory !== 'all' && searchResult.totalMatchesAcrossAllCategories > 0
+                ? `We found ${searchResult.totalMatchesAcrossAllCategories} matching agents in other categories.`
+                : 'Try searching by task (e.g., "coding", "cold email", "scraping", "meeting notes") or model name.'}
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-2.5 flex-wrap pt-1">
+            {activeCategory !== 'all' && searchResult.totalMatchesAcrossAllCategories > 0 && (
+              <button
+                type="button"
+                onClick={() => setActiveCategory('all')}
+                className="px-4 py-2 rounded-full bg-[#FF6154] hover:bg-[#E55347] text-white text-xs font-bold shadow-xs transition-all"
+              >
+                Show {searchResult.totalMatchesAcrossAllCategories} Matches in All Categories
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                handleSearchChange('');
+                setActiveCategory('all');
+              }}
+              className="px-4 py-2 rounded-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold transition-all"
+            >
+              Reset All Filters
+            </button>
+          </div>
         </div>
       )}
 
@@ -217,6 +291,7 @@ export default function DirectoryFeed({
       {hasMore && (
         <div className="text-center pt-6 pb-4">
           <button
+            type="button"
             onClick={() => setDisplayCount((prev) => prev + 25)}
             className="px-6 py-2.5 rounded-full border border-gray-300 hover:border-gray-400 bg-white hover:bg-gray-50 text-xs font-bold text-gray-700 shadow-sm transition-all"
           >

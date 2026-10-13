@@ -1,0 +1,18 @@
+{
+  "visitors": {
+    "usr_469c356bc1804c888646cfa1dbf93700": {
+      "firstSeen": 1791861901017,
+      "lastSeen": 1791862697954,
+      "lastDayScored": "2026-10-13"
+    }
+  },
+  "daily": {
+    "2026-10-13": {
+      "uniqueIds": [
+        "usr_469c356bc1804c888646cfa1dbf93700"
+      ],
+      "pageviews": 1
+    }
+  },
+  "updatedAt": "2026-10-13T03:38:17.954Z"
+}

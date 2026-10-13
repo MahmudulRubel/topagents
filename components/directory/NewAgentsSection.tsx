@@ -32,7 +32,7 @@ export default function NewAgentsSection({ agents }: NewAgentsSectionProps) {
   if (newAgents.length === 0) return null;
 
   return (
-    <section className="mb-10">
+    <section className="mb-2">
       {/* Section header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2.5">
