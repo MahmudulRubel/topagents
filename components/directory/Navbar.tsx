@@ -36,6 +36,13 @@ export default function Navbar() {
                 <span className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-bold tracking-wide uppercase rounded bg-gray-100 text-gray-600 border border-gray-200">
                   Directory
                 </span>
+                <span className="hidden lg:inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                  </span>
+                  <span>Live</span>
+                </span>
               </div>
             </Link>
 
@@ -66,7 +73,7 @@ export default function Navbar() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search 100+ AI agents, frameworks, models..."
+                placeholder="Search 400+ AI agents, frameworks, models..."
                 className="w-full pl-9 pr-4 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#FF6154]/20 focus:border-[#FF6154] transition-all"
               />
               <span className="absolute left-3 top-2 text-gray-400 text-xs">

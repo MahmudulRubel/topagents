@@ -16,17 +16,17 @@ export async function GET() {
   const lines: string[] = [];
 
   // 1. Header & Executive Summary
-  lines.push('# topagents.lol — Top 100 AI Agents Directory');
+  lines.push('# topagents.lol — Top 700+ AI Agents Directory');
   lines.push('');
   lines.push(
-    '> The definitive Product Hunt-styled directory and technical evaluation platform for the world’s top 100 autonomous AI agents. Features verified SWE-bench benchmarks, senior systems engineering teardowns (2,000+ words per agent), architecture analyses, and free community submissions.'
+    '> The definitive Product Hunt-styled directory and plain-English evaluation platform for the world’s top 700+ autonomous AI agents. Features verified benchmarks, clear 2,500+ word guides for both beginners and engineers, pricing breakdowns, and free community submissions.'
   );
   lines.push('');
 
   // 2. Machine-Readable Endpoints
   lines.push('## Machine-Readable Resources');
   lines.push('');
-  lines.push(`- [Full Directory Dataset (All 100+ Agents)](${baseUrl}/llms-full.txt): Complete catalog snapshot with benchmarks, pricing, and pros/cons in one plain text file.`);
+  lines.push(`- [Full Directory Dataset (All 700+ Agents)](${baseUrl}/llms-full.txt): Complete catalog snapshot with benchmarks, pricing, and pros/cons in one plain text file.`);
   lines.push(`- [Commercial Pricing & Listing Economics](${baseUrl}/pricing.md): Transparent fee structures for free community submissions and sponsored spotlight placements.`);
   lines.push(`- [XML Sitemap](${baseUrl}/sitemap.xml): Complete list of all indexed URLs.`);
   lines.push('');

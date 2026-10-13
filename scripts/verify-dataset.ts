@@ -15,29 +15,47 @@ const BANNED_AI_SLOP = [
   "at the forefront of",
   "game-changer",
   "revolutionize the way",
+  "seamlessly integrates",
 ];
 
 console.log(`Starting verification across ${allAgents.length} curated AI agents...`);
 
 let hasError = false;
 
-if (allAgents.length !== 100) {
-  console.error(`❌ Expected exactly 100 agents, but found ${allAgents.length}`);
+if (allAgents.length !== 700) {
+  console.error(`❌ Expected_exactly 700 agents, but found ${allAgents.length}`);
   hasError = true;
 } else {
-  console.log(`✅ Exactly 100 AI agents present.`);
+  console.log(`✅ Exactly 700 AI agents present.`);
 }
 
-// Check slugs uniqueness
-const slugs = new Set<string>();
+// Check slugs, names, and website URLs uniqueness
+const slugs = new Map<string, string>();
+const names = new Map<string, string>();
+const urls = new Map<string, string>();
+
 for (const agent of allAgents) {
   if (slugs.has(agent.slug)) {
-    console.error(`❌ Duplicate slug found: ${agent.slug}`);
+    console.error(`❌ Duplicate slug found: ${agent.slug} (shared with ${slugs.get(agent.slug)})`);
     hasError = true;
   }
-  slugs.add(agent.slug);
+  slugs.set(agent.slug, agent.name);
+
+  const normName = agent.name.trim().toLowerCase();
+  if (names.has(normName)) {
+    console.error(`❌ Duplicate name found: "${agent.name}" (slug: ${agent.slug}, shared with slug: ${names.get(normName)})`);
+    hasError = true;
+  }
+  names.set(normName, agent.slug);
+
+  const normUrl = agent.websiteUrl.trim().toLowerCase().replace(/^https?:\/\/(www\.)?/, '').replace(/\/+$/, '');
+  if (urls.has(normUrl)) {
+    console.error(`❌ Duplicate websiteUrl found: ${agent.websiteUrl} (slug: ${agent.slug}, shared with slug: ${urls.get(normUrl)})`);
+    hasError = true;
+  }
+  urls.set(normUrl, agent.slug);
 }
-console.log(`✅ All ${slugs.size} slugs are unique.`);
+console.log(`✅ Checked ${slugs.size} unique slugs, ${names.size} unique names, and ${urls.size} unique website URLs.`);
 
 // Word count check and banned words check
 let minWordCount = Infinity;

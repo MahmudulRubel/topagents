@@ -3,17 +3,17 @@
 import { useState, useEffect } from 'react';
 
 const SECTIONS = [
-  { id: 'executive-summary', label: '1. Executive Summary' },
-  { id: 'architecture-deep-dive', label: '2. Architecture & Mechanics' },
-  { id: 'core-capabilities', label: '3. Core Capabilities' },
-  { id: 'enterprise-use-cases', label: '4. Enterprise Use Cases' },
-  { id: 'quickstart-guide', label: '5. Quickstart & Setup' },
-  { id: 'benchmarks-evaluation', label: '6. Benchmarks & Evaluation' },
-  { id: 'pricing-economics', label: '7. Pricing & Token Economics' },
-  { id: 'strengths-and-pitfalls', label: '8. Pros, Cons & Pitfalls' },
-  { id: 'competitor-comparison', label: '9. Competitor Comparison' },
-  { id: 'developer-faqs', label: '10. Technical FAQs' },
-  { id: 'final-verdict', label: '11. Final Verdict' },
+  { id: 'executive-summary', label: '1. What It Is & Who It’s For' },
+  { id: 'architecture-deep-dive', label: '2. How It Works Step-by-Step' },
+  { id: 'core-capabilities', label: '3. Key Features & Capabilities' },
+  { id: 'enterprise-use-cases', label: '4. Real-World Examples' },
+  { id: 'quickstart-guide', label: '5. How to Get Started' },
+  { id: 'benchmarks-evaluation', label: '6. Speed & Accuracy Scores' },
+  { id: 'pricing-economics', label: '7. Pricing & Value Guide' },
+  { id: 'strengths-and-pitfalls', label: '8. Honest Pros & Cons' },
+  { id: 'competitor-comparison', label: '9. Best Alternatives Compared' },
+  { id: 'developer-faqs', label: '10. Common Questions (FAQ)' },
+  { id: 'final-verdict', label: '11. Final Verdict & Rating' },
 ];
 
 export default function TableOfContents() {

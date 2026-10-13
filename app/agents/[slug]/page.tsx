@@ -34,21 +34,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const agent = await getAgentBySlugAsync(params.slug);
   if (!agent) return {};
 
-  const title = `${agent.name} Review (2026): Architecture, Benchmarks, Pricing & Alternatives | TopAgents`;
-  const description = `In-depth technical systems review of ${agent.name} (${agent.categoryLabel}). Analysis of execution loops, memory architecture, SWE-bench performance, pricing, pros/cons, and verified FAQs.`;
+  const title = `${agent.name} Review (2026): What It Does, Pricing, Pros & Cons & Best Alternatives | TopAgents`;
+  const description = `What is ${agent.name}? Easy-to-read 2026 guide and review of ${agent.name} (${agent.categoryLabel}). See how it works in plain English, real-world use cases, pricing (${agent.pricingLabel}), pros & cons, and top alternatives.`;
 
   return {
     title,
     description,
     keywords: [
       agent.name,
+      `what is ${agent.name}`,
       `${agent.name} review`,
-      `${agent.name} benchmarks`,
+      `how to use ${agent.name}`,
       `${agent.name} pricing`,
       `${agent.name} alternatives`,
       agent.categoryLabel,
       'AI agents directory',
-      'autonomous agents',
+      'best AI agents 2026',
     ],
     openGraph: {
       title,
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: `https://topagents.lol/agents/${agent.slug}`,
       siteName: 'topagents.lol',
       publishedTime: new Date(agent.releaseYear, 0, 1).toISOString(),
-      authors: ['TopAgents Systems Review Board'],
+      authors: ['TopAgents Editorial Review Team'],
     },
     twitter: {
       card: 'summary_large_image',
@@ -120,15 +121,15 @@ export default async function AgentDetailPage({ params }: PageProps) {
         <div className="p-5 rounded-2xl bg-white border border-gray-200 shadow-xs space-y-2">
           <div className="flex items-center justify-between text-xs font-bold text-gray-500 uppercase tracking-wider">
             <span className="text-[#FF6154]">AEO Fast Answer: What is {agent.name}?</span>
-            <span className="text-gray-400">45-word direct answer</span>
+            <span className="text-gray-400">Plain-English Summary</span>
           </div>
           <p className="text-sm text-gray-800 leading-relaxed font-medium">
-            <strong>{agent.name}</strong> is an autonomous {agent.categoryLabel.toLowerCase()} AI agent developed by <strong>{agent.developer}</strong>. It specializes in {agent.tagline.toLowerCase()}, powered primarily by {agent.primaryModel} with {agent.pricingLabel.toLowerCase()} commercial access. Evaluated across systems architecture, benchmark performance, and developer ergonomics with an overall score of ★ {agent.overallRating.toFixed(1)}/5.0.
+            <strong>{agent.name}</strong> is a {agent.categoryLabel.toLowerCase()} AI agent built by <strong>{agent.developer}</strong> that helps users {agent.tagline.charAt(0).toLowerCase() + agent.tagline.slice(1)} Powered by {agent.primaryModel}, it offers {agent.pricingLabel.toLowerCase()} access ({agent.pricingModel}) and holds a verified user &amp; editorial rating of ★ {agent.overallRating.toFixed(1)}/5.0.
           </p>
           <div className="pt-2 border-t border-gray-100 flex flex-wrap items-center gap-4 text-xs text-gray-500">
-            <span>✓ Senior Systems Engineer Teardown</span>
+            <span>✓ Easy-to-Read Complete Guide</span>
             <span>·</span>
-            <span>Updated September 2026</span>
+            <span>Updated October 2026</span>
             <span>·</span>
             <Link href={`/category/${agent.category}`} className="text-indigo-600 hover:underline font-semibold">
               Explore all {agent.categoryLabel} agents →
@@ -146,10 +147,10 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="executive-summary" className="scroll-mt-24 space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  01 // Overview & Market Thesis
+                  01 // Plain-English Overview
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Executive Overview: What is {agent.name}?
+                  What is {agent.name} and Who Is It For?
                 </h2>
               </div>
               <div className="text-sm sm:text-base leading-relaxed text-gray-700">
@@ -161,10 +162,10 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="architecture-deep-dive" className="scroll-mt-24 space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  02 // Systems Engineering
+                  02 // How It Works
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  System Architecture & Internal Mechanics
+                  How Does {agent.name} Work Step by Step?
                 </h2>
               </div>
               <div className="text-sm sm:text-base leading-relaxed text-gray-700">
@@ -176,10 +177,10 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="core-capabilities" className="scroll-mt-24 space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  03 // Key Capabilities
+                  03 // Key Features
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Core Capabilities & Developer Ergonomics
+                  What Can {agent.name} Do? (Top Features &amp; Capabilities)
                 </h2>
               </div>
               <div className="grid grid-cols-1 gap-3.5 pt-2">
@@ -200,27 +201,27 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="enterprise-use-cases" className="scroll-mt-24 space-y-6">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  04 // Real-World Production
+                  04 // Practical Examples
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Enterprise Production Scenarios & Case Studies
+                  Real-World Use Cases &amp; Everyday Examples
                 </h2>
               </div>
               <div className="space-y-4">
                 {review.enterpriseUseCases.map((uc, idx) => (
                   <div key={idx} className="p-5 rounded-xl border border-gray-200 bg-white shadow-sm space-y-3">
                     <h3 className="text-base font-bold text-gray-900">
-                      Case Study {idx + 1}: {uc.title}
+                      Example {idx + 1}: {uc.title}
                     </h3>
                     <div className="text-xs sm:text-sm text-gray-600 space-y-2">
                       <p>
-                        <strong className="text-gray-800">Operational Challenge:</strong> {uc.scenario}
+                        <strong className="text-gray-800">The Problem:</strong> {uc.scenario}
                       </p>
                       <p>
-                        <strong className="text-gray-800">Agent Implementation:</strong> {uc.implementation}
+                        <strong className="text-gray-800">How {agent.name} Helps:</strong> {uc.implementation}
                       </p>
                       <p className="text-emerald-800 font-semibold bg-emerald-50 p-2.5 rounded-lg border border-emerald-200/60">
-                        <strong>Quantifiable Impact:</strong> {uc.impact}
+                        <strong>Real-World Result:</strong> {uc.impact}
                       </p>
                     </div>
                   </div>
@@ -232,10 +233,10 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="quickstart-guide" className="scroll-mt-24 space-y-6">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  05 // Step-by-Step Tutorial
+                  05 // Beginner Guide
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Getting Started & Installation Guide
+                  How to Get Started with {agent.name} (Step-by-Step)
                 </h2>
               </div>
               <div className="space-y-4">
@@ -266,18 +267,18 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="benchmarks-evaluation" className="scroll-mt-24 space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  06 // Empirical Metrics
+                  06 // Speed &amp; Accuracy
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Performance Benchmarks & Accuracy Metrics
+                  {agent.name} Performance, Speed &amp; Reliability Benchmarks
                 </h2>
               </div>
               <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                Empirical evaluation results and real-world task resolution metrics for {agent.name} compared against industry baselines:
+                Real-world performance numbers, accuracy rates, and speed comparisons for {agent.name} compared against standard baselines:
               </p>
               <BenchmarkTable benchmarks={review.benchmarks} />
               <div className="p-3 bg-gray-50 border border-gray-150 rounded-xl text-xs text-gray-500 leading-relaxed">
-                <strong className="text-gray-700">Empirical Verification Note:</strong> Benchmark scores are verified against official developer publications, SWE-bench Verified (Princeton/Cognition), GAIA evaluation suites, and community replication runs. Baselines represent unassisted foundation models without autonomous scaffolding.
+                <strong className="text-gray-700">How We Test:</strong> Benchmark scores are compiled from official product documentation, public industry benchmarks (such as SWE-bench and GAIA), and real-world task testing.
               </div>
             </section>
 
@@ -285,10 +286,10 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="pricing-economics" className="scroll-mt-24 space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  07 // Commercial Terms
+                  07 // Pricing &amp; Plans
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Pricing Models, Token Economics & ROI
+                  How Much Does {agent.name} Cost? (Pricing &amp; Value Guide)
                 </h2>
               </div>
               <div className="text-xs sm:text-sm text-gray-700 leading-relaxed">
@@ -334,14 +335,14 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="strengths-and-pitfalls" className="scroll-mt-24 space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  08 // Critical Audit
+                  08 // Honest Pros &amp; Cons
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Pros, Cons & Known Failure Modes
+                  {agent.name} Pros, Cons &amp; Things to Watch Out For
                 </h2>
               </div>
               <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                An honest engineering assessment of where {agent.name} excels, alongside real failure modes, context degradation risks, and edge cases:
+                A balanced, plain-English look at what {agent.name} does best and where it still has limitations:
               </p>
               <ProsConsCard
                 strengths={review.strengths}
@@ -353,14 +354,14 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="competitor-comparison" className="scroll-mt-24 space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  09 // Competitive Landscape
+                  09 // Alternatives Compared
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Top Alternatives & Comparison Matrix
+                  Best {agent.name} Alternatives &amp; Competitors (2026)
                 </h2>
               </div>
               <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                How {agent.name} compares against primary market rivals in the {agent.categoryLabel} discipline:
+                How {agent.name} stacks up against the top competing tools in {agent.categoryLabel}:
               </p>
               <CompetitorsMatrix agentName={agent.name} competitors={review.competitors} />
             </section>
@@ -369,10 +370,10 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="developer-faqs" className="scroll-mt-24 space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  10 // Developer Questions
+                  10 // Common Questions
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  Frequently Asked Questions (FAQ)
+                  Frequently Asked Questions About {agent.name}
                 </h2>
               </div>
               <FaqAccordion faqs={review.faqs} />
@@ -382,10 +383,10 @@ export default async function AgentDetailPage({ params }: PageProps) {
             <section id="final-verdict" className="scroll-mt-24 space-y-6 pt-4 border-t border-gray-200">
               <div className="border-b border-gray-100 pb-3">
                 <span className="text-xs font-bold text-[#FF6154] uppercase tracking-wider">
-                  11 // Architectural Verdict
+                  11 // Final Recommendation
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-1">
-                  The Final Verdict & Scorecard
+                  Final Verdict: Is {agent.name} Worth It?
                 </h2>
               </div>
 
