@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 import { getAllCombinedAgents } from '@/lib/data/server-agents';
-import { getVisitorStats } from '@/lib/data/visitors';
 import DirectoryFeed from '@/components/directory/DirectoryFeed';
-import LiveVisitorBanner from '@/components/directory/LiveVisitorBanner';
 import SideSponsors from '@/components/advertise/SideSponsors';
 import DirectoryFaq from '@/components/directory/DirectoryFaq';
 import { DIRECTORY_HOMEPAGE_FAQS } from '@/lib/data/directory-faqs';
@@ -55,10 +53,7 @@ interface HomePageProps {
 }
 
 export default async function HomePage({ searchParams }: HomePageProps) {
-  const [allAgents, visitorStats] = await Promise.all([
-    getAllCombinedAgents(),
-    getVisitorStats(),
-  ]);
+  const allAgents = await getAllCombinedAgents();
 
   const initialCategory = typeof searchParams?.category === 'string' ? searchParams.category : 'all';
   const initialQuery = typeof searchParams?.q === 'string' ? searchParams.q : '';
@@ -95,9 +90,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
         {/* Hidden accessible title for SEO and screen readers */}
         <h1 className="sr-only">Top AI Agents Directory — Curated Daily &amp; Upvoted by Builders</h1>
-
-        {/* Live Visitor Indicator Banner */}
-        <LiveVisitorBanner totalAgents={allAgents.length} initialStats={visitorStats} />
 
         {/* Interactive Directory Feed (Search Bar -> Recently Added -> Category Pills -> Agent Cards) */}
         <DirectoryFeed
